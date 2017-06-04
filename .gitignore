@@ -1,3 +1,4 @@
 configuration.php.site
 template.txt
 releases/
+*log
