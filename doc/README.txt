@@ -1,7 +1,7 @@
 OBSIDIAN FLEET INTEGRATED FLEET SYSTEM
 
-VERSION 1.14n
-RELEASE March 2010
+VERSION 1.17
+RELEASE June 2017
 
 So, you've decided to give IFS a go, eh?  Well, I hope you like it!
 
@@ -47,3 +47,11 @@ As always, all subsequent work on IFS was done without the support, knowledge or
 
 Enjoy,
 Nolan
+
+Addendum, June 2017
+
+This edition of IFS was altered from Nolan's 1.16 release to update the install to be compliant with PHP5.5, and enable it to run on non-legacy web servers.
+I don't believe the IFS forum at Obsidian Fleet is in active use any longer, so for any support queries, please use https://github.com/mtwilliams5/ifs/issues
+
+Thanks,
+Matt
