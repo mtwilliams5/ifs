@@ -29,33 +29,45 @@
 				<TD ALIGN=CENTER CLASS="heading">Published</TD>
 				<TD ALIGN=CENTER CLASS="heading">Checked Out</TD>
 			</TR>
-			<? 
-			$color = array("#FFFFFF", "#CCCCCC");
+			<?php
+$color = array("#FFFFFF", "#CCCCCC");
 			$k = 0;
 			for ($i = 0; $i < count($itemid); $i++){?>
-			<TR BGCOLOR="<? echo $color[$k]; ?>">
-				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<? echo $itemid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
-				<TD WIDTH="63%"><? echo $itemName[$i]; ?></TD>
-				<TD WIDTH="15%" ALIGN=CENTER><? echo $type[$i];?></TD>
-				<?if ($status[$i] == "yes"){
+			<TR BGCOLOR="<?php
+echo $color[$k]; ?>">
+				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<?php
+echo $itemid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
+				<TD WIDTH="63%"><?php
+echo $itemName[$i]; ?></TD>
+				<TD WIDTH="15%" ALIGN=CENTER><?php
+echo $type[$i];?></TD>
+				<?php if ($status[$i] == "yes"){
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-						<?} else {?>
+						<?php
+} else {?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-						<?}
+						<?php
+}
 				}else {
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-						<?} else {?>
+						<?php
+} else {?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-						<?}
+						<?php
+}
 				}?>
-				<?	if ($editor[$i] <> ""){?>
-						<TD WIDTH="10%" ALIGN=CENTER><? echo $editor[$i];?></TD>
-				<?		}
+				<?php
+if ($editor[$i] <> ""){?>
+						<TD WIDTH="10%" ALIGN=CENTER><?php
+echo $editor[$i];?></TD>
+				<?php
+}
 					else {?>
 						<TD WIDTH="10%" ALIGN=CENTER>&nbsp;</TD>
-				<? 		}
+				<?php
+}
 				
 				 if ($k == 1){
 						$k = 0;
@@ -64,12 +76,14 @@
 					}
 				}?>
 			</TR>
-			<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+			<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 			
 			
 		function addMenusection($option){?>
@@ -110,7 +124,8 @@
 			<!--<tr><td>Place Order:</td>
 				<td><SELECT NAME="order">
 						<OPTION>Please Select</OPTION>
-					<?// for ($i = 1; $i < $numItems+2; $i++){
+					<?php
+// for ($i = 1; $i < $numItems+2; $i++){
 						//print "<OPTION VALUE='$i'>$i</OPTION>\n";
 					//}?>
 					</SELECT>
@@ -118,7 +133,8 @@
 			</tr>-->
 			<tr>
 				<td>&nbsp;</td>
-				<td><INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+				<td><INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 					<INPUT TYPE="hidden" NAME="task" VALUE="AddStep2">
 					<INPUT TYPE="button" value="Next" onClick="checkstep1(this.form);">
 				</td>
@@ -131,7 +147,8 @@
 			</tr>
 			</table>
 			</FORM>
-		<?}
+		<?php
+}
 			
 		function addMamboStep2($option, $ItemName, $moduleid, $modulename){?>
 			<FORM ACTION="index2.php" METHOD="POST" NAME="adminForm">
@@ -144,25 +161,30 @@
 				</tr>
 				<tr>
 					<td>Page Name:</td>
-					<td width=85%><?echo $ItemName;?></td>
+					<td width=85%><?php echo $ItemName;?></td>
 				</tr>
 				<tr>
 					<td>Remaining Mambo Modules:</td>
 					<td><select name="moduleID">
-							<?for ($i = 0; $i < count($moduleid); $i++){
+							<?php for ($i = 0; $i < count($moduleid); $i++){
 								if ($moduleid[$i]!=""){?>
-									<OPTION VALUE='<? echo $moduleid[$i]; ?>'><? echo $modulename[$i]; ?></OPTION>
-								<?}
+									<OPTION VALUE='<?php
+echo $moduleid[$i]; ?>'><?php
+echo $modulename[$i]; ?></OPTION>
+								<?php
+}
 							  }?>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<? echo $ItemName;?>">
-						<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<?php
+echo $ItemName;?>">
+						<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 						<INPUT TYPE="hidden" NAME="task" VALUE="">
-						<INPUT TYPE="hidden" NAME="ItemType" VALUE="<?echo $ItemType;?>">
+						<INPUT TYPE="hidden" NAME="ItemType" VALUE="<?php echo $ItemType;?>">
 					</td>
 				</tr>
 				<tr>
@@ -173,7 +195,8 @@
 				</tr>
 			</table>
 			</FORM>	
-		<?}
+		<?php
+}
 		
 		function addOwnStep2($option, $ItemName){?>
 			<FORM ACTION="index2.php" METHOD="POST" NAME="adminForm">
@@ -186,7 +209,7 @@
 				</tr>
 				<tr>
 					<td>Page Name:</td>
-					<td width=85%><?echo $ItemName;?></td>
+					<td width=85%><?php echo $ItemName;?></td>
 				</tr>
 				<tr>
 					<td>Page Content Source:</td>
@@ -198,8 +221,10 @@
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<? echo $ItemName;?>">
-						<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<?php
+echo $ItemName;?>">
+						<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 						<INPUT TYPE="hidden" NAME="task" VALUE="AddStep3">
 						<INPUT TYPE="submit" NAME="submit" value="Next">
 					</td>
@@ -212,7 +237,8 @@
 				</tr>
 			</table>
 			</FORM>	
-		<?}
+		<?php
+}
 		
 		function  addWebStep2($option, $ItemName){?>
 			<FORM ACTION="index2.php" METHOD="POST" NAME="adminForm">
@@ -225,7 +251,7 @@
 				</tr>
 				<tr>
 					<td>Page Name:</td>
-					<td width=85%><?echo $ItemName;?></td>
+					<td width=85%><?php echo $ItemName;?></td>
 				</tr>
 				<tr>
 					<td>Web Link:</td>
@@ -240,9 +266,11 @@
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<? echo $ItemName;?>">
-						<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
-						<INPUT TYPE="hidden" NAME="ItemType" VALUE="<?echo $ItemType;?>">
+					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<?php
+echo $ItemName;?>">
+						<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
+						<INPUT TYPE="hidden" NAME="ItemType" VALUE="<?php echo $ItemType;?>">
 						<INPUT TYPE="hidden" NAME="task" VALUE="">
 					</td>
 				</tr>
@@ -254,7 +282,8 @@
 				</tr>
 			</table>
 			</FORM>	
-		<?}
+		<?php
+}
 		
 		function  addTypeStep3($option, $ItemName, $text_editor){?>
 			<FORM ACTION="index2.php" METHOD="POST" NAME="adminForm">
@@ -267,7 +296,7 @@
 				</tr>
 				<tr>
 					<td>Page Name:</td>
-					<td width=85%><?echo $ItemName;?> </td>
+					<td width=85%><?php echo $ItemName;?> </td>
 				</tr>
 				<tr>
 					<td>Page Heading:</td>
@@ -276,17 +305,22 @@
 			
 				<tr>
 					<td valign=top>Page Content:</td>
-					<td><textarea name="pagecontent" cols=60 rows=5><? echo htmlentities($pagecontent); ?></textarea>
+					<td><textarea name="pagecontent" cols=60 rows=5><?php
+echo htmlentities($pagecontent); ?></textarea>
 						<BR>
-						<? 	if ($text_editor == "true"){?>
+						<?php
+if ($text_editor == "true"){?>
 						<A HREF="#" onClick="window.open('inline_editor/editor.htm?pagecontent', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A>
-						<?	} ?>
+						<?php
+} ?>
 					</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<? echo $ItemName;?>">
-						<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+					<td><INPUT TYPE="hidden" NAME="ItemName" VALUE="<?php
+echo $ItemName;?>">
+						<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 						<INPUT TYPE="hidden" NAME="task" VALUE="">
 					</td>
 				</tr>
@@ -298,7 +332,8 @@
 				</tr>	
   		  </table>
 		  </FORM>	
-		<?}
+		<?php
+}
 		
 		function  addLinkStep3($option, $ItemName, $Itemid){?>
 		<SCRIPT LANGUAGE="javascript">
@@ -331,15 +366,16 @@
 					<td colspan=2>&nbsp;</td>
 				</tr>
 				<tr><td>Page Name:</td>
-					<td width=85%><?echo $ItemName;?></td>
+					<td width=85%><?php echo $ItemName;?></td>
 				</tr>
 				<TR> 
 					<TD>Select file:</TD>
 					<TD WIDTH='85%'><INPUT NAME="userfile" TYPE="file"></TD>
 				</TR>
 				<TR>
-					<TD COLSPAN='2'><input type=hidden name="Itemid" value="<?echo $Itemid;?>">
-									<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+					<TD COLSPAN='2'><input type=hidden name="Itemid" value="<?php echo $Itemid;?>">
+									<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 									<INPUT TYPE="hidden" NAME="task" VALUE="Upload">
 									<input type="button" value="Upload File" onClick="checkstep1(this.form);"></TD>
 				</TR>
@@ -351,7 +387,8 @@
 				</tr>
 			</TABLE>
 		</FORM>
-		<?}
+		<?php
+}
 			
 		function editMenusection($Itemid, $ItemName, $pagecontent, $link, $fileEdit, $filecontent, $mamboEdit, $moduleid, $modulename, $moduleidlist, $modulenamelist, $option, $order, $maxOrder, $myname, $heading, $browserNav, $text_editor){?>
 			<FORM ACTION="index2.php" METHOD="POST" NAME="adminForm">
@@ -364,76 +401,97 @@
 			</TR>
 			<TR>
 				<TD>Item Name:</TD>
-				<TD WIDTH="85%"><INPUT TYPE="text" NAME="ItemName" SIZE="25" VALUE="<? echo $ItemName; ?>"></TD>
+				<TD WIDTH="85%"><INPUT TYPE="text" NAME="ItemName" SIZE="25" VALUE="<?php
+echo $ItemName; ?>"></TD>
 			</TR>
-			<?if (trim($link)!=""){
+			<?php if (trim($link)!=""){
 				if ($fileEdit==1){?>
 				<tr>
 					<td VALIGN=top>File content</td>
-					<td><TEXTAREA COLS="70" ROWS="10" NAME="filecontent" STYLE="WIDTH=500px" WIDTH=500><? echo $filecontent; ?></TEXTAREA>
-						<INPUT TYPE="hidden" NAME="link2" VALUE="<? echo $link; ?>">
+					<td><TEXTAREA COLS="70" ROWS="10" NAME="filecontent" STYLE="WIDTH=500px" WIDTH=500><?php
+echo $filecontent; ?></TEXTAREA>
+						<INPUT TYPE="hidden" NAME="link2" VALUE="<?php
+echo $link; ?>">
 						<BR>
 						<A HREF="#" onClick="window.open('inline_editor/editor.htm?filecontent', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A>
 					</td>
 				</tr>
-				<?}else if ($mamboEdit==1){?>
+				<?php
+}else if ($mamboEdit==1){?>
 					<tr>
 						<td>Mambo Module:</td>
 						<td><select name="moduleID">
-									<option value="<?echo $moduleid;?>" selected><?echo $modulename;?></option>
-								<?for ($i = 1; $i < count($moduleidlist); $i++){?>
-									<OPTION VALUE='<? echo $moduleidlist[$i]; ?>'><? echo $modulenamelist[$i]; ?></OPTION>
-								<?}?>
+									<option value="<?php echo $moduleid;?>" selected><?php echo $modulename;?></option>
+								<?php for ($i = 1; $i < count($moduleidlist); $i++){?>
+									<OPTION VALUE='<?php
+echo $moduleidlist[$i]; ?>'><?php
+echo $modulenamelist[$i]; ?></OPTION>
+								<?php
+}?>
 							</select>
 						</td>
 					</tr>
-				<?}else{?>
+				<?php
+}else{?>
 					<tr>
 						<TD>Link:</TD>
-						<td><INPUT TYPE="text" NAME="Weblink" SIZE="25" VALUE="<? echo $link; ?>"></td>
+						<td><INPUT TYPE="text" NAME="Weblink" SIZE="25" VALUE="<?php
+echo $link; ?>"></td>
 					</tr>
-					<?if ($browserNav==1){?>
+					<?php if ($browserNav==1){?>
 						<tr>
 							<td colspan=2><input type="radio" NAME="browserNav" VALUE=1 checked>Open with Browser Navigation&nbsp;&nbsp;&nbsp;
 											<input type="radio" NAME="browserNav" VALUE=0>Open Without Browser Navigation</td>
 						</tr>
-					<?}else{?>
+					<?php
+}else{?>
 						<tr>
 							<td colspan=2><input type="radio" NAME="browserNav" VALUE=1>Open with Browser Navigation&nbsp;&nbsp;&nbsp;
 											<input type="radio" NAME="browserNav" VALUE=0 checked>Open Without Browser Navigation</td>
 						</tr>
-					<?}
+					<?php
+}
 				}
 			}else{?>
 				<TR>
 					<td>Heading:</td>
-					<td><Input type="text" name="heading" value="<?echo $heading;?>"></td>
+					<td><Input type="text" name="heading" value="<?php echo $heading;?>"></td>
 				</TR>
 				<TR>
 					<TD VALIGN="top">Content:</TD>
-					<TD><TEXTAREA COLS="70" ROWS="10" NAME="pagecontent" STYLE="WIDTH=500px" WIDTH=500><? echo htmlentities($pagecontent); ?></TEXTAREA>
+					<TD><TEXTAREA COLS="70" ROWS="10" NAME="pagecontent" STYLE="WIDTH=500px" WIDTH=500><?php
+echo htmlentities($pagecontent); ?></TEXTAREA>
 					<BR>
 						<A HREF="#" onClick="window.open('inline_editor/editor.htm?pagecontent', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?}?>
+			<?php
+}?>
 				<tr>
 					<TD>Display Order:</TD>
 					<TD><SELECT NAME="order">
-						<?for ($i = 1; $i < $maxOrder + 1; $i++){
+						<?php for ($i = 1; $i < $maxOrder + 1; $i++){
 							if ($i == $order){?>
-								<OPTION VALUE="<? echo $order; ?>" SELECTED><? echo $order; ?></OPTION>
-							<?}else {?>
-								<OPTION VALUE="<? echo $i; ?>"><? echo $i; ?></OPTION>
-							<?}
+								<OPTION VALUE="<?php
+echo $order; ?>" SELECTED><?php
+echo $order; ?></OPTION>
+							<?php
+}else {?>
+								<OPTION VALUE="<?php
+echo $i; ?>"><?php
+echo $i; ?></OPTION>
+							<?php
+}
 						}?>
 						</SELECT>
 					</TD>
 				</tr>
-				<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
-				<INPUT TYPE="hidden" NAME="Itemid" VALUE="<? echo $Itemid; ?>">
+				<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
+				<INPUT TYPE="hidden" NAME="Itemid" VALUE="<?php
+echo $Itemid; ?>">
 				<INPUT TYPE="hidden" NAME="task" VALUE="">
-				<INPUT TYPE="hidden" NAME="origOrder" VALUE="<?echo $order;?>">
-				<INPUT TYPE="hidden" NAME="myname" VALUE="<?echo $myname;?>">
+				<INPUT TYPE="hidden" NAME="origOrder" VALUE="<?php echo $order;?>">
+				<INPUT TYPE="hidden" NAME="myname" VALUE="<?php echo $myname;?>">
 			</FORM>
 			<TR>
 				<TD COLSPAN=2>&nbsp;</TD>
@@ -442,6 +500,7 @@
 				<TD COLSPAN=2>&nbsp;</TD>
 			</TR>
 			</TABLE>
-			<?}
+			<?php
+}
 		}
 ?>

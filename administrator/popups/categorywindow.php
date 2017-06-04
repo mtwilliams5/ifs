@@ -1,4 +1,5 @@
-<?// Mambo Site Server Open Source Edition Version 4.0.11 
+<?php
+// Mambo Site Server Open Source Edition Version 4.0.11 
 	// Dynamic portal server and Content managment engine
 	// 27-11-2002
  
@@ -71,43 +72,58 @@
 
 <body>
 <TABLE CELLSPACING="2" CELLPADDING="2" BORDER="0" WIDTH="100%" HEIGHT="100%">
-<? if ($position == "left"){ ?>
+<?php
+if ($position == "left"){ ?>
 	<TR>
-    <? 	if ($categoryimage <> ""){
+    <?php
+if ($categoryimage <> ""){
 			$pat="\\\\'";
 			$replace="'";
 			$categoryname=eregi_replace($pat, $replace, $categoryname);?>
-			<TD ROWSPAN="2" VALIGN="top"><IMG SRC="../../images/stories/<? echo $categoryimage; ?>" HSPACE="5"></TD>
-	<?		}?>
-	    <TD VALIGN="top"><B><? echo $categoryname; ?></B></TD>
+			<TD ROWSPAN="2" VALIGN="top"><IMG SRC="../../images/stories/<?php
+echo $categoryimage; ?>" HSPACE="5"></TD>
+	<?php
+}?>
+	    <TD VALIGN="top"><B><?php
+echo $categoryname; ?></B></TD>
 	</TR>
-<?	} 
+<?php
+} 
    else { ?>
 	<TR>
-	    <TD VALIGN="top"><B><? echo $categoryname; ?></B></TD>
-	<? 	if ($categoryimage <> ""){?>
-			<TD ROWSPAN="2" VALIGN="top"><IMG SRC="../../images/stories/<? echo $categoryimage; ?>" HSPACE="5"></TD>
-	<?		}?>
+	    <TD VALIGN="top"><B><?php
+echo $categoryname; ?></B></TD>
+	<?php
+if ($categoryimage <> ""){?>
+			<TD ROWSPAN="2" VALIGN="top"><IMG SRC="../../images/stories/<?php
+echo $categoryimage; ?>" HSPACE="5"></TD>
+	<?php
+}?>
 	</TR>
-<?	} ?>
+<?php
+} ?>
 
-<? if ($position == "left"){
+<?php
+if ($position == "left"){
 	if (count($title) == 0){?>
 		<TR>
 		    <TD COLSPAN="2" WIDTH="100%" HEIGHT="100%" VALIGN="top">
-				There are no <? echo $option; ?>.
+				There are no <?php
+echo $option; ?>.
 			</TD>
 		</TR>
 		
-	<?}else {?>
+	<?php
+}else {?>
 		<TR>
 			<TD VALIGN="top">
 				<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" WIDTH="100%">
-				 <?for ($i = 0; $i < count($title); $i++){?>
+				 <?php for ($i = 0; $i < count($title); $i++){?>
 			 	<TR>
 			 		<TD><LI></TD>
 					<TD>
-				  <? echo $title[$i]."<BR>"; 
+				  <?php
+echo $title[$i]."<BR>"; 
 				  }?>
 					</TD>
 				</TR>
@@ -115,38 +131,47 @@
 			</TD>
 			<TD>&nbsp;</TD>
 		</TR>
-			 <? }?>
+			 <?php
+}?>
 			  		
 				
-<?	} 
+<?php
+} 
    elseif ($position == "right") { 
   	if (count($title) == 0){?>
 		<TR>
-		    <TD WIDTH="100%" HEIGHT="100%" VALIGN="top">There are no <? echo $option; ?>.</TD>
+		    <TD WIDTH="100%" HEIGHT="100%" VALIGN="top">There are no <?php
+echo $option; ?>.</TD>
 		</TR>
 		
-		<? } 
+		<?php
+} 
 		else {?>
 		<TR>
 			<TD VALIGN="top" HEIGHT="100%">
 				<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0" WIDTH="100%">
 				
 					
-			 <? for ($i = 0; $i < count($title); $i++){?>
+			 <?php
+for ($i = 0; $i < count($title); $i++){?>
 			 	<TR>
 			 		<TD><LI></TD>
 					<TD>
-				  <? echo $title[$i]."<BR>"; ?>
+				  <?php
+echo $title[$i]."<BR>"; ?>
 				  	</TD>
 				</TR>
-				<?  }?>
+				<?php
+}?>
 				  	
 				</TABLE>
 			</TD>
 			
 		</TR>
-			<?  }?>
-<?		} ?>
+			<?php
+}?>
+<?php
+} ?>
 <TR>
 	<TD COLSPAN="2"  ALIGN="center"><A HREF="#" onClick="self.close();">Close</A></TD>
 </TR>

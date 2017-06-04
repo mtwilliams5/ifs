@@ -1,5 +1,5 @@
-<?
-	/**
+<?php
+/**
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -41,7 +41,8 @@
 				<TD VALIGN="bottom" ALIGN="left" BGCOLOR="#999999"><img name="shadow" src="../images/admin/shadow.gif" width="100%" height="10" border="0" VSPACE="0" HSPACE="0"></TD>
 			</TR>
 			</TABLE>
-		<?	}
+		<?php
+}
 
 		function EDIT_MENU_Components($database, $option, $comcid, $module, $mpre){
 			$query = "SELECT publish, module FROM " . $mpre . "components WHERE id='$comcid'";
@@ -60,18 +61,25 @@
 				<TD VALIGN="bottom" BGCOLOR="#999999" WIDTH="51%">
 					<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0" WIDTH="99%" BGCOLOR="#999999">
 					<TR>
-					<?	if ($publish == "0"){?>
+					<?php
+if ($publish == "0"){?>
 							<td width="50" BGCOLOR="#999999" VALIGN="bottom" ALIGN="center"><a href="javascript:submitbutton('publish', '');" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('publish','','../images/admin/publish_f2.gif',1);"><img name="publish" src="../images/admin/publish.gif" width="32" HEIGHT="47" border="0" HSPACE="5" VSPACE="0"></a></td>
-					<?    	}
+					<?php
+}
 						else {?>
 							<td width="50" BGCOLOR="#999999" VALIGN="bottom" ALIGN="center"><a href="javascript:submitbutton('unpublish', '');" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('publish','','../images/admin/Unpublish_f2.gif',1);"><img name="Unpublish" src="../images/admin/Unpublish.gif" width="45" HEIGHT="47" border="0" HSPACE="5" VSPACE="0"></a></td>
-					<?		}?>
+					<?php
+}?>
 
-					<? if ($module == ""){?>
+					<?php
+if ($module == ""){?>
 							<TD WIDTH="50" ALIGN='center'><A HREF="#" onClick=" var content = document.adminForm.content.value; content = content.replace('#', '');  var title = document.adminForm.mytitle.value; title = title.replace('#', ''); window.open('popups/componentwindow.php?title=' + title + '&content=' + content, 'win1', 'status=no,toolbar=no,scrollbars=auto,titlebar=no,menubar=no,resizable=yes,width=200,height=400,directories=no,location=no');" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('preview','','../images/admin/preview_f2.gif',1);"><IMG SRC="../images/admin/preview.gif" ALT="Preview" WIDTH="35" HEIGHT="47" BORDER="0" NAME="preview" HSPACE="5" VSPACE="0"></A></TD>
-					<?		}?>
+					<?php
+}?>
 						<TD WIDTH="50" ALIGN='center'><A HREF="javascript:submitbutton('saveedit', 'pagemodule');" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('save','','../images/admin/save_f2.gif',1);"><IMG SRC="../images/admin/save.gif" ALT="Publish" WIDTH="36" HEIGHT="47" BORDER="0" NAME="save" HSPACE="5" VPSACE="0"></A></TD>
-			    		<TD WIDTH="50" ALIGN='center'><A HREF="menubar/cancel.php?id=<? echo $comcid; ?>&option=<? echo $option; ?>" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('cancel','','../images/admin/cancel_f2.gif',1);"><IMG SRC="../images/admin/cancel.gif" ALT="Cancel" WIDTH="34" HEIGHT="47" BORDER="0" NAME="cancel" HSPACE="5" VSPACE="0"></A></TD>
+			    		<TD WIDTH="50" ALIGN='center'><A HREF="menubar/cancel.php?id=<?php
+echo $comcid; ?>&option=<?php
+echo $option; ?>" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('cancel','','../images/admin/cancel_f2.gif',1);"><IMG SRC="../images/admin/cancel.gif" ALT="Cancel" WIDTH="34" HEIGHT="47" BORDER="0" NAME="cancel" HSPACE="5" VSPACE="0"></A></TD>
 						<TD WIDTH="470">&nbsp;</TD>
 					</TR>
 					</TABLE>
@@ -82,6 +90,6 @@
 				<TD VALIGN="bottom" ALIGN="left" BGCOLOR="#999999"><img name="shadow" src="../images/admin/shadow.gif" width="100%" height="10" border="0" VSPACE="0" HSPACE="0"></TD>
 			</TR>
 			</TABLE>
-		<?	}
+		<?php	}
 		}
 ?>

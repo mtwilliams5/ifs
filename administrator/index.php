@@ -42,9 +42,9 @@
 				//if the cookie has not been set then crypt the password entered
 				if (trim($pass)!=""){
 					$pass = md5($pass);
-					if ($remember=="on"){ogin=true
+					if ($remember=="on"){
 						//if the user wants the password remembered then set the cookie
-						$lifetime= (time() + 1036800000);
+						$lifetime = (time() + 1036800000);
 				    	setcookie("passwordcookie", "$pass", $lifetime);
 						$passwordcookie=$pass;
 						}
@@ -143,18 +143,20 @@
             <TD ALIGN="right" width="73"><font color="#000000" face="Arial, Helvetica, sans-serif" size="2"><b>.::</b></font></TD>
             <TD ALIGN="left" width="67"><font color="#000000" face="Arial, Helvetica, sans-serif" size="2"><b><i>Password</i></b></font></TD>
             <TD colspan=2 align="left">
-              <INPUT NAME="pass" TYPE="password" class="inputbox" value="<?echo $passwordcookie;?>" SIZE="20">
+              <INPUT NAME="pass" TYPE="password" class="inputbox" value="<?php echo $passwordcookie;?>" SIZE="20">
             </TD>
           </TR>
           <TR>
             <TD ALIGN="right" width="73">&nbsp;</TD>
             <TD ALIGN="right" width="67">&nbsp; </TD>
             <TD colspan=2><span class="smalldark">
-              <?if ($passwordcookie!=""){?>
+              <?php if ($passwordcookie!=""){?>
               <input name="remember" type="checkbox" checked>
-              <?}else{?>
+              <?php
+}else{?>
               <input name="remember" type="checkbox">
-              <?}?>
+              <?php
+}?>
               Remember password</span></TD>
           </TR>
           <TR valign="top">
@@ -176,10 +178,11 @@
             <TD colspan="4" align="center" height="43"><font color="#999999">
               <font face="Verdana, Arial, Helvetica, sans-serif" color="#666666">
               <font size="1"> <font face="Arial, Helvetica, sans-serif">
-              <? echo $version; ?>
+              <?php
+echo $version; ?>
               running on</font></font></font></font> <font face="Arial, Helvetica, sans-serif" color="#666666" size="1">
-              <?
-		echo ("PHP&nbsp;");
+              <?php
+echo ("PHP&nbsp;");
 		echo phpversion();
               	echo ("&nbsp;on&nbsp;");
 			if (phpversion() <= "4.2.1") {
@@ -204,4 +207,4 @@ document.form.myname.focus();
 
 </body>
 		</html>
-  <?}?>
+  <?php } ?>

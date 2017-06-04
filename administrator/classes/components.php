@@ -1,4 +1,4 @@
-<?PHP
+<?php
 	/**
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
@@ -106,7 +106,8 @@
 				}
 			?>
 			<SCRIPT>document.location.href="index2.php?option=Components"</SCRIPT>
-			<?}
+			<?php
+}
 
 		function editComponent($componentshtml, $database, $option, $componentid, $myname, $text_editor, $mpre){
 			if ($componentid == ""){
@@ -224,8 +225,8 @@
 				$database->openConnectionNoReturn($query);
 				?>
 				<SCRIPT>document.location.href="index2.php?option=Components"</SCRIPT>
-				<?
-				}
+				<?php
+}
 			else {
 				print "<SCRIPT>alert('Your job has timed out, too bad'); document.location.href='index2.php?option=$option'</SCRIPT>\n";
 				}

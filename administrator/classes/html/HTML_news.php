@@ -39,29 +39,39 @@
 				<TD COLSPAN="7" align=right>Select A Category:&nbsp;&nbsp;
 					<SELECT NAME="categories" onChange="document.location.href='index2.php?option=News&categories=' + document.adminForm.categories.options[selectedIndex].value">
 						<OPTION VALUE="">Select a category</OPTION>
-						<?if ($categories =="all"){?>
+						<?php if ($categories =="all"){?>
 							<OPTION VALUE="all" selected>Select All</OPTION>
 							<OPTION VALUE="new">Select NEW</OPTION>
 							<OPTION VALUE="home">Select Home</OPTION>
-						<?}elseif ($categories == "new"){?>
+						<?php
+}elseif ($categories == "new"){?>
 							<OPTION VALUE="all">Select All</OPTION>
 							<OPTION VALUE="new"selected>Select NEW</OPTION>
 							<OPTION VALUE="home">Select Home</OPTION>
-						<?}elseif ($categories == "home"){?>
+						<?php
+}elseif ($categories == "home"){?>
 							<OPTION VALUE="all">Select All</OPTION>
 							<OPTION VALUE="new">Select NEW</OPTION>
 							<OPTION VALUE="home" selected>Select Home</OPTION>
-						<?}else{?>
+						<?php
+}else{?>
 							<OPTION VALUE="all">Select All</OPTION>
 							<OPTION VALUE="new">Select NEW</OPTION>
 							<OPTION VALUE="home">Select Home</OPTION>
-						 <?}
+						 <?php
+}
 						for ($i = 0; $i < count($categoryid); $i++){
 							if ($categories == $categoryid[$i]){?>
-								<OPTION VALUE="<? echo $categoryid[$i]; ?>" SELECTED><? echo $categoryname[$i]; ?></OPTION>
-					<?		} else {?>
-								<OPTION VALUE="<? echo $categoryid[$i]; ?>"><? echo $categoryname[$i]; ?></OPTION>
-					<?			}
+								<OPTION VALUE="<?php
+echo $categoryid[$i]; ?>" SELECTED><?php
+echo $categoryname[$i]; ?></OPTION>
+					<?php
+} else {?>
+								<OPTION VALUE="<?php
+echo $categoryid[$i]; ?>"><?php
+echo $categoryname[$i]; ?></OPTION>
+					<?php
+}
 							}?>
 					</SELECT>
 				</TD>
@@ -73,94 +83,127 @@
 				<TD WIDTH="5%" ALIGN="center" CLASS="heading">Archived</TD>
 				<TD WIDTH="10%" ALIGN="center" CLASS="heading">Checked Out</TD>
 			</TR>
-			<?
-			$color = array("#FFFFFF", "#CCCCCC");
+			<?php
+$color = array("#FFFFFF", "#CCCCCC");
 			$k = 0;
 			for ($i = 0; $i < count($id); $i++){?>
-			<TR BGCOLOR="<? echo $color[$k]; ?>">
-				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<? echo $id[$i]; ?>" onClick="isChecked(this.checked);"></TD>
-				<?	if ($approved[$i] == 0){?>
-						<TD WIDTH="60%"><A HREF="index2.php?option=<? echo $option; ?>&task=edit&id=<? echo $id[$i]; ?>&categories=<? echo $categories; ?>"><? echo $title[$i]; ?></A></TD>
-					<?}else {
+			<TR BGCOLOR="<?php
+echo $color[$k]; ?>">
+				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<?php
+echo $id[$i]; ?>" onClick="isChecked(this.checked);"></TD>
+				<?php
+if ($approved[$i] == 0){?>
+						<TD WIDTH="60%"><A HREF="index2.php?option=<?php
+echo $option; ?>&task=edit&id=<?php
+echo $id[$i]; ?>&categories=<?php
+echo $categories; ?>"><?php
+echo $title[$i]; ?></A></TD>
+					<?php
+}else {
 						echo "<TD WIDTH=60%>$title[$i]&nbsp;</TD>";
 					}?>
-			<?	if ($frontpage[$i] == "1"){
+			<?php
+if ($frontpage[$i] == "1"){
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif" WIDTH="12" HEIGHT="12" BORDER="0"></TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif" WIDTH="12" HEIGHT="12" BORDER="0"></TD>
-			<?			}
+			<?php
+}
 					}
 				else {
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?			}
+			<?php
+}
 					}
 
 				if ($published[$i] == "1"){
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif" WIDTH="12" HEIGHT="12" BORDER="0"></TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif" WIDTH="12" HEIGHT="12" BORDER="0"></TD>
-			<?			}
+			<?php
+}
 					}
 				else {
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-			<?			}
+			<?php
+}
 					}
 
 				if ($archived[$i] == 1){
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif" WIDTH="12" HEIGHT="12" BORDER="0"></TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif" WIDTH="12" HEIGHT="12" BORDER="0"></TD>
-			<?			}
+			<?php
+}
 					}
 				else {
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?			}
+			<?php
+}
 					}
 
 				if ($editor[$i] == ""){?>
 					<TD WIDTH="15%" ALIGN="center">&nbsp;</TD>
-			<?		}
+			<?php
+}
 				else {?>
-					<TD WIDTH="15%" ALIGN="center"><? echo $editor[$i]; ?></TD>
-			<?		}?>
+					<TD WIDTH="15%" ALIGN="center"><?php
+echo $editor[$i]; ?></TD>
+			<?php
+}?>
 
-				<? if ($k == 1){
+				<?php
+if ($k == 1){
 						$k = 0;
 						}
 				   else {
 				   		$k++;
 						}?>
-				<?	}?>
+				<?php
+}?>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			<INPUT TYPE="hidden" Name="delete" VALUE="">
-			<INPUT TYPE="hidden" Name="cat" VALUE="<? echo $categories; ?>">
+			<INPUT TYPE="hidden" Name="cat" VALUE="<?php
+echo $categories; ?>">
 			<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 
 		function editNews($imageid, $imagename, $categoryid, $categoryname, $sid, $introtext, $fultext, $topicid, $title, $position, $newsimage, $ordering, $option, $restcount, $storyid, $categories, $frontpage, $frontpagecount, $text_editor){?>
 			<SCRIPT LANGUAGE="javascript">
 			<!--
 				function chooseOrdering(){
-					var frontpage = <? echo $frontpagecount; ?>;
-					var restcount = <? echo $restcount; ?>;
-					var chosen = <? echo $frontpage; ?>;
-					var orders = <? echo $ordering; ?>;
+					var frontpage = <?php
+echo $frontpagecount; ?>;
+					var restcount = <?php
+echo $restcount; ?>;
+					var chosen = <?php
+echo $frontpage; ?>;
+					var orders = <?php
+echo $ordering; ?>;
 
 					if (document.adminForm.frontpage.checked){
 						for (var x = 0; x < restcount; x++){
@@ -209,29 +252,41 @@
 			</TR>
 			<TR>
 				<TD WIDTH='15%' VALIGN="top">Title:</TD>
-				<TD WIDTH=70 VALIGN="top"><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<? echo htmlspecialchars($title,ENT_QUOTES); ?>"></TD>
+				<TD WIDTH=70 VALIGN="top"><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<?php
+echo htmlspecialchars($title,ENT_QUOTES); ?>"></TD>
 				<TD ROWSPAN='2' WIDTH='50%' VALIGN="top">
-					<?if ($newsimage!=""){?>
-						<IMG SRC="../images/stories/<? echo $newsimage; ?>" NAME="imagelib" WIDTH='69' HEIGHT='77'>
-					<?} else {?>
+					<?php if ($newsimage!=""){?>
+						<IMG SRC="../images/stories/<?php
+echo $newsimage; ?>" NAME="imagelib" WIDTH='69' HEIGHT='77'>
+					<?php
+} else {?>
 						<IMG SRC="../images/stories/noimage.jpg" NAME="imagelib" WIDTH='69' HEIGHT='77'>
-					<?}?>
+					<?php
+}?>
 				</TD>
 			</TR>
 			<TR>
 				<TD VALIGN="top">Topic:</TD>
 				<TD VALIGN="top">
 			<SELECT NAME='newstopic'>
-			<?if ($topicid==""){?>
+			<?php if ($topicid==""){?>
 				<OPTION VALUE='' SELECTED>Select a Topic</OPTION>
-			<?}?>
-			<? for ($i = 0; $i < count($categoryid); $i++){
+			<?php
+}?>
+			<?php
+for ($i = 0; $i < count($categoryid); $i++){
 					if ($categoryid[$i] == $topicid){?>
-						<OPTION VALUE='<? echo $categoryid[$i]; ?>' SELECTED><? echo $categoryname[$i]; ?></OPTION>
-			<? 			}
+						<OPTION VALUE='<?php
+echo $categoryid[$i]; ?>' SELECTED><?php
+echo $categoryname[$i]; ?></OPTION>
+			<?php
+}
 					else {?>
-						<OPTION VALUE='<? echo $categoryid[$i]; ?>'><? echo $categoryname[$i]; ?></OPTION>
-			<?			}
+						<OPTION VALUE='<?php
+echo $categoryid[$i]; ?>'><?php
+echo $categoryname[$i]; ?></OPTION>
+			<?php
+}
 				} ?>
 			</SELECT>
 			</TD>
@@ -240,41 +295,54 @@
 			<TR>
 				<TD VALIGN='top'>Introduction:</TD>
 				<TD COLSPAN='2'>
-      <TEXTAREA COLS='70' ROWS='7' NAME='introtext' wrap="VIRTUAL"><? echo htmlentities ($introtext); ?></TEXTAREA>
+      <TEXTAREA COLS='70' ROWS='7' NAME='introtext' wrap="VIRTUAL"><?php
+echo htmlentities ($introtext); ?></TEXTAREA>
     </TD>
 			</TR>
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm?content=introtext', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
+			<?php
+}?>
 			<TR>
 				<TD VALIGN='top'>Extended Text:</TD>
 				<TD COLSPAN='2'>
-      <TEXTAREA COLS='70' ROWS='7' NAME='fultext' wrap="VIRTUAL"><? echo htmlentities($fultext); ?></TEXTAREA>
+      <TEXTAREA COLS='70' ROWS='7' NAME='fultext' wrap="VIRTUAL"><?php
+echo htmlentities($fultext); ?></TEXTAREA>
     </TD>
 			</TR>
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm?content=fultext', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
+			<?php
+}?>
 
 			<TR>
 				<TD>Image:</TD>
 				<TD COLSPAN="2">
 				<SELECT NAME='image' onChange="document.imagelib.src='../images/stories/' + document.forms[0].image.options[selectedIndex].text">
 					<OPTION VALUE=''>Select image</OPTION>
-					<? for ($i = 0; $i < count($imagename); $i++){
+					<?php
+for ($i = 0; $i < count($imagename); $i++){
 							if (!eregi(".swf", $imagename[$i])){
 								if ($imagename[$i] == $newsimage){?>
-									<OPTION VALUE='<? echo $imagename[$i]; ?>' SELECTED><? echo $imagename[$i]; ?></OPTION>
-								<?}
+									<OPTION VALUE='<?php
+echo $imagename[$i]; ?>' SELECTED><?php
+echo $imagename[$i]; ?></OPTION>
+								<?php
+}
 							else {?>
-								<OPTION VALUE='<? echo $imagename[$i]; ?>'><? echo $imagename[$i]; ?></OPTION>
-								<?}
+								<OPTION VALUE='<?php
+echo $imagename[$i]; ?>'><?php
+echo $imagename[$i]; ?></OPTION>
+								<?php
+}
 							}
 						}?>
 					</SELECT>
@@ -282,34 +350,50 @@
 			</TR>
 			<TR>
 				<TD VALIGN='top'>Image Position:</TD>
-			<? 	if ($position == "left"){ ?>
+			<?php
+if ($position == "left"){ ?>
 				<TD COLSPAN='2'><INPUT TYPE="radio" NAME="position" VALUE="left" CHECKED>Left&nbsp;&nbsp;<INPUT TYPE="radio" NAME="position" VALUE="right">Right</TD>
-			<? 	} else { ?>
+			<?php
+} else { ?>
 				<TD COLSPAN='2'><INPUT TYPE="radio" NAME="position" VALUE="left">Left&nbsp;&nbsp;<INPUT TYPE="radio" NAME="position" VALUE="right" CHECKED>Right</TD>
-			<?	} ?>
+			<?php
+} ?>
 			</TR>
 			<TR>
 				<TD>Story ordering</TD>
 				<TD COLSPAN="2">
 					<SELECT NAME="ordering">
-					<? if ($frontpage == 1){
+					<?php
+if ($frontpage == 1){
 						 	for ($i = 1; $i < $frontpagecount+1; $i++){
 								if ($ordering == $i){?>
-									<OPTION VALUE="<? echo $i; ?>" SELECTED><? echo $i; ?></OPTION>
-								<?	}
+									<OPTION VALUE="<?php
+echo $i; ?>" SELECTED><?php
+echo $i; ?></OPTION>
+								<?php
+}
 								else {?>
-									<OPTION VALUE="<? echo $i; ?>"><? echo $i; ?></OPTION>
-								<?	}
+									<OPTION VALUE="<?php
+echo $i; ?>"><?php
+echo $i; ?></OPTION>
+								<?php
+}
 								}
 							}
 						else {
 							 for ($i = 1; $i < $restcount+1; $i++){
 								if ($ordering == $i){?>
-									<OPTION VALUE="<? echo $i; ?>" SELECTED><? echo $i; ?></OPTION>
-								<?	}
+									<OPTION VALUE="<?php
+echo $i; ?>" SELECTED><?php
+echo $i; ?></OPTION>
+								<?php
+}
 								else {?>
-									<OPTION VALUE="<? echo $i; ?>"><? echo $i; ?></OPTION>
-								<?	}
+									<OPTION VALUE="<?php
+echo $i; ?>"><?php
+echo $i; ?></OPTION>
+								<?php
+}
 								}
 							}?>
 					</SELECT>
@@ -317,12 +401,15 @@
 			</TR>
 			<TR>
 				<TD>&nbsp;</TD>
-			<?	if ($frontpage == 0){?>
+			<?php
+if ($frontpage == 0){?>
 					<TD COLSPAN='2'><INPUT TYPE="checkbox" NAME="frontpage" VALUE="1" onClick="chooseOrdering();">Shows News on Front Page</TD>
-			<?		}
+			<?php
+}
 				else {?>
 					<TD COLSPAN='2'><INPUT TYPE="checkbox" NAME="frontpage" VALUE="1" CHECKED onClick="chooseOrdering();">Shows News on Front Page</TD>
-			<?		}?>
+			<?php
+}?>
 			</TR>
 			<TR>
 				<TD COLSPAN='3' HEIGHT="40">&nbsp;</TD>
@@ -330,21 +417,28 @@
 			<TR>
 				<TD COLSPAN='3' CLASS='heading' BGCOLOR="#999999">&nbsp;</TD>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
-			<INPUT TYPE='hidden' NAME='sid' VALUE='<? echo $storyid; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='sid' VALUE='<?php
+echo $storyid; ?>'>
 			<INPUT TYPE='hidden' NAME='task' VALUE="">
-			<INPUT TYPE='hidden' NAME='porder' VALUE="<? echo $ordering; ?>">
-			<INPUT TYPE='hidden' NAME='categories' VALUE="<? echo $categories; ?>">
+			<INPUT TYPE='hidden' NAME='porder' VALUE="<?php
+echo $ordering; ?>">
+			<INPUT TYPE='hidden' NAME='categories' VALUE="<?php
+echo $categories; ?>">
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 
 		function addNews($option, $topictext, $topicid, $id, $imagename, $restcount, $frontpagecount, $text_editor, $categories){?>
 			<SCRIPT LANGUAGE="javascript">
 			<!--
 				function chooseOrdering(){
-					var frontpage = <? echo $frontpagecount; ?>;
-					var restcount = <? echo $restcount; ?>;
+					var frontpage = <?php
+echo $frontpagecount; ?>;
+					var restcount = <?php
+echo $restcount; ?>;
 
 					if (document.adminForm.frontpage.checked){
 						for (var x = 0; x < restcount+2; x++){
@@ -378,7 +472,8 @@
 			</TR>
 				<TR>
 				<TD WIDTH='15%'>Title:</TD>
-				<TD WIDTH=70><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<? echo $title; ?>"></TD>
+				<TD WIDTH=70><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<?php
+echo $title; ?>"></TD>
 				<TD ROWSPAN='2' WIDTH='50%'><IMG SRC="../images/M_images/6977transparent.gif" NAME="imagelib" WIDTH='69' HEIGHT='77'></TD>
 			</TR>
 			<TR>
@@ -386,41 +481,55 @@
 				<TD>
 			<SELECT NAME='newstopic'>
 				<OPTION VALUE=''>Select Category</OPTION>
-				<? for ($i = 0; $i < count($topicid); $i++){ ?>
-					<OPTION VALUE='<? echo $topicid[$i]; ?>'><? echo $topictext[$i]; ?></OPTION>
-				<?} ?>
+				<?php
+for ($i = 0; $i < count($topicid); $i++){ ?>
+					<OPTION VALUE='<?php
+echo $topicid[$i]; ?>'><?php
+echo $topictext[$i]; ?></OPTION>
+				<?php
+} ?>
 			</SELECT>
 			</TD>
 			</TR>
 			<TR>
 				<TD VALIGN='top'>Introduction:</TD>
-				<TD COLSPAN='2'><TEXTAREA COLS='70' ROWS='7' NAME='introtext'><? echo htmlentities($introtext); ?></TEXTAREA></TD>
+				<TD COLSPAN='2'><TEXTAREA COLS='70' ROWS='7' NAME='introtext'><?php
+echo htmlentities($introtext); ?></TEXTAREA></TD>
 			</TR>
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm?content=introtext', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
+			<?php
+}?>
 			<TR>
 				<TD VALIGN='top'>Extended Text:</TD>
-				<TD COLSPAN='2'><TEXTAREA COLS='70' ROWS='7' NAME='fultext'><? echo htmlentities($fultext); ?></TEXTAREA></TD>
+				<TD COLSPAN='2'><TEXTAREA COLS='70' ROWS='7' NAME='fultext'><?php
+echo htmlentities($fultext); ?></TEXTAREA></TD>
 			</TR>
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm?content=fultext', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
+			<?php
+}?>
 			<TR>
 				<TD>Image:</TD>
 				<TD>
 					<SELECT NAME='image' onChange="document.imagelib.src=null; document.imagelib.src='../images/stories/' + document.forms[0].image.options[selectedIndex].text">
 						<OPTION VALUE=''>Select image</OPTION>
-						<? for ($i = 0; $i < count($imagename); $i++){
+						<?php
+for ($i = 0; $i < count($imagename); $i++){
 								if (!eregi(".swf", $imagename[$i])){?>
-							<OPTION VALUE='<? echo $imagename[$i]; ?>'><? echo $imagename[$i]; ?></OPTION>
-							<?		}
+							<OPTION VALUE='<?php
+echo $imagename[$i]; ?>'><?php
+echo $imagename[$i]; ?></OPTION>
+							<?php
+}
 								}?>
 					</SELECT>
 				</TD>
@@ -433,9 +542,13 @@
 				<TD>Story ordering</TD>
 				<TD COLSPAN="2">
 					<SELECT NAME="ordering">
-						<? for ($i = 1; $i < $restcount+2; $i++){?>
-								<OPTION VALUE="<? echo $i; ?>"><? echo $i; ?></OPTION>
-						<?	}?>
+						<?php
+for ($i = 1; $i < $restcount+2; $i++){?>
+								<OPTION VALUE="<?php
+echo $i; ?>"><?php
+echo $i; ?></OPTION>
+						<?php
+}?>
 					</SELECT>
 				</TD>
 			</TR>
@@ -450,12 +563,16 @@
 				<TD COLSPAN='3' CLASS='heading' BGCOLOR="#999999">&nbsp;</TD>
 			</TR>
 
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
-			<INPUT TYPE='hidden' NAME='sid' VALUE='<? echo $sid; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='sid' VALUE='<?php
+echo $sid; ?>'>
 			<INPUT TYPE='hidden' NAME='task' VALUE="">
-			<INPUT TYPE='hidden' NAME='categories' VALUE="<? echo $categories; ?>">
+			<INPUT TYPE='hidden' NAME='categories' VALUE="<?php
+echo $categories; ?>">
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 		}
 ?>

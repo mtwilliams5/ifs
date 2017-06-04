@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -26,18 +26,25 @@
 		?>
 			<TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0" WIDTH="100%">
 			<TR BGCOLOR="#999999">
-				<? $item = ucfirst($task);?>
-				<TD WIDTH="50%" CLASS="heading">Top 10 <? echo $item; ?></TD>
+				<?php
+$item = ucfirst($task);?>
+				<TD WIDTH="50%" CLASS="heading">Top 10 <?php
+echo $item; ?></TD>
 				<TD WIDTH="10%" ALIGN="center" CLASS="heading">Number of times read</TD>
 			</TR>
-			<? if ($task == "news"){?>
-			<?for ($i = 0; $i < count($storytitle); $i++){
+			<?php
+if ($task == "news"){?>
+			<?php for ($i = 0; $i < count($storytitle); $i++){
 				$k = $i + 1;?>
-				<TR BGCOLOR="<? echo $color[$s]; ?>">
-					<TD WIDTH='50%'><B><? echo "$k."; ?></B> <? echo $storytitle[$i]; ?></TD>
-					<TD WIDTH="10%" ALIGN="center"><B><? echo $storycounter[$i]; ?></B></TD>
+				<TR BGCOLOR="<?php
+echo $color[$s]; ?>">
+					<TD WIDTH='50%'><B><?php
+echo "$k."; ?></B> <?php
+echo $storytitle[$i]; ?></TD>
+					<TD WIDTH="10%" ALIGN="center"><B><?php
+echo $storycounter[$i]; ?></B></TD>
 				</TR>
-				<?if ($s == 1){
+				<?php if ($s == 1){
 					$s = 0;
 					}
 			   else {
@@ -46,14 +53,19 @@
 				}
 			} else if ($task == "articles") {
 			?>
-		<?	for ($i = 0; $i < count($sectitle); $i++){
+		<?php
+for ($i = 0; $i < count($sectitle); $i++){
 				$k = $i + 1;?>
-				<TR BGCOLOR="<? echo $color[$s]; ?>">
-					<TD WIDTH='50%'><B><? echo "$k."; ?></B> <? echo $sectitle[$i]; ?></B></TD>
-					<TD WIDTH="10%" ALIGN="center"><B><? echo $seccounter[$i]; ?></TD>
+				<TR BGCOLOR="<?php
+echo $color[$s]; ?>">
+					<TD WIDTH='50%'><B><?php
+echo "$k."; ?></B> <?php
+echo $sectitle[$i]; ?></B></TD>
+					<TD WIDTH="10%" ALIGN="center"><B><?php
+echo $seccounter[$i]; ?></TD>
 				</TR>
-			<?	
-				 if ($s == 1){
+			<?php
+if ($s == 1){
 					$s = 0;
 					}
 			   else {
@@ -63,7 +75,7 @@
 			}
 			?>
 			</TABLE>
-		<?	}
+		<?php	}
 		
 		}
 ?>

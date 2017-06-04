@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -34,7 +34,7 @@
 	//-->
 </head>
 <body>
-<?if (($bannerid!="") || ($newbanner==1)){
+<?php if (($bannerid!="") || ($newbanner==1)){
 		$choice="saveUploadNew"?>
 	<FORM ENCTYPE="multipart/form-data" ACTION="banners_current.php" METHOD=POST NAME="filename">
 		<table border=0 bgcolor=FFFFFF cellpadding=4 cellspacing=0 width=99%>
@@ -46,8 +46,9 @@
 			</TR>
 			<TR>
 				<TD>
-					<input type=hidden name=task value="<? echo $choice;?>">
-					<input type=hidden name=bannerid value="<?echo $bannerid;?>">
+					<input type=hidden name=task value="<?php
+echo $choice;?>">
+					<input type=hidden name=bannerid value="<?php echo $bannerid;?>">
 					<INPUT TYPE="submit" VALUE="Send File">
 				</TD>
 			</TR>
@@ -55,12 +56,15 @@
 	</FORM>
 	<a href="javascript: window.opener.focus; window.close();">Close</a>
 			
-<?}else if ($sectionid!=""){
+<?php
+}else if ($sectionid!=""){
 	if ($option=="MenuSections"){?>
 		<FORM ENCTYPE="multipart/form-data" ACTION="menusections.php" METHOD=POST NAME="filename">
-	<?}else if ($option=="SubSections"){?>
+	<?php
+}else if ($option=="SubSections"){?>
 		<FORM ENCTYPE="multipart/form-data" ACTION="subsections.php" METHOD=POST NAME="filename">
-	<?}?>
+	<?php
+}?>
 		<TABLE WIDTH="99%" CELLPADDING="0" CELLSPACING="3" BORDER="0" bgcolor=ffffff>
 		<TR><TD class='componentHeading'>Upload Images</TD></TR>
 		<TR><TD>&nbsp;</TD></TR>
@@ -76,11 +80,12 @@
 		<TR><TD>&nbsp;</TD></TR>
 		<TR><TD>&nbsp;</TD></TR>
 		<TR><TD><input type=hidden name=task value="saveUploadImage">
-				<input type=hidden name=sectionid value="<?echo $sectionid;?>">
+				<input type=hidden name=sectionid value="<?php echo $sectionid;?>">
 				<INPUT TYPE="submit" VALUE="Send File(s)"></TD></TR>
 	</TABLE></CENTER>
 	</FORM>
 	<a href="javascript:window.opener.focus; window.close();">Close</a>
- <?}?>
+ <?php
+}?>
  </body>
  </html>

@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -36,8 +36,8 @@
 </head>
 
 <body>
-	<?
-	if ($type=="typed"){?>
+	<?php
+if ($type=="typed"){?>
 		<SCRIPT>
 			var myregexp = /SRC=images/g;
 			var myregexp2 = /src=images/g;
@@ -52,8 +52,8 @@
 			content= content.replace(myregexp3, 'SRC=\"../../images');
 			content= content.replace(myregexp4, 'src=\"../../images');
 		</SCRIPT>
-		<?
-	}else if ($type=="file"){?>
+		<?php
+}else if ($type=="file"){?>
 		<SCRIPT>
 			var content=window.opener.document.adminForm.filecontent.value;
 			content = content.replace('\\\\', '');
@@ -64,7 +64,8 @@
 			var heading='';
 		</SCRIPT>
 	
-		<?}?>
+		<?php
+}?>
 	<SCRIPT>
 		if (content!=""){
 			document.write ("<TABLE ALIGN='center' WIDTH='90%' CELLSPACING='2' CELLPADDING='2' BORDER='0' HEIGHT='100%'>");
@@ -76,8 +77,8 @@
 		}
 	</SCRIPT>
 	
-	<?
-		if ($type=="web"){
+	<?php
+if ($type=="web"){
 			if ($link!=""){
 				$correctLink=eregi("http://", $link);
 				if ($correctLink){

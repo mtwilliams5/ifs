@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -78,10 +78,10 @@
 		<body BGCOLOR="#FFFFFF">
 			<TABLE ALIGN="center" WIDTH="90%" CELLSPACING="2" CELLPADDING="2" BORDER="0" HEIGHT="100%">
 			<TR>
-	    		<TD CLASS="componentHeading" COLSPAN="2"><?echo $title;?></TD>
+	    		<TD CLASS="componentHeading" COLSPAN="2"><?php echo $title;?></TD>
 			</TR>
 			<TR>
-	    		<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"><?echo $content;?></TD>
+	    		<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"><?php echo $content;?></TD>
 			</TR>
 			<TR>
 	    		<TD ALIGN="right"><A HREF="#" onClick="window.close()">Close</A></TD>
@@ -89,7 +89,8 @@
 			</TR>
 			</TABLE>
 
-<?}else{?>
+<?php
+}else{?>
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
 <html>
@@ -145,7 +146,8 @@
 	</TR>
 	</TABLE>
 
-<?}?>
+<?php
+}?>
 
 </body>
 </html>

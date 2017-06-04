@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -25,11 +25,11 @@
 <!-- frames -->
 <FRAMESET  ROWS="83%,*">
     <FRAMESET  COLS="15%,*">
-        <FRAME NAME="navigation" SRC="navigation.php?directory=<?echo $directory;?>&Itemid=<?echo $Itemid;?>" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no" FRAMEBORDER="0" NORESIZE>
-        <FRAME NAME="images" SRC="index.php?directory=<?echo $directory;?>&Itemid=<?echo $Itemid;?>" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="auto" FRAMEBORDER="0">
+        <FRAME NAME="navigation" SRC="navigation.php?directory=<?php echo $directory;?>&Itemid=<?php echo $Itemid;?>" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no" FRAMEBORDER="0" NORESIZE>
+        <FRAME NAME="images" SRC="index.php?directory=<?php echo $directory;?>&Itemid=<?php echo $Itemid;?>" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="auto" FRAMEBORDER="0">
     </FRAMESET>
     <FRAME NAME="imagecode" SRC="imagecode.php" MARGINWIDTH="0" MARGINHEIGHT="0" SCROLLING="no" FRAMEBORDER="0" NORESIZE>
-</FRAMESET>
+</FRAMESET><noframes></noframes>
 	
 </head>
 

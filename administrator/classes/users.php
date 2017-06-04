@@ -1,5 +1,5 @@
-<?
-	/**
+<?php
+/**
 	 *	Mambo Site Server Open Source Edition Version 4.0
 	 *	Dynamic portal server and Content managment engine
 	 *	17-11-2002

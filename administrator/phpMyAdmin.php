@@ -1,4 +1,4 @@
-<?
+<?php
 include ("../configuration.php");
 	if ($phpmyadmin!='') {
 	echo "Click <a href='#' onClick=\"javascript:window.open('$phpmyadmin');\">here</a> to launch phpMyAdmin";

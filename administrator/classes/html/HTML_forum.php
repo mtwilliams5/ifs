@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -43,64 +43,83 @@
 				<TD WIDTH=10% ALIGN="center" CLASS="heading">Archived</TD>
 				<TD WIDTH="10%" ALIGN="center" CLASS="heading">Checked Out</TD>
 			</TR>
-			<? 
-			$color = array("#FFFFFF", "#CCCCCC");
+			<?php
+$color = array("#FFFFFF", "#CCCCCC");
 			$k = 0;
 			for ($i = 0; $i < count($fid); $i++){?>
-				<TR BGCOLOR="<? echo $color[$k]; ?>">
-					<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<? echo $fid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
-					<TD WIDTH="60%"><? echo $fname[$i]; ?></TD>
-					<TD WIDTH="10%" ALIGN="center"><? echo $messagesNum[$i]; ?></TD>
-					<?if ($published[$i] == 1){
+				<TR BGCOLOR="<?php
+echo $color[$k]; ?>">
+					<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<?php
+echo $fid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
+					<TD WIDTH="60%"><?php
+echo $fname[$i]; ?></TD>
+					<TD WIDTH="10%" ALIGN="center"><?php
+echo $messagesNum[$i]; ?></TD>
+					<?php if ($published[$i] == 1){
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-						<?}else{?>
+						<?php
+}else{?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-						<?}
+						<?php
+}
 					}else {
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-						<?}else{?>
+						<?php
+}else{?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-						<?}
+						<?php
+}
 					}?>
 					
-					<?if ($archive[$i] == 1){
+					<?php if ($archive[$i] == 1){
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-						<?}else{?>
+						<?php
+}else{?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-						<?}
+						<?php
+}
 					}else {
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-						<?}else{?>
+						<?php
+}else{?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-						<?}
+						<?php
+}
 					}?>
 			
-					<?if ($checkedout[$i] == 0){?>
+					<?php if ($checkedout[$i] == 0){?>
 						<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-					<?}else{?>
-						<TD WIDTH="10%" ALIGN="center"><? echo $editor[$i]; ?></TD>
-					<?}?>
+					<?php
+}else{?>
+						<TD WIDTH="10%" ALIGN="center"><?php
+echo $editor[$i]; ?></TD>
+					<?php
+}?>
 			
-					<?if ($k == 1){
+					<?php if ($k == 1){
 						$k = 0;
 					}else {
 			   			$k++;
 					}?>
 				</TR>
-			<?}?>
+			<?php
+}?>
 			
-			<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+			<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			<INPUT TYPE="hidden" NAME="chosen" VALUE="">
-			<INPUT TYPE="hidden" NAME="act" VALUE="<? echo $act; ?>">
+			<INPUT TYPE="hidden" NAME="act" VALUE="<?php
+echo $act; ?>">
 			<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
 			</FORM>
 			</TABLE>
-		<?}
+		<?php
+}
 		
 		function newforum($option, $adminIdList, $adminNameList){?>
 			<FORM ACTION="index2.php" METHOD="POST" NAME="adminForm">
@@ -122,7 +141,7 @@
 							<TD HEIGHT="30" COLSPAN="2">Description:
 						</TR>
 						<TR>
-							<TD COLSPAN="2"><TEXTAREA COLS="60" ROWS="10" NAME="description" STYLE="WIDTH: 700px"><?echo htmlentities($description);?></TEXTAREA></TD>
+							<TD COLSPAN="2"><TEXTAREA COLS="60" ROWS="10" NAME="description" STYLE="WIDTH: 700px"><?php echo htmlentities($description);?></TEXTAREA></TD>
 						</TR>
 						<TR>
 							<TD COLSPAN="2">&nbsp;</TD>
@@ -135,9 +154,10 @@
 									</TR>
 									<TR>
 										<TD>Moderator:&nbsp;&nbsp; <SELECT NAME="moderatorID">
-											<?for ($i=0; $i < count($adminIdList); $i++){?>
-												 <OPTION VALUE="<?echo $adminIdList[$i];?>"><?echo $adminNameList[$i];?></OPTION>
-											<?}?>
+											<?php for ($i=0; $i < count($adminIdList); $i++){?>
+												 <OPTION VALUE="<?php echo $adminIdList[$i];?>"><?php echo $adminNameList[$i];?></OPTION>
+											<?php
+}?>
 											</SELECT>	
 										</TD>
 									</TR>
@@ -169,9 +189,11 @@
 			</TR>
 			</TABLE>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
-			<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+			<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 			</FORM>
-		<?}
+		<?php
+}
 
 		function editforum($option, $forumName, $description, $moderateTopic, $moderateTopicReply, $moderateNothing, $uid, $language, $moderatorID, $moderatorName, $adminIdList, $adminNameList, $emailModerator){ ?>
 			<FORM ACTION='index2.php' METHOD='POST' NAME="adminForm">
@@ -184,14 +206,15 @@
 			</TR>
 			<TR>
 				<TD WIDTH="100">Forum Name:</TD>
-				<TD WIDTH="90%"><INPUT TYPE="text" NAME="forumName" VALUE="<? echo $forumName;?>" SIZE="25"></TD>
+				<TD WIDTH="90%"><INPUT TYPE="text" NAME="forumName" VALUE="<?php
+echo $forumName;?>" SIZE="25"></TD>
 			</TR>
 			<!--print "\t\t\t<FORM ACTION='editForum.php' METHOD='POST' NAME='edit'>\n";-->
 			<TR>
-				<TD HEIGHT="30' COLSPAN="2">Description:</TD>
+				<TD HEIGHT="30" COLSPAN="2">Description:</TD>
 			</TR>
 			<TR>
-				<TD COLSPAN="2"><TEXTAREA COLS="60" ROWS="10" NAME="description" STYLE="WIDTH: 700px"><?echo htmlentities($description);?></TEXTAREA>
+				<TD COLSPAN="2"><TEXTAREA COLS="60" ROWS="10" NAME="description" STYLE="WIDTH: 700px"><?php echo htmlentities($description);?></TEXTAREA>
 				</TD>
 			</TR>
 			<TR>
@@ -206,48 +229,59 @@
 						<TR>
 							<TD>Moderator: &nbsp;&nbsp;
 								<SELECT NAME="moderatorID">
-									<OPTION VALUE="<?echo $moderatorID;?>" SELECTED><?echo $moderatorName;?></OPTION>
-									<?for ($i=0; $i < count($adminIdList); $i++){
+									<OPTION VALUE="<?php echo $moderatorID;?>" SELECTED><?php echo $moderatorName;?></OPTION>
+									<?php for ($i=0; $i < count($adminIdList); $i++){
 										if ($adminIdList!=$moderatorID){?>
-											 <OPTION VALUE="<?echo $adminIdList[$i];?>"><?echo $adminNameList[$i];?></OPTION>
-										<?}
+											 <OPTION VALUE="<?php echo $adminIdList[$i];?>"><?php echo $adminNameList[$i];?></OPTION>
+										<?php
+}
 									}?>
 								</SELECT>	
 							</TD>
 						</TR>
 						<TR>
-							<?if ($emailModerator==1){?>
+							<?php if ($emailModerator==1){?>
 								<TD COLSPAN=2><INPUT TYPE="checkbox" NAME="emailModerator" VALUE="1" Checked>&nbsp;&nbsp;Receive Email Notification</TD>
-							<?}else{?>
+							<?php
+}else{?>
 								<TD COLSPAN=2><INPUT TYPE="checkbox" NAME="emailModerator" VALUE="1">&nbsp;&nbsp;Receive Email Notification</TD>
-							<?}?>
+							<?php
+}?>
 						</TR>
 						<TR>
-							<TD><?if ($moderateNothing==1){?>
+							<TD><?php if ($moderateNothing==1){?>
 									<INPUT TYPE="radio" NAME="moderate" VALUE="nothing" CHECKED>Do Not Moderate Anything &nbsp;&nbsp;
-								<?}else{?>
+								<?php
+}else{?>
 									<INPUT TYPE="radio" NAME="moderate" VALUE="nothing">Do Not Moderate Anything &nbsp;&nbsp;
-								<?}
+								<?php
+}
 								
 								if ($moderateTopic==1){?>
 									<INPUT TYPE="radio" NAME="moderate" VALUE="TOPICS" CHECKED>Moderate Topics Only  &nbsp;&nbsp;&nbsp;
-								<?}else{?>
+								<?php
+}else{?>
 									<INPUT TYPE="radio" NAME="moderate" VALUE="TOPICS">Moderate Topics Only  &nbsp;&nbsp;&nbsp;
-								<?}
+								<?php
+}
 								
 								if ($moderateTopicReply== 1){?>
 									<INPUT TYPE="radio" NAME="moderate" VALUE="TOPICSREPLIES" CHECKED>Moderate Topics And Replies &nbsp;
-								<?}else{?>
+								<?php
+}else{?>
 									<INPUT TYPE="radio" NAME="moderate" VALUE="TOPICSREPLIES">Moderate Topics And Replies &nbsp;
-								<?}?>
+								<?php
+}?>
 							</TD>
 						</TR>
 						<TR>
-							<?if ($language==0){?>
+							<?php if ($language==0){?>
 								<TD><INPUT TYPE="checkbox" NAME="language" VALUE="1">Do Not Allow Offensive Language</TD>
-							<?}else{?>
+							<?php
+}else{?>
 								<TD><INPUT TYPE="checkbox" NAME="language" VALUE="1" CHECKED>Do Not Allow Offensive Language</TD>
-							<?}?>
+							<?php
+}?>
 						</TR>
 					</TABLE>
 				</TD>
@@ -257,9 +291,12 @@
 			</TR>
 		</TABLE>
 		<INPUT TYPE="hidden" NAME="task" VALUE="">
-		<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option;?>">
-		<INPUT TYPE="hidden" NAME="uid" VALUE="<? echo $uid;?>">
+		<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option;?>">
+		<INPUT TYPE="hidden" NAME="uid" VALUE="<?php
+echo $uid;?>">
 		</FORM>
-	<?}
+	<?php
+}
 	}
 ?>

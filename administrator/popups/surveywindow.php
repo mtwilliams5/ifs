@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -77,16 +77,22 @@
 	<FORM>
 	<TABLE ALIGN="center" WIDTH="90%" CELLSPACING="2" CELLPADDING="2" BORDER="0" >
 	<TR>
-	    <TD CLASS="componentHeading" COLSPAN='2'><? echo $title; ?></TD>
+	    <TD CLASS="componentHeading" COLSPAN='2'><?php
+echo $title; ?></TD>
 	</TR>
-	<? for ($i = 0; $i < count($optionText); $i++){ 
+	<?php
+for ($i = 0; $i < count($optionText); $i++){ 
 		if ($optionText[$i] <> ""){
 	?>
 	<TR>
-	    <TD VALIGN='top' HEIGHT='30'><INPUT TYPE="radio" NAME="survey" VALUE="<? echo $optionText[$i]; ?>"></TD><TD WIDTH="100%" VALIGN="top"><? echo $optionText[$i]; ?></TD>
+	    <TD VALIGN='top' HEIGHT='30'><INPUT TYPE="radio" NAME="survey" VALUE="<?php
+echo $optionText[$i]; ?>"></TD><TD WIDTH="100%" VALIGN="top"><?php
+echo $optionText[$i]; ?></TD>
 	</TR>
-	<? } ?>
-	<? } ?>
+	<?php
+} ?>
+	<?php
+} ?>
 	<TR>
 	    <TD VALIGN='middle' HEIGHT='50' COLSPAN='2' ALIGN='center'><INPUT TYPE="button" NAME="submit" VALUE="Vote">&nbsp;&nbsp;<INPUT TYPE="button" NAME="result" VALUE="Results"></TD>
 	</TR>
