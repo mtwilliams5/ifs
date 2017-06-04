@@ -43,6 +43,15 @@ a:active {
         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
 }
 
+nav a {
+    float: left;
+    clear: left;
+}
+
+nav a:last-child{
+    margin-bottom: 5px;
+}
+
 .articlehead {
         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
         font-size: 13px;
@@ -69,7 +78,7 @@ body
 	background-color: #000000;
 }
 
-.bold {
+strong, .bold {
         font: bold 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
         color: #FFFFFF;
 }
@@ -114,6 +123,9 @@ h3 {
 	font-size: 14px;
 	font: italic;
 	color: #FFFFFF;
+}
+h6, .h6 {
+    font-size: 12px;
 }
 
 .highlight {
@@ -210,13 +222,6 @@ p {
     font-weight: normal
 }
 
-strong {
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
-    font-weight: normal;
-}
-
 .subhead {
     font: 13px Verdana, Geneva, Arial, Helvetica, sans-serif;
     color: #000000;
@@ -241,4 +246,7 @@ td {
 .whitetext {
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 11px; color: #000000;
+}
+ul.list-unstyled {
+    list-style: none !important;
 }

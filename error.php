@@ -46,10 +46,21 @@ else
 
 		// OK, now log the error =)
 		$now = date("F j, Y, g:i a");
-		$ip = getenv("REMOTE_ADDR");
-		$rmethod = getenv("REQUEST_METHOD");
-		$referer = getenv("HTTP_REFERER");
-		$uri = getenv("REQUEST_URI");
+		if (phpversion() <= "4.2.1") //Determine the PHP version, and use the correct superglobal for the values if we're on 4.2.1 or above
+		{ //Old PHP version, use getenv() function
+			$ip = getenv("REMOTE_ADDR");
+			$rmethod = getenv("REQUEST_METHOD");
+			$referer = getenv("HTTP_REFERER");
+			$uri = getenv("REQUEST_URI");
+		}
+		else
+		{ //New PHP version, use $_SERVER superglobal
+			$browse = $_SERVER['HTTP_USER_AGENT'];
+			$ip = $_SERVER['REMOTE_ADDR'];
+			$rmethod = $_SERVER['REQUEST_METHOD'];
+			$referer = $_SERVER['HTTP_REFERER'];
+			$uri = $_SERVER['REQUEST_URI'];
+		}
 		$filename = "errorlog";
 		$spacer = "\n";
 
@@ -61,14 +72,11 @@ else
 
 		?>
 
-        <center>
-		<h1><? echo $title ?></h1>
+		<h1 class="text-center"><?php echo $title ?></h1>
 
-		<p>
-		The page you requested, <b><? echo $uri ?></b>, cannot be displayed.<br /><br />
-		We have logged this problem and will try to fix it ASAP.<br />
-		</p>
-        </center>
+		<p class="text-center">
+		The page you requested, <strong><?php echo $uri ?></strong>, cannot be displayed.<br /><br />
+		We have logged this problem and will try to fix it ASAP.</p>
 
         <?php
     }

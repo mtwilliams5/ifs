@@ -63,7 +63,7 @@ if ($_COOKIE["session"]!="")
 		include ("configuration.php");
 
 		if ($uid == "0")
-			echo "You are not logged in!";
+			echo '<h3 class="text-warning">You are not logged in!</h3>';
 		else
         {
 			switch($op)
@@ -395,7 +395,7 @@ function userEdit($userhtml, $database, $uid, $option, $mpre, $spre)
         $bday2['day'] = "00";
     $bday2['day'] = substr($bday, 2);
 
-    $qry2 = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid' AND ship<>'74'";
+    $qry2 = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid' AND ship<>3";
     $result2 = $database->openConnectionWithReturn($qry2);
     list($cid,$cname,$sid)=mysql_fetch_array($result2);
 
@@ -405,11 +405,31 @@ function userEdit($userhtml, $database, $uid, $option, $mpre, $spre)
         $qry3 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
         $result3=$database->openConnectionWithReturn($qry3);
         list($ship)=mysql_fetch_array($result3);
-
-        $shiplist .= "($cid) $cname on $ship <br />";
-        $shiplist .= "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"index.php?option=user&amp;op=ServiceRecord" .
-        			 "&amp;cid={$cid}\">View Service Record</a><br /><br />";
+		
+		$shiplist .= '<li class="list-group-item">';
+		$shiplist .= '<h4 class="list-group-item-heading">ID #' . $cid . '</h4>';
+		$shiplist .= '<p class="list-group-item-text">' . $cname . ' on ' . $ship . '</p>';
+		$shiplist .= '<a class="list-group-item-text" href="index.php?option=user&amp;op=ServiceRecord&amp;cid=' . $cid . '">View Service Record</a>';
+		$shiplist .= '</li>';
         list($cid,$cname,$sid)=mysql_fetch_array($result2);
+    }
+
+    $qry9 = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid' AND ship=3";
+    $result9 = $database->openConnectionWithReturn($qry9);
+    list($dcid,$dcname,$dsid)=mysql_fetch_array($result9);
+	
+    while ($dcname)
+    {
+        $qry3 = "SELECT name FROM {$spre}ships WHERE id='$dsid'";
+        $result3=$database->openConnectionWithReturn($qry3);
+        list($dship)=mysql_fetch_array($result3);
+		
+		$shiplist .= '<li class="list-group-item">';
+		$shiplist .= '<h4 class="list-group-item-heading">ID #' . $dcid . '</h4>';
+		$shiplist .= '<p class="list-group-item-text">' . $dcname . ' on ' . $dship . '</p>';
+		$shiplist .= '<a class="list-group-item-text" href="index.php?option=user&amp;op=ServiceRecord&amp;cid=' . $dcid . '">View Service Record</a>';
+		$shiplist .= '</li>';
+        list($dcid,$dcname,$dsid)=mysql_fetch_array($result9);
     }
     $userhtml->userEdit($uid, $name, $username, $email, $option, $result2, $shiplist, $bday2);
 }
@@ -486,10 +506,9 @@ function ServiceRecord ($database, $mpre, $spre, $cid, $op, $uflag)
     $result = $database->openConnectionWithReturn($qry);
 
     if (defined("admin") || mysql_num_rows($result) || ($uflag['c'] == 1 && $sid == $usership))
-        record_view ($database, $spre, $mpre, $cid, $op, $uflag);
+        record_view ($database, $spre, $mpre, $cid, $op, $uflag, $multiship);
     else
-        echo "You do not have access.";
-    echo "<br /><br />";
+        echo '<h3 class="text-warning">You do not have access.</h3>';
 }
 
 function RecordDetails ($database, $mpre, $spre, $rid, $op, $uflag)
@@ -500,7 +519,6 @@ function RecordDetails ($database, $mpre, $spre, $rid, $op, $uflag)
     if (defined("admin") || mysql_num_rows($result) || ($uflag['c'] == 1 && $sid == $usership))
         record_details ($database, $spre, $mpre, $rid, $op, $uflag);
     else
-        echo "You do not have access.";
-    echo "<br /><br />";
+        echo '<h3 class="text-warning">You do not have access.</h3>';
 }
 ?>

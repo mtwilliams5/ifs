@@ -38,7 +38,10 @@ $qry="UPDATE {$mpre}session SET active='0' WHERE (time < $past) AND remember='1'
 $database->openConnectionNoReturn($qry);
 
 $current_time = time();
-$userip = getenv("REMOTE_ADDR");
+if (phpversion() <= "4.2.1")
+	$userip = getenv("REMOTE_ADDR"); //Use getenv() function if on an old PHP version
+else
+	$userip = $_SERVER['REMOTE_ADDR']; //Use the more correct $_SERVER superglobal if on a recent PHP version
 
 if ($_COOKIE["session"]=="")              // we need to set a cookie?
 {
