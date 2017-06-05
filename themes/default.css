@@ -43,6 +43,10 @@ a:active {
         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
 }
 
+nav {
+    clear: left;
+}
+
 nav a {
     float: left;
     clear: left;
@@ -123,6 +127,9 @@ h3 {
 	font-size: 14px;
 	font: italic;
 	color: #FFFFFF;
+}
+h5, .h5 {
+    font-size: 14px;
 }
 h6, .h6 {
     font-size: 12px;
@@ -249,4 +256,23 @@ td {
 }
 ul.list-unstyled {
     list-style: none !important;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+.text-left {
+    text-align: left;
+}
+.text-justify {
+    text-align: justify;
+}
+.help-block {
+    display: block;
+}
+.menuhead {
+    font-weight: bold;
+    margin-bottom: 2px;
 }
