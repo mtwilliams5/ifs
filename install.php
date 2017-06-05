@@ -100,6 +100,14 @@ define(CONFIG_FILE, "configuration.php");
 									<td><input type="text" name="webemail" value="user@domain.com" size="30"></td>
 								</tr>
 								<tr>
+									<td>Personnel Email<br /><small>Leave blank if you want the system to determine who to email based on access roles.</small></td>
+									<td><input type="text" name="persemail" size="30"></td>
+								</tr>
+								<tr>
+									<td>Fleet Ops Email<br /><small>Leave blank if you want the system to determine who to email based on access roles.</small></td>
+									<td><input type="text" name="fopsemail" size="30"></td>
+								</tr>
+								<tr>
 									<td>Site Email</td>
 									<td><input type="text" name="frommail" value="IFS Mail <user@domain.com>" size="30"></td>
 								</tr>
@@ -178,6 +186,10 @@ define(CONFIG_FILE, "configuration.php");
 \$emailfrom = \"".$_POST['frommail']."\";
 // The webmaster's email address
 \$webmasteremail = \"".$_POST['webemail']."\";
+// Email address for all personnel-related emails. Leave empty if you want the system to generate it based on access roles
+\$personnelemail = \"".$_POST['persemail']."\";
+// Email address for all fleetops-related emails. Leave empty if you want the system to generate it based on access roles
+\$fleetopsemail = \"".$_POST['fopsemail']."\";
 
 /********************
 * Misc Settings	*
@@ -227,7 +239,8 @@ define (\"email-from\", \$emailfrom);
 define (\"fleetname\", \$fleetname);
 define (\"webmasteremail\", \$webmasteremail);
 define (\"live_site\", \$live_site);
-?>";
+?>
+";
 
 					$handle = fopen(CONFIG_FILE, "wb");
 
