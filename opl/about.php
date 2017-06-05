@@ -23,6 +23,6 @@
 
 ?>
 
-This Open Positions list was created by <a href="mailto:fanon@obsidianfleet.net">Frank Anon</a> for use in <a href="http://www.obsidianfleet.net" target="_blank">Obsidian Fleet</a>.<br />
-This version released as a component of the <a href="http://www.obsidianfleet.net/ifs/" target="_blank">IFS Integrated Fleet System</a>, also developed by Frank Anon.<br /><br />
-</p>
+<p>This Open Positions list was created by <a href="mailto:fanon@obsidianfleet.net">Frank Anon</a> for use in <a href="http://www.obsidianfleet.net" target="_blank">Obsidian Fleet</a>.<br />
+This version released as a component of the <a href="http://www.obsidianfleet.net/ifs/" target="_blank">IFS Integrated Fleet System</a>, also developed by Frank Anon.</p>
+<br /><br />
