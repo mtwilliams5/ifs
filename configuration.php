@@ -61,6 +61,8 @@ $webmasteremail = "user@domain.com";
 $personnelemail = "";
 // Email address for all fleetops-related emails. Leave empty if you want the system to generate it based on access roles
 $fleetopsemail = "";
+// Email address for all academy-related emails. Leave empty if you want the system to generate it based on access roles
+$academail = "";
 
 /********************
  * Misc Settings	*

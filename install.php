@@ -108,6 +108,10 @@ define(CONFIG_FILE, "configuration.php");
 									<td><input type="text" name="fopsemail" size="30"></td>
 								</tr>
 								<tr>
+									<td>Academy Email<br /><small>Leave blank if you want the system to determine who to email based on access roles.</small></td>
+									<td><input type="text" name="academail" size="30"></td>
+								</tr>
+								<tr>
 									<td>Site Email</td>
 									<td><input type="text" name="frommail" value="IFS Mail <user@domain.com>" size="30"></td>
 								</tr>
@@ -190,6 +194,8 @@ define(CONFIG_FILE, "configuration.php");
 \$personnelemail = \"".$_POST['persemail']."\";
 // Email address for all fleetops-related emails. Leave empty if you want the system to generate it based on access roles
 \$fleetopsemail = \"".$_POST['fopsemail']."\";
+// Email address for all academy-related emails. Leave empty if you want the system to generate it based on access roles
+\$academail = \"".$_POST['academail']."\";
 
 /********************
 * Misc Settings	*
