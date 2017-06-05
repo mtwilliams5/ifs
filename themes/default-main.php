@@ -10,9 +10,13 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.13n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -21,8 +25,7 @@
   * This file contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	12/13/03
-  * Comments: Default theme for OF
+  * Comments: Default theme for IFS
   *
   * See CHANGELOG for patch details
   *
@@ -45,7 +48,7 @@
 
 	    <!-- Now starts the top of the main area -->
 
-	    <td valign="top">
+	    <td valign="top" style="padding: 0 20px;">
 	        <!-- News of the Day aka Messages -->
 		<img src="images/motd.jpg"><br>
 	        <div><?php include ("newsflash.php") ?></div>
