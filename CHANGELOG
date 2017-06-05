@@ -52,6 +52,18 @@ classes/html/*
 doc/INSTALL.txt & doc/README.txt
 - Updated to direct support queries to the GitHub issues page for this version of IFS.
 
+includes/footer.php
+- Updated to remove reliance on tables and utilise HTML5 markup
+- Updated Obisidan Fleet logo to a transparent image to enable better compatability across themes
+- Updated link to obtain software to direct to current GitHub repo
+
+includes/header.php
+- Updated to include PHP5 methods
+- Implicitly pulled in $_GET and $_POST content, which was assumed previously (and must have broken in a subsequent PHP update)
+
+includes/obsidian.php
+- Removed reliance on tables
+
 themes/default.css
 - Added style rules to force navigation links onto a new line
 
