@@ -36,7 +36,7 @@ class search
         <form action="index.php" method="post">
         <tr>
             <td colspan="2">
-            	<input class="inputbox" type="text" name="searchword" value="<?echo $search ?>" size="30">
+            	<input class="inputbox" type="text" name="searchword" value="<?php echo $search ?>" size="30">
                 &nbsp;<input class="button" type="submit" value="Search">
             </td>
         </tr>
@@ -99,8 +99,8 @@ class search
         <span class="componentheading">Articles Results</span><br />
         Number of results: <?php echo count($id) ?><br /><br />
         <ul>
-        <?
-        for ($i=0; $i<count($id); $i++)
+        <?php
+for ($i=0; $i<count($id); $i++)
         {
             echo "<li><a href=\"index.php?option=articles&task=show&artid={$id[$i]}\">";
             echo $title[$i] . "</a><br />\n";
@@ -123,8 +123,8 @@ class search
         <span class="componentheading">FAQ Results</span><br />
         Number of results: <?php echo count($id) ?><br /><br />
         <ul>
-        <?
-        for ($i=0; $i<count($id); $i++)
+        <?php
+for ($i=0; $i<count($id); $i++)
         {
         	echo "<li><a href=\"index.php?option=faq&task=show&artid={$id[$i]}\">";
             echo $title[$i] . "</a><br />\n";
@@ -147,8 +147,8 @@ class search
         <span class="componentheading">Content Results</span><br />
         Number of results: <?php echo count($id) ?><br /><br />
         <ul>
-        <?
-        for ($i=0; $i<count($id); $i++)
+        <?php
+for ($i=0; $i<count($id); $i++)
         {
         	echo "<li><a href=\"index.php?option=displaypage&Itemid={$mid[$i]}&op=page&SubMenu=";
             if ($sublevel[$i] == 0)

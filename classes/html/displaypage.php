@@ -7,8 +7,12 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -17,7 +21,6 @@
   * This file based on code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date: 12/13/03
   * Comments: Display page
  ***/
 
@@ -25,24 +28,13 @@ class displaycontent
 {
 	function displaypage($content, $heading)
     {
-		echo "<table cellpadding=\"0\" cellspacing=\"5\" border=\"0\" bgcolor=\"#000000\" width=\"100%\">\n";
-	        if ($heading!="")
-	        {
-	            ?>
-	            <tr>
-	                <td class="articlehead"><?php echo $heading ?></td>
-	            </tr>
-	            <td>
-	                <td>&nbsp;</td>
-	            </tr>
-	            <?php
-	        }
-	        ?>
-	        <tr>
-	            <td><?php echo $content ?></td>
-	        </tr>
-	    </table>
-        <?php
+	    if ($heading!="")
+	    {
+	    	?>
+	        <h2 class="articlehead"><?php echo $heading ?></h2>
+	        <?php
+	    }
+	    echo $content;
     }
 }
 ?>

@@ -73,7 +73,7 @@ class weblinks {
 	                        $sum = $todaydate[2] - $datesplit[0];
 	                        ?>
 	                        <td width="32" height="20" align="center">
-	                            <img src="images/FP_images/wwwicon.gif" width="32" height="16" align="absbottom" vspace="3" hspace="10" />
+	                            <img src="images/wwwicon.gif" width="32" height="16" align="absbottom" vspace="3" hspace="10" />
 	                        </td>
 	                        <td width="100%" height="20">
 	                            <a href="<?php echo $url["$topictext[$id]"][$i] ?>" target="_blank">

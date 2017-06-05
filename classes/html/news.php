@@ -116,7 +116,7 @@ class news
 
                             <tr bgcolor="<?php echo $color[$k] ?>">
 	                            <td width="32" height="20" align="center">
-                                	<img src="images/FP_images/document.gif" width="32" height="16" align="absbottom" vspace="3" hspace="3" />
+                                	<img src="images/document.gif" align="absbottom" vspace="3" hspace="3" />
                                 </td>
 	                            <td width="70%" height="20">
                                 	<a href="index.php?option=news&task=viewarticle&sid=<?php echo $sid["$topictext[$id]"][$i] ?>">

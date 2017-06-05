@@ -54,6 +54,7 @@ class database
         GLOBAL $relpath, $dbcon, $mpre, $spre, $sdb;
         include ($relpath . "configuration.php");
         $dbcon = mysql_connect($host, $user, $password);
+		mysql_set_charset('utf8',$dbcon);
         mysql_select_db ($db, $dbcon);
     }
 
