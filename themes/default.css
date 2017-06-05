@@ -269,6 +269,24 @@ ul.list-unstyled {
 .text-justify {
     text-align: justify;
 }
+.text-info {
+    color: blue;
+}
+.text-success {
+    color: green;
+}
+.text-warning {
+    color: orange;
+}
+.text-danger {
+    color: red;
+}
+.float-left {
+    float: left;
+}
+.clear {
+    clear: both;
+}
 .help-block {
     display: block;
 }
