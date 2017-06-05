@@ -1,4 +1,4 @@
-<?
+<?php
 //Award notification, winners copy.
 $mailersubject = "Congratulations - You've Received An Award!";
 $mailerbody = "Hello, $cname, and congratulations!\n\n";

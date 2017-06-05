@@ -1,4 +1,4 @@
-<?
+<?php
 //Player application form, login information for a new user
 $message = "Our records indicate that you do not currently have a character (based on your email address).  Here is your login information for the {$fleetname} site: {$live_site}\n\n";
 $message .= "Username - $username\n";

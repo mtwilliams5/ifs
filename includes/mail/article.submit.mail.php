@@ -1,4 +1,4 @@
-<?
+<?php
 //User submitted new Article for moderation
 $subject = "New User Submitted Article";
 $message .= "Hello Admin,\n\n";

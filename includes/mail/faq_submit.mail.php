@@ -1,4 +1,4 @@
-<?
+<?php
 //Notification of new FAQ requiring moderation
 $subject = "New User Submitted FAQ";
 $message .= "Hello Admin,\n\n";

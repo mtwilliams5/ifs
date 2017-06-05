@@ -1,4 +1,4 @@
-<?
+<?php
 //Webmaster notification that there is an award pending approval
 $mailersubject = "Pending Award";
 $mailerbody = "Award: $aname\n";

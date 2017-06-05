@@ -1,7 +1,7 @@
-<?
+<?php
 //JAG record for player removal
 $mailersubject = "JAG - Player Removed on " . $sname;
-$mailerbody = "Ship Name: " . $sname . "\n";
+$mailerbody = "Sim Name: " . $sname . "\n";
 $mailerbody .= "TF/TG: {$tfid} / {$tgid}\n";
 $mailerbody .= "Crew: " . $cname . "\n";
 $mailerbody .= "Rank: ". $rankname . "\n";

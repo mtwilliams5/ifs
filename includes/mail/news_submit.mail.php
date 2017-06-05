@@ -1,4 +1,4 @@
-<?
+<?php
 //Notification there is a new submitted news story for moderation
 $subject = "New User Submitted News Story";
 $message .= "Hello Admin Person,\n\n";
