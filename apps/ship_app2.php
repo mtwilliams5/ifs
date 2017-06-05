@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	4/12/04
   * Comments: Ship application
   *
  ***/
@@ -36,15 +39,15 @@ if (!defined("IFS"))
 
 /*-------------------------------------------------------*/
 /* Check to make sure all fields are filled out, and	 */
-/* if not, give them an error screen and exit		 */
+/* if not, give them an error screen and exit			 */
 /*-------------------------------------------------------*/
 
 $ip = getenv("REMOTE_ADDR");
 
 if ($reason2 = check_ban($database, $mpre, $spre, $Email, $ip, 'ship'))
 {
-	echo "You have been banned!<br /><br />";
-    echo $reason2;
+	echo '<h3 class="text-danger">You have been banned!</h3>';
+    echo '<p>' . $reason2 . '</p>';
 	$quit = "1";
 }
 
@@ -53,13 +56,13 @@ if (strstr ($Email, '@'))
 	$emaildomain = strstr ($Email, '@');
 	if (!strstr($emaildomain, "."))
     {
-	    echo "Please enter a valid email address.<br /><br />\n";
+	    echo '<h3 class="text-warning">Please enter a valid email address.</h3>';
 	    $quit = "1";
     }
 }
 else
 {
-    echo "Please enter a valid email address.<br /><br />\n";
+	echo '<h3 class="text-warning">Please enter a valid email address.</h3>';
     $quit = "1";
 }
 
@@ -71,73 +74,73 @@ $qry2 = "SELECT a.id FROM {$spre}apps a, {$spre}characters c, {$mpre}users u
 $result2 = $database->openConnectionWithReturn($qry2);
 if (mysql_num_rows($result) || mysql_num_rows($result2))
 {
-	echo "Please wait at least five minutes between submitting applications.<br />";
+	echo '<h3 class="text-warning">Please wait at least five minutes between submitting applications.</h3>';
     $quit = "1";
 }
 
 if ($Email == "")
 {
-    echo "Please enter your email address.<br /><br />";
+    echo '<h3 class="text-warning">Please enter your email address.</h3>';
     $quit = "1";
 }
 
-if ($Follow_OF_Rules != "")
+if ($rules != "yes")
 {
-    echo "Sorry, but you must agree to follow OF rules.<br /><br />";
+    echo '<h3 class="text-warning">Sorry, but you must agree to follow the rules.</h3>';
     $quit = "1";
 }
 
 if ($ship == "")
 {
-    echo "Please enter the name of your ship.<br /><br />";
+    echo '<h3 class="text-warning">Please enter the name of your sim.</h3>';
     $quit = "1";
 }
 
 if ($shipclass == "")
 {
-    echo "Please enter the class of your ship.<br /><br />";
+    echo '<h3 class="text-warning">Please enter the class of your sim.</h3>';
     $quit = "1";
 }
 
 if ($website == "")
 {
-    echo "Please enter your ship's webpage.<br /><br />";
+    echo '<h3 class="text-warning">Please enter your sim\'s webpage.</h3>';
     $quit = "1";
 }
 
 if ($active == "")
 {
-    echo "How long have you been active?.<br /><br />";
+    echo '<h3 class="text-warning">Please enter the length of time your sim has been active.</h3>';
     $quit = "1";
 }
 
 if ($reason == "")
 {
-    echo "Please state your reasons for wanting to join the Borg collective.<br /><br />";
+    echo '<h3 class="text-warning">Please state your reasons for wanting to join the fleet.</h3>';
     $quit = "1";
 }
 
 if ($Characters_Name == "")
 {
-    echo "Please select a character name.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a character name.</h3>';
     $quit = "1";
 }
 
 if ($Characters_Race == "")
 {
-    echo "Please select a character race.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a character species.</h3>';
     $quit = "1";
 }
 
 if ($Characters_Gender == "")
 {
-    echo "Please select a character gender.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a character gender.</h3>';
     $quit = "1";
 }
 
 if ($Character_Bio == "")
 {
-    echo "Please enter a brief biography for your character.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a biography for your character.</h3>';
     $quit = "1";
 }
 
@@ -150,7 +153,7 @@ if ($quit != "1")
 	$body .= "Time Active: $active\n";
 	$body .= "Reasons for joining:\n";
 	$body .= "$reason\n\n";
-
+if (strpos('x'.$reason,'http')>0 || strpos('x'.$reason,'www')>0) $fake=true; else $fake=false;
 	$body .= "Real Name: $Name\n";
 	$body .= "Email Address: $Email\n\n";
 
@@ -159,7 +162,7 @@ if ($quit != "1")
 	$body .= "ISP: $ISP\n\n";
 
 	$body .= "Character Name: $Characters_Name\n";
-	$body .= "Character Race: $Characters_Race\n";
+	$body .= "Character Species: $Characters_Race\n";
 	$body .= "Character Gender: $Characters_Gender\n\n";
 
 	$body .= "Bio:\n";
@@ -176,16 +179,15 @@ if ($quit != "1")
 	$body .= "$Reference\n";
 	$body .= "$Reference_Other\n\n";
 
-	$body .= "AOL IM: $AOLIM\n";
-	$body .= "ICQ: $ICQ\n";
-	$body .= "Yahoo: $Yahoo\n\n";
+	$body .= "Instant Messengers: $IM\n\n";
 
 	$body .= "Extra Comments:\n";
 	$body .= "~~~~~~~~~~~~~~~\n";
 	$body .= "$extra_comments\n\n";
 
-	$body = stripslashes($body);
+	$body = stripcslashes($body);
 
+if (!$fake)	{ 
 	require_once "includes/mail/shipapp.mail.php";
 
 
@@ -196,11 +198,13 @@ if ($quit != "1")
 	$qry = "INSERT INTO {$spre}apps
     		SET type='ship', date='$date', app='$body', forward='$to', ip='$ip'";
 	$database->openConnectionNoReturn($qry);
+}
 
-
-	// Thank-you page
+	/*-------------------------------------------------------*/
+	/* Display a Thank-You page                              */
+	/*-------------------------------------------------------*/
 	?>
-	<font size="+1"><p align="center">Form received.  Thank you! </p></font>
+	<h3 class="text-success">Form received.  Thank you!</h3>
 
 	<?php
 }

@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	4/12/04
   * Comments: Processes crew applications
   *
  ***/
@@ -41,8 +44,8 @@ if (!defined("IFS"))
 $ip = getenv("REMOTE_ADDR");
 if ($reason = check_ban($database, $mpre, $spre, $Email, $ip, 'crew'))
 {
-	echo "You have been banned!<br /><br />\n";
-    echo $reason . "<br /><br />\n\n";
+	echo '<h3 class="text-danger">You have been banned!</h3>';
+    echo '<p>' . $reason . '</p>';
 	$quit = "1";
 }
 
@@ -51,13 +54,13 @@ if (strstr ($Email, '@'))
 	$emaildomain = strstr ($Email, '@');
 	if (!strstr($emaildomain, "."))
     {
-	    echo "Please enter a valid email address.<br /><br />\n";
+	    echo '<h3 class="text-warning">Please enter a valid email address.</h3>';
 	    $quit = "1";
     }
 }
 else
 {
-    echo "Please enter a valid email address.<br /><br />\n";
+    echo '<h3 class="text-warning">Please enter a valid email address.</h3>';
     $quit = "1";
 }
 
@@ -69,7 +72,7 @@ $qry2 = "SELECT a.id FROM {$spre}apps a, {$spre}characters c, {$mpre}users u
 $result2 = $database->openConnectionWithReturn($qry2);
 if (mysql_num_rows($result) || mysql_num_rows($result2))
 {
-	echo "Please wait at least five minutes between submitting applications.<br /><br />\n\n";
+	echo '<h3 class="text-warning">Please wait at least five minutes between submitting applications.</h3>';
     $quit = "1";
 }
 
@@ -79,7 +82,7 @@ $qry = "SELECT c.id FROM {$spre}characters c, {$mpre}users u
 $result = $database->openConnectionWithReturn($qry);
 if ( (mysql_num_rows($result) >= maxchars) && maxchars > "0" )
 {
-	echo "You may only have a maximum of " . maxchars . " characters.<br /><br />\n\n";
+	echo '<h3 class="text-warning">You may only have a maximum of ' . maxchars . ' characters.</h3>';
     $quit = "1";
 }
 
@@ -92,77 +95,77 @@ $result = $database->openConnectionWithReturn($qry);
 if (mysql_num_rows($result))
 {
 	list ($rank, $cname) = mysql_fetch_array($result);
-	echo "You may only have one character per ship.<br />\n";
-    echo "Our records indicate that you already have a character on $Ship - $rank $cname.<br /><br />\n\n";
+	echo '<h3 class="text-warning">You may only have one character per ship.</h3>';
+    echo '<h5 class="text-info">Our records indicate that you already have a character on ' . $Ship . ' - ' . $rank . ' ' . $cname . '.</h5>';
     $quit = "1";
 }
 
 if ($Email == "")
 {
-    echo "Please enter your email address.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please enter your email address.</h3>';
     $quit = "1";
 }
 
-if ($Follow_OF_Rules != "Yes")
+if ($Follow_Rules != "Yes")
 {
-    echo "Sorry, but you must agree to follow the rules.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Sorry, but you must agree to follow the rules.</h3>';
     $quit = "1";
 }
 
 
 if ($Characters_Name == "")
 {
-    echo "Please select a character name.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please enter a character name.</h3>';
     $quit = "1";
 }
 
 
 if ($Characters_Race == "")
 {
-    echo "Please select a character race.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please enter a character species.</h3>';
     $quit = "1";
 }
 
 
 if ($Characters_Gender == "")
 {
-    echo "Please select a character gender.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please enter a character gender.</h3>';
     $quit = "1";
 }
 
 
 if ($Character_Bio == "")
 {
-    echo "Please enter a brief biography for your character.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please enter a biography for your character.</h3>';
     $quit = "1";
 }
 
 if ($Sample_Post=="")
 {
-	echo "Please provide a sample post (see the example for a guideline if you need).<br /><br />\n\n";
+	echo '<h3 class="text-warning">Please provide a sample post.</h3>';
     $quit = "1";
 }
 
 if ($First_Desired_Position == "-----Select Position----")
 {
-    echo "Please choose a first choice position.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please choose a first choice position.</h3>';
     $quit = "1";
 }
 
 
 if ($Second_Desired_Position == "-----Select Position----")
 {
-    echo "Please choose a second choice position.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please choose a second choice position.</h3>';
     $quit = "1";
 }
 
 
 if ($Officer_or_Enlisted == "<option selected>----- Enlisted Personnel or Officer ----</option>")
 {
-    echo "Please choose your rank type -- officer, warrent, or enlisted.<br /><br />\n\n";
+    echo '<h3 class="text-warning">Please choose your rank type -- officer, warrant, or enlisted.</h3>';
     $quit = "1";
 }
-
+$email=trim($email);
 if ($quit != "1")
 {
 
@@ -190,6 +193,11 @@ if ($quit != "1")
     else
 	    $sid = UNASSIGNED_SHIP;
 
+if (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender,'http:')>0) $badapp=true;
+elseif (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender,'www')>0) $badapp=true;
+elseif (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender,'[url')>0) $badapp=true;
+elseif (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender,'[link')>0) $badapp=true;
+else {
 	/*-------------------------------------------------------*/
 	/* Add the applicant to the IFS database                 */
 	/*-------------------------------------------------------*/
@@ -206,10 +214,10 @@ if ($quit != "1")
 	    require_once "includes/mail/app_newplayer.mail.php";
 
 	    $neednewuser = "1";
-	    $details = "UID created: " . $uid . "<br />\n";
+	    $details = 'UID created: ' . $uid . '<br />\n';
 	}
     else
-	    $details = "UID found: " . $uid . "<br />\n";
+	    $details = 'UID found: ' . $uid . '<br />\n';
 
 	// Insert character into db
 	$date = date("F j, Y, g:i a", time());
@@ -218,12 +226,32 @@ if ($quit != "1")
 
 	$qry = "INSERT INTO {$spre}characters
     		SET name='$Characters_Name', race='$Characters_Race', gender='$Characters_Gender',
-            	rank='" . PENDING_RANK . "', ship='$sid', pos='$enterpos', player='$uid', bio='$Character_Bio',
+            	rank='" . PENDING_RANK . "', ship='$sid', pos='$enterpos', player='$uid', 
+				bio='Height: $Height <br />
+				Weight: $Weight <br />
+				Hair Colour: $Hair <br />
+				Eye Colour: $Eye <br />
+				Physical Description: $Physical_Desc <br /><br />
+				Family<br />
+				Spouse: $Spouse <br />
+				Children: $Children <br />
+				Parents: $Parents <br />
+				Siblings: $Siblings <br />
+				Other Family: $Other_Family <br /><br />
+				Personality &amp; Traits <br />
+				General Overview: $General_Overview <br />
+				Strengths &amp; Weaknesses: $Strengths_Weaknesses <br />
+				Ambitions: $Ambitions <br />
+				Hobbies &amp; Interests: $Hobbies_Interests <br /><br />
+				Character Bio:<br />
+				$Character_Bio <br /><br />
+				Service Record:<br />
+				$Service_Record',
 		        other='Applied on $date', pending='1', ptime='$ptime'";
 	$result=$database->openConnectionWithReturn($qry);
 
 	// Service record entry
-	$details .= "Ship: " . $Ship . "<br />\n";
+	$details .= 'Sim: ' . $Ship . '<br />';
 	$time = time();
 	$qry = "INSERT INTO {$spre}record
     		SET pid='$uid', cid=LAST_INSERT_ID(), level='Out-of-Character', date='$time',
@@ -234,11 +262,11 @@ if ($quit != "1")
 	$qry = "SELECT cid FROM {$spre}record WHERE id=LAST_INSERT_ID();";
 	$result = $database->openConnectionWithReturn($qry);
 	list ($cid) = mysql_fetch_array($result);
-
+} //Applicant added to DB
 	$subject = fleetname . " Application";
 	$headers = "From: " . emailfrom . "\nX-Mailer:PHP\nip: $ip\n";
 
-	$body = "Requested Ship: $Ship\n";
+	$body = "Requested Sim: $Ship\n";
 	$body .= "Requested Class: $desiredclass\n";
 	$body .= "Alternate Class: $altclass\n\n";
 
@@ -246,8 +274,10 @@ if ($quit != "1")
 	$body .= "Real Name: $Name\n";
 	$body .= "Age: $Age\n\n";
 
+	$body .= "Instant Messengers: $IM\n\n";
+
 	$body .= "Character Name: $Characters_Name\n";
-	$body .= "Character Race: $Characters_Race\n";
+	$body .= "Character Species: $Characters_Race\n";
 	$body .= "Character Gender: $Characters_Gender\n\n";
 
 	$body .= "Desired Position: $First_Desired_Position\n";
@@ -255,16 +285,47 @@ if ($quit != "1")
 	if ($Officer_or_Enslisted == "Officer")
     {
 	    $body .= "[x] Officer\n";
+	    $body .= "[ ] Warrant\n";
 	    $body .= "[ ] Enlisted\n\n";
 	}
     elseif ($Officer_or_Enlisted == "Enlisted")
     {
 	    $body .= "[ ] Officer\n";
+	    $body .= "[ ] Warrant\n";
 	    $body .= "[x] Enlisted\n\n";
 	}
-
-	$body .= "Bio:\n";
+    elseif ($Officer_or_Enlisted == "Warrant")
+    {
+	    $body .= "[ ] Officer\n";
+	    $body .= "[x] Warrant\n";
+	    $body .= "[ ] Enlisted\n\n";
+	}
+	
+	$body .= "Character Info:\n";
+	$body .= "Height: $Height\n";
+	$body .= "Weight: $Weight\n";
+	$body .= "Hair Colour: $Hair\n";
+	$body .= "Eye Colour: $Eye\n";
+	$body .= "Physical Description: $Physical_Desc\n\n";
+	
+	$body .= "Family\n";
+	$body .= "Spouse: $Spouse\n";
+	$body .= "Children: $Children\n";
+	$body .= "Parents: $Parents\n";
+	$body .= "Siblings: $Siblings\n";
+	$body .= "Other Family: $Other_Family\n\n";
+	
+	$body .= "Personality &amp; Traits\n";
+	$body .= "General Overview: $General_Overview\n";
+	$body .= "Strengths &amp; Weaknesses: $Strengths_Weaknesses\n";
+	$body .= "Ambitions: $Ambitions\n";
+	$body .= "Hobbies &amp; Interests: $Hobbies_Interests\n\n";
+	
+	$body .= "Character Bio:\n";
 	$body .= "$Character_Bio\n\n";
+	
+	$body .= "Service Record:\n";
+	$body .= "$Service_Record\n\n";
 
 	$body .= "Sample Post:\n";
 	$body .= "$Sample_Post\n\n";
@@ -276,17 +337,13 @@ if ($quit != "1")
 	$body .= "$Reference\n";
 	$body .= "$Reference_Other\n\n";
 
-	$body .= "AOL IM: $AOLIM\n";
-	$body .= "ICQ: $ICQ\n";
-	$body .= "Yahoo: $Yahoo\n\n";
-
-	$body = stripslashes($body);
+	$body = stripcslashes($body);
 	$subject = stripslashes($subject);
 
 	// This one goes to the applicant:
 	require_once "includes/mail/app_playercopy.mail.php";
 	$allemails = $Email;
-
+if (!$badapp) {
 	// This one goes to the CO:
 	if ($Ship != "Any")
     {
@@ -296,7 +353,7 @@ if ($quit != "1")
     else
     {
 	    require_once "includes/mail/app_pending.mail.php";
-	    $allemails .= ", " . $coemail;
+	    $allemails .= $webmasteremail . ", " $personnelemail . ", " . $coemail;
 	}
 	
 	// Save it in the db
@@ -309,14 +366,14 @@ if ($quit != "1")
 
 	$qry = "UPDATE {$spre}characters SET app=LAST_INSERT_ID() WHERE id='$cid'";
 	$database->openConnectionNoReturn($qry);
-
+}
 
 	/*-------------------------------------------------------*/
 	/* Display a Thank-You page                              */
 	/*-------------------------------------------------------*/
 	?>
 
-	<font size="+1"><p align="center">Form received.  Thank you! </p></font>
+	<h3 class="text-success">Form received.  Thank you!</h3>
 
 	<?php
 }

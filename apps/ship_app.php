@@ -10,15 +10,18 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.13n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	1/15/04
   * Comments: Ship application
   *
   * See CHANGELOG for patch details
@@ -30,267 +33,186 @@ if (!defined("IFS"))
 
 ?>
 
-<p align="center"><a href="index.php?option=app&task=crew">Player Application</a> | <a href="index.php?option=app&task=co">CO Application</a> | <a href="index.php?option=app&task=ship">Ship Application</a></P>
+<div class="switch-app">
+  <div class="text-center">
+	<a href="index.php?option=app&amp;task=crew">Player Application</a>
+	<a href="index.php?option=app&amp;task=co">CO Application</a>
+	<a href="index.php?option=app&amp;task=ship">Sim Application</a>
+  </div>
+</div>
 
+<h1 class="text-center">Sim Application Form</h1>
+<p class="text-center help-block">This application form is for COs of existing sims who wish to bring them into <?php echo $fleetname ?>. Players who wish to start their own sim from scratch with the fleet should use the CO application form.</p>
 
-<table width="95%" align="center">
-<td>
+<form action="index.php?option=app&amp;task=ship2" method="post">
+	<h3 class="heading">Player Information</h3>
+    <div class="form-group">
+    	<label for="Name" class="control-label">Your Real Name:</label>
+    	<div>
+    		<input type="text" class="form-control" size="35" name="Name" id="Name">
+    	</div>
+    </div>
+    <div class="form-group">
+    	<label for="Age" class="control-label">Your Real Age:</label>
+    	<div>
+    		<input type="text" class="form-control" size="35" name="Age" id="Age">
+    	</div>
+    </div>
+    <div class="form-group">
+    	<label for="Email" class="control-label">Email Address:</label>
+    	<div>
+    		<input type="text" class="form-control" size="35" name="Email" id="Email">
+    	</div>
+    </div>
 
-<h1 align="center">Ship Application Form</h1>
-<form action="index.php?option=app&task=ship2" method="post">
-
-<center>
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Player Information</font></b></font></td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    Your Real Name:</td>
-    <td width="564">
-    <input type="text" size="35" name="Name" />
-    </td>
-    </tr>
-    <tr>
-
-    <td align=right valign="top" width="251">
-
-    Your Real Age:</td>
-    <td width="564">
-    <input type="text" size="35" name="Age" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251" height="50">
-    Email Address:</td>
-    <td valign="top" width="564" height="50">
-    <input type="text" size="35" name="Email" />
-    </td>
-    </tr>
-
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Contact Information</font></b> (fill in all that apply)</font></td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    AOL Instant Messenger Screen name:</td>
-    <td valign="top" width="564">
-    <input type="text" size="35" name="AOLIM" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    ICQ Number:</td>
-    <td valign="top" width="564">
-    <input type="text" size="35" name="ICQ" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251" height="50">
-
-    Yahoo! Messenger Screen name:</td>
-    <td valign="top" width="564" height="50">
-    <input type="text" size="35" name="Yahoo" />
-    </td>
-    </tr>
-
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Player Experience</font></b> (please be specific)</font></td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    List all other SIMM Groups (including groups names, ships, etc):</td>
-    <td valign="top" width="564">
-    <textarea name="RPG_Experience" rows="4" cols="50"></textarea>
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    How long have you been simming:</td>
-    <td valign="top" width="564">
-    <select name="Time_In_Other_RPGs" size="1">
-    <option selected="selected" value="-----Select----">-----Select----</option>
-    <option value="0 - 3 Months">0 - 3 Months</option>
-    <option value="4 - 6 Months">4 - 6 Months</option>
-    <option value="7 - 9 Months">7 - 9 Months</option>
-    <option value="10 months - 1 Year">10 months - 1 Year</option>
-    <option value="1 - 5 Years">1 - 5 Years</option>
-    <option value="Over 5 Years">Over 5 Years</option>
-    </select>
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    Will you follow all the rules:</td>
-    <td valign="top" width="564" height="65">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Yes<input type="radio" name="rules" value="yes" /><br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; No<input type="radio" name="rules" value="no" />
-
-    </td>
-    </tr>
-
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Ship Information</font></b></font></td>
-    </tr>
-
-    <td align=right valign="top" width="251">
-
-    Ship Name </td>
-    <td valign="top" width="564">
-    <input type="text" name="ship" size="50" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-    Ship Class:</td>
-
-    <td valign="top" width="564">
-    <input type="text" name="shipclass" size="50" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-    Sim Website</td>
-
-    <td valign="top" width="564">
-    <input type="text" name="website" size="50" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-    Length of time active</td>
-
-    <td valign="top" width="564">
-    <input type="text" name="active" size="50" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251" height="100">
-    Please state your Reasons for wanting to join the Fleet.</td>
-
-    <td valign="top" width="564" height="100">
-    <textarea name="reason" rows="4" cols="50"></textarea>
-    </td>
-    </tr>
-
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Character Information</font></b></font></td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    Character's Name:</td>
-    <td valign="top" width="564">
-    <input type="text" size="37" name="Characters_Name" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    Character's Race:</td>
-    <td valign="top" width="564">
-    <input type="text" size="37" name="Characters_Race" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251">
-
-    Character's Gender:</td>
-    <td valign="top" width="564">
-    <input type="text" size="37" name="Characters_Gender" />
-    </td>
-    </tr>
-
-    <tr>
-    <td align=right valign="top" width="251" height="150">
-
-    Character Bio:<br />
-    Please make this as detailed as you can. The better it is, the more likely you are to succeed in your application</td>
-    <td valign="top" width="564" height="150">
-    <textarea name="Character_Bio" rows="8" cols="50"></textarea>
-    </td>
-    </tr>
-
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Sample Post</font></b> (please reply to the situation below)</font></td>
-    </tr>
-
-    <tr>
-    <td align="left" valign="top" width="251" height="175">
-    You are in the lounge when suddenly the ship shakes violently and the lights
-    go out. A few seconds later, the emergency lights come on. A few crewmen
-    try the door, but it doesn't work -- it seems like power is out throughout
-    the whole ship.</td>
-    <td valign="top" width="564" height="175">
-    <textarea name="Sample_Post" rows="9" cols="50"></textarea>
-    </td>
-    </tr>
-
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Other Comments</font></b></font></td>
-    </tr>
-
-    <tr>
-    <td align="left" valign="top" width="251" height="75">
-
-    If you have any extra comments, please enter them here.
-    </td>
-    <td valign="top" width="564" height="75">
-    <textarea name="extra_comments" rows="5" cols="50"></textarea>
-    </td>
-    </tr>
-
-    <tr><td width="362" bgcolor="#333333" colspan="2">
-    <b><font size="2">Reference</font></b></font></td>
-    </tr>
-
-    <tr>
-    <td align="left" valign="top" width="251">
-
-    How did you Hear About Us?:</td>
-    <td valign="top" width="564">
-    <select name="Reference" size="1">
-    <option selected="selected" value="select">-----Select Reference----</option>
-    <option value="Already In OF">Already in the Fleet</option>
-    <option value="Friend">Friend</option>
-    <option value="Link from another site">Link from another site</option>
-    <option value="Search Engine">Search Engine</option>
-    <option value="Browsing the Internet">Browsing the Internet</option>
-    <option value="Other">Other</option>
-    </select>
-    <br />
-    <input type="text" size="20" name="Reference_Other">
-
-    </td>
-    </tr>
-    </table>
-    </center>
-
-
-    <input type=submit value="Submit Application">
-    <input type=reset value="Clear Comments">
-    </form>
-
-</td></tr></table>
+    <div class="form-group"><h5 class="heading">Contact Information</h5></div>
+    <div class="form-group">
+	    <label for="IM" class="control-label">Instant Messengers:</label>
+        <div>
+	    	<textarea class="form-control" name="IM" id="IM" cols="30" rows="2"></textarea>
+	    </div>
+    </div>
+    
+    <div class="form-group"><h5 class="heading">Player &amp; CO Experience<span class="help-block">(please be specific)</span></h5></div>
+    <div class="form-group">
+	    <label for="RPG_Experience" class="control-label">List all Sim Groups:
+        <span class="help-block" id="RPG_HelpBlock">(Including group names, sims, etc)</span></label>
+        <div>
+	    	<textarea class="form-control" name="RPG_Experience" id="RPG_Experience" rows="4" cols="50"></textarea>
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="Time_In_Other_RPGs" class="control-label">How long have you been simming?</label>
+        <div>
+	    	<select class="form-control" name="Time_In_Other_RPGs" id="Time_In_Other_RPGs">
+                <option selected="selected" value="-----Select----">-----Select----</option>
+                <option value="0 - 3 Months">0 - 3 Months</option>
+                <option value="4 - 6 Months">4 - 6 Months</option>
+                <option value="7 - 9 Months">7 - 9 Months</option>
+                <option value="10 months - 1 Year">10 months - 1 Year</option>
+                <option value="1 - 5 Years">1 - 5 Years</option>
+                <option value="Over 5 Years">Over 5 Years</option>
+            </select>
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="rules" class="control-label">Will you follow all the rules?</label>
+        <div>
+        	<div class="radio">
+            	<label>
+                	<input type="radio" name="rules" value="yes">
+                	Yes
+                </label>
+            </div>
+        	<div class="radio">
+            	<label>
+            		<input type="radio" name="rules" value="no">
+                    No
+                </label>
+            </div>
+	    </div>
+    </div>
+    
+	<h3 class="heading">Sim Information</h3>
+    <div class="form-group">
+	    <label for="ship" class="control-label">Sim Name:</label>
+        <div>
+	    	<input type="text" class="form-control" name="ship" id="ship" size="50">
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="shipclass" class="control-label">Sim Class:</label>
+        <div>
+	    	<input type="text" class="form-control" name="shipclass" id="shipclass" size="50">
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="website" class="control-label">Sim Website:</label>
+        <div>
+	    	<input type="text" class="form-control" name="website" id="website" size="50">
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="active" class="control-label">Length of time active:</label>
+        <div>
+	    	<input type="text" class="form-control" name="active" id="active" size="50">
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="reason" class="control-label">Please state your reasons for wanting to join the Fleet:</label>
+        <div>
+	    	<textarea class="form-control" name="reason" id="reason" rows="4" cols="50"></textarea>
+	    </div>
+    </div>
+    
+	<h3 class="heading">Character Information</strong></h3>
+    <div class="form-group">
+	    <label for="Characters_Name" class="control-label">Character's Name:</label>
+        <div>
+	    	<input type="text" class="form-control" size="37" name="Characters_Name" id="Characters_Name">
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="Characters_Race" class="control-label">Character's Species:</label>
+        <div>
+	    	<input type="text" class="form-control" size="37" name="Characters_Race" id="Characters_Race">
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="Characters_Gender" class="control-label">Character's Gender:</label>
+        <div>
+	    	<input type="text" class="form-control" size="37" name="Characters_Gender" id="Characters_Gender">
+	    </div>
+    </div>
+    <div class="form-group">
+	    <label for="Character_Bio" class="control-label">Character Bio:
+	    <span class="help-block">Please make this as detailed as you can. The better it is, the more likely you are to succeed in your application</label>
+        <div>
+	    	<textarea class="form-control" name="Character_Bio" id="Character_Bio" rows="20" cols="50"></textarea>
+	    </div>
+    </div>
+    
+	<h3 class="heading">Sample Post</strong></h3>
+    <p class="help-block">Please reply to the situation below or provide a sample post from your sim that you feel shows off your sim's quality.</p>
+    <div class="form-group">
+	    <label for="Sample_Post" class="control-label">You are in the lounge when suddenly the ship shakes violently and the lights go out. A few seconds later, the emergency lights come on. A few crewmen try the door, but it doesn't work -- it seems like power is out throughout the whole ship.</label>
+        <div>
+	    	<textarea class="form-control" name="Sample_Post" id="Sample_Post" rows="9" cols="50"></textarea>
+	    </div>
+    </div>
+    
+    <h3 class="heading">Other Comments</h3>
+    <div class="form-group">
+	    <label for="extra_comments" class="control-label">If you have any extra comments, please enter them here.</label>
+        <div>
+	    	<textarea class="form-control" name="extra_comments" id="extra_comments" rows="5" cols="50"></textarea>
+	    </div>
+    </div>
+    
+	<h3 class="heading">Reference</strong></h3>
+    <div class="form-group">
+	    <label for="Reference" class="control-label">How did you Hear About Us?:</label>
+        <div>
+	    	<select class="form-control" name="Reference" id="Reference">
+                <option selected="selected" value="select">-----Select Reference----</option>
+                <option value="Already In Fleet">Already in the Fleet</option>
+                <option value="Friend">Friend</option>
+                <option value="Link from another site">Link from another site</option>
+                <option value="Search Engine">Search Engine</option>
+                <option value="Browsing the Internet">Browsing the Internet</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Advertisement">Fleet Advertisement</option>
+                <option value="Other">Other</option>
+	    	</select>
+            <div class="help-block form-inline">
+            	<div class="form-group">
+                	<label for="Reference_Other">If other:</label> <input class="form-control" type="text" name="Reference_Other" id="Reference_Other">
+                </div>
+            </div>
+	    </div>
+    </div>
+	<div class="form-group">
+		<input type="submit" name="Submit" value="Submit Application">
+		<input type="reset" name="Reset" value="Reset Application">
+    </div>
+</form>
