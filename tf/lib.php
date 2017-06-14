@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	5/11/04
   * Comments: Common functions
   *
  ***/
@@ -164,7 +167,7 @@ function get_usertype ($database, $mpre, $spre, $cid, $uflag)
 	$result = $database->openConnectionWithReturn($qry);
     list ($rname, $cname) = mysql_fetch_array($result);
 
-    // Note, if this person doesn't have a "main character" set via the Triad menu's
-    //  "userlevels" tool, it will return the flag name and empty brackets, ie "Triad ( )"
+    // Note, if this person doesn't have a "main character" set via the Admin menu's
+    //  "userlevels" tool, it will return the flag name and empty brackets, ie "Admin ( )"
     return "{$primeflag} ({$rname} {$cname})";
 }

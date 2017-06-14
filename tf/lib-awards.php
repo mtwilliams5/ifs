@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	5/11/04
   * Comments: Functions for Fleet Awards
   *
  ***/
@@ -34,20 +37,20 @@ function awards_detail ($database, $mpre, $spre, $award)
             ORDER BY a.date DESC LIMIT 0,10";
     $result = $database->openConnectionWithReturn($qry);
 
-    echo "<h1>$name</h1>\n";
-    echo "Level $level Award<br />\n";
+    echo '<h1>' . $name . '</h1>';
+    echo '<h4>Level ' . $level . ' Award</h4>';
     if ($active < '1')
-    	echo "<i>DISCONTINUED</i><br />\n";
+    	echo '<h4 class="text-uppercase"><em>Discontinued</em></h4>';
     if ($image)
-    	echo "<img src=\"awards/{$image}\" alt=\"{$name}\" /><br />\n";
+    	echo '<div class="award-image"><img class="img-responsive" src="awards/' . $image . '" alt="' . $name . '"></div>';
 
-    echo "<p>$intro</p>\n";
-    echo "<p>$descrip</p>\n";
-    echo "<br />\n";
+    echo '<p class="lead">' . $intro . '</p>';
+    echo '<p>' . $descrip . '</p>';
 
 	if (mysql_num_rows($result))
     {
-	    echo "<h2>Recent Recipients</h2>\n";
+	    echo '<h2>Recent Recipients</h2>';
+		echo '<ul class="list-unstyled">';
 	    while (list ($rid, $rdate, $rankid, $rrank, $rname, $sname) = mysql_fetch_array($result)) {
         	if ($rdate != '0')
 	        	$rdate = date("F j, Y", $rdate) . ": ";
@@ -56,15 +59,11 @@ function awards_detail ($database, $mpre, $spre, $award)
 
             if ($rankid == '0')
             	$rrank = "";
-            else
-            	$rrank .= " ";
 
-	    	echo "${rdate}<a href=\"index.php?option=" . option . "&action=" . action .
-            	 "&task=common&lib=areason&rid=$rid\">{$rrank}$rname, $sname</a><br />\n";
+	    	echo '<li>' . $rdate . '<a href="index.php?option=' . option . '&action=' . action . '&task=common&lib=areason&rid=' . $rid . '">' . stripcslashes($rrank) . ' ' . stripcslashes($rname) . ', ' . stripcslashes($sname) . '</a></li>';
 		}
-        echo "<br />";
-	    echo "<a href=\"index.php?option=" . option . "&action=" . action .
-        	 "&task=common&lib=arecip&award=$id\">View All Recipients</a><br />\n";
+		echo '</ul>';
+	    echo '<a href="index.php?option=' . option . '&action=' . action . '&task=common&lib=arecip&award=' . $id . '">View All Recipients</a>';
 	}
 }
 
@@ -77,26 +76,28 @@ function awards_list ($database, $mpre, $spre)
     $result = $database->openConnectionWithReturn($qry);
     while (list($level) = mysql_fetch_array($result))
     {
-		echo "<h2>Level {$level} Awards</h2>\n";
+		echo '<h2>Level ' . $level . ' Awards</h2>';
+		echo '<ul class="list-unstyled">';
 		$qry2 = "SELECT id, name, intro FROM {$spre}awards
         		 WHERE active='1' AND level='$level' ORDER BY name";
 	    $result2 = $database->openConnectionWithReturn($qry2);
-	    while (list($id, $award, $intro) = mysql_fetch_array($result2))
-	        echo "<p><a href=\"index.php?option=" . option . "&task=" . task .
-            	 "&action=common&lib=adet&award={$id}\">$award</a><br \>\n" .
-				 "<blockquote>$intro</blockquote></p>\n";
-	    echo "<br /><br />";
+	    while (list($id, $award, $intro) = mysql_fetch_array($result2)) {
+	        echo '<li><a href="index.php?option=' . option . '&task=' . task . '&action=common&lib=adet&award=' . $id . '">';
+			echo '<h4>' . $award . '</h4>';
+			echo '<p>' . $intro . '</p></a></li>';
+		}
+	    echo '</ul>';
     }
-    echo "<br /><br />";
 
 	$qry = "SELECT id, name, intro, level FROM {$spre}awards WHERE active<'1' ORDER BY level, name";
     $result = $database->openConnectionWithReturn($qry);
-    while (list($id, $award, $intro, $level) = mysql_fetch_array($result))
-        echo "<p><a href=\"index.php?option=" . option . "&task=" . task .
-        	 "&action=common&lib=adet&award={$id}\">$award</a> <i>(discontinued)</i> " .
-             "- Level $level<br />\n" .
-			 "<blockquote>$intro</blockquote></p>\n";
-    echo "<br /><br />";
+	if (mysql_num_rows) echo '<h3>Discontinued Awards</h3><ul class="list-unstyled">';
+    while (list($id, $award, $intro, $level) = mysql_fetch_array($result)) {
+        echo '<li><a href="index.php?option=' . option . '&task=' . task . '&action=common&lib=adet&award=' . $id . '">';
+		echo '<h4><span class="text-muted">' . $award . ' <small>- Level ' . $level . '</small></span></h4>';
+		echo '<p class="text-muted">' . $intro . '</p></a></li>';
+	}
+    echo '</ul>';
 }
 
 // Award page for recipients
@@ -127,30 +128,29 @@ function awards_reason ($database, $mpre, $spre, $rid)
     if ($rdate == '0')
     	$rdate = "";
     else
-		$rdate = "On " . date("F j, Y", $rdate) . "<br />\n";
+		$rdate = date("F j, Y", $rdate);
 
-    echo $rdate;
-    echo "<h2>$rrank $rname <font size=\"-2\"><i>($sname)</i></font></h2>\n";
-    echo "received the<br />";
-    echo "<h1>$aname</h1>\n";
-    echo "<img src=\"awards/{$image}\" alt=\"{$aname}\" /><br /><br />\n";
+    echo '<h3>On ' . $rdate . '<br />';
+    echo $rrank . ' ' . $rname . ' <small><em>(' . $sname . ')</em></small><br />';
+    echo 'received the:</h3>';
+    echo '<h1>' . $aname . '</h1>';
+    echo '<div class="award-image"><img src="awards/' . $image . '" alt="' . $aname . '"></div>';
 
     if ($reason)
     {
-	    echo "with the following reason:";
-	    echo "<blockquote>$reason</blockquote>\n";
-	    echo "<br /><br />";
+	    echo '<h4>with the following reason:</h4>';
+	    echo '<p class="lead">' . $reason . '</p>';
     }
 
     if ($ranklev < $nowranklev)
-    	echo "Since receiving this award, $rname has been promoted to $nowrank.<br />\n";
+    	echo '<p class="text-info">Since receiving this award, ' . $rname . ' has been promoted to ' . $nowrank . '.</p>';
     elseif ($ranklev > $nowranklev)
-    	echo "Since receiving this award, $rname has been demoted to $nowrank.<br />\n";
+    	echo '<p class="text-muted">Since receiving this award, ' . $rname . ' has been demoted to ' . $nowrank . '.</p>';
     elseif ($rrank != $nowrank)
-    	echo "Since receiving this award, {$rname}'s rank changed to $nowrank.<br />\n";
+    	echo '<p class="text-info">Since receiving this award, ' . $rname . '\'s rank changed to ' . $nowrank . '.</p>';
 
     if ($sname != $nowship)
-    	echo "Since receiving this award, $rname transferred to $nowship.<br />\n";
+    	echo '<p class="text-info">Since receiving this award, ' . $rname . ' transferred to ' . $nowship . '.</p>';
 }
 
 // List recipients of award
@@ -168,12 +168,13 @@ function awards_recipients($database, $mpre, $spre, $award)
             ORDER BY a.date DESC";
     $result = $database->openConnectionWithReturn($qry);
 
-    echo "<h1>$name</h1>\n";
-    echo "Level $level Award<br />\n";
+    echo '<h1>' . $name . '</h1>';
+    echo '<h4>Level ' . $level . ' Award</h4>';
     if ($active < '1')
-    	echo "<i>DISCONTINUED</i><br />\n";
+    	echo '<h4 class="text-uppercase"><em>Discontinued</em></h4>';
 
-	echo "<h2>Recipients</h2>\n";
+	echo '<h2>Recipients</h2>';
+	echo '<ul class="list-unstyled">';
     while (list ($rid, $rdate, $rankid, $rrank, $rname, $sname) = mysql_fetch_array($result))
     {
        	if ($rdate != '0')
@@ -183,12 +184,10 @@ function awards_recipients($database, $mpre, $spre, $award)
 
         if ($rankid == '0')
            	$rrank = "";
-        else
-           	$rrank .= " ";
 
-    	echo "${rdate}<a href=\"index.php?option=" . option . "&action=" . action .
-        	 "&task=common&lib=areason&rid=$rid\">{$rrank}$rname, $sname</a><br />\n";
+    	echo '<li>' . $rdate . '<a href="index.php?option=' . option . '&action=' . action . '&task=common&lib=areason&rid=' . $rid . '">' . stripcslashes($rrank) . ' ' . stripcslashes($rname) . ', ' . stripcslashes($sname) . '</a></li>';
 	}
+	echo '</ul>';
 }
 
 ?>
