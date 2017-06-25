@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	5/05/04
   * Comments: Functions for viewing & manipulating crew entries
   *
  ***/
@@ -33,6 +36,8 @@ function crew_academy ($database, $mpre, $spre, $pid)
     $qry = "SELECT name, email FROM {$mpre}users WHERE id='$pid'";
     $result = $database->openConnectionWithReturn($qry);
     list ($pname, $pemail) = mysql_fetch_array($result);
+	
+	$pname = stripslashes($pname);
 
 	$qry = "SELECT st.id, r.rankdesc, c.name, s.name, co.name,
     			st.status, st.sdate, st.edate
@@ -43,15 +48,20 @@ function crew_academy ($database, $mpre, $spre, $pid)
             ORDER BY st.sdate DESC";
     $result = $database->openConnectionWithReturn($qry);
 
-    echo "<h1>Academy History for $pname - $pemail</h1>\n";
-    echo "<br /><br />\n";
+    echo '<h2>Academy History for ' . $pname . ' - ' . $pemail . '</h2>';
 
     while (list($sid, $rank, $cname, $ship, $course, $status,
     		$start, $end) = mysql_fetch_array($result) )
     {
-		echo "<u>$course</u><br />\n";
-        echo "Character: $rank $cname<br />\n";
-        echo "Ship: $ship<br />\n";
+		// Let's sanitise everything
+		$cname = stripslashes($cname);
+		$ship = stripslashes($ship);
+		$course = stripslashes($course);
+		
+		echo '<h4>' . $course . '</h4>';
+		echo '<ul class="list-unstyled">';
+        echo '<li><strong>Character:</strong> '. $rank . ' ' . $cname . '</li>';
+        echo '<li><strong>Sim:</strong> ' . $ship . '</li>';
 
         $qry2 = "SELECT c.name, u.email
                  FROM {$spre}characters c, {$mpre}users u,
@@ -59,24 +69,23 @@ function crew_academy ($database, $mpre, $spre, $pid)
                  WHERE s.id='$sid' AND s.inst=i.id AND i.cid=c.id AND c.player=u.id";
         $result2 = $database->openConnectionWithReturn($qry2);
         if (list($instname, $instemail) = mysql_fetch_array($result2))
-            echo "Instructor: $instname - $instemail<br />\n";
+            echo '<li><strong>Instructor:</strong> ' . stripslashes($instname) . '  - ' . $instemail . '</li>';
 
-        echo "Registered on: " . date("F j, Y, g:i a", $start) . "<br />\n";
+        echo '<li><strong>Registered on:</strong> ' . date("F j, Y, g:i a", $start) . '</li>';
 
         if ($status == "c")
-        	echo "Status: Completed (pass) - " . date("F j, Y", $end) .
-             	 "<br />\n";
+        	echo '<li><strong>Status:</strong> Completed (pass) - ' . date("F j, Y", $end) . '</li>';
         else if ($status == "w")
-        	echo "Status: Waiting to begin<br />\n";
+        	echo '<li><strong>Status:</strong> Waiting to begin</li>';
         else if ($status == "f")
-        	echo "Status: Failed - " . date("F j, Y", $end) . "<br />\n";
+        	echo '<li><strong>Status:</strong> Failed - ' . date("F j, Y", $end) . '</li>';
         else if ($status == "d")
-        	echo "Status: Dropped Out - " . date("F j, Y", $end) . "<br />\n";
+        	echo '<li><strong>Status:</strong> Dropped Out - ' . date("F j, Y", $end) . '</li>';
         else if ($status == "p")
-        	echo "Status: In Progress<br />\n";
-        echo "<br />\n";
-
-		echo "<table border=\"1\">\n";
+        	echo '<li><strong>Status:</strong> In Progress</li>';
+		echo '<br />';
+		echo '<table class="table table-bordered">';
+		echo '<tbody>';
     	$qry2 = "SELECT date, section, secname, grade, comments, name
         		 FROM {$spre}acad_marks WHERE sid='$sid' AND section !='0'
                  ORDER BY section";
@@ -85,13 +94,22 @@ function crew_academy ($database, $mpre, $spre, $pid)
         while (list ($sdate, $secid, $secname, $grade, $comments, $name)
         		= mysql_fetch_array($result2) )
         {
-        	echo "<tr><td valign=\"top\">\n";
-        	echo "$secname<br />\n";
-            echo date("F j, Y", $sdate) . "<br />\n";
-            echo "$name</td>\n";
-            echo "<td>$grade %</td></tr>\n";
+		?>
+        	<tr>
+            	<td>
+					<?php echo $secname ?><br />
+            		<?php echo date("F j, Y", $sdate) ?><br />
+            		<?php echo $name ?>
+                </td>
+            	<td>
+					<?php echo $grade ?> %<br />
+                    <?php echo $comments ?>
+                </td>
+            </tr>
+        <?php
         }
-        echo "</table><br /><br />\n";
+		echo '</tbody>';
+        echo '</table>';
     }
 }
 
@@ -199,39 +217,54 @@ function crew_delete_all ($database, $mpre, $spre, $deletechars, $delreason)
 }
 
 // Confirm crew delete
-function crew_delete_confirm ($database, $mpre, $spre, $id, $shipid, $uflag)
+function crew_delete_confirm ($database, $mpre, $spre, $id, $shipid, $uflag, $multiship)
 {
-	echo "<font size=\"+2\"><b>Confirm Crew Delete</b></font><br /><br />\n";
+	echo '<h2>Confirm Crew Delete</h2>';
     $qry = "SELECT name FROM {$spre}characters WHERE id='$id' AND ship='$shipid'";
     $result = $database->openConnectionWithReturn($qry);
     list ($cname) = mysql_fetch_array($result);
 
     if (!$cname)
-    	echo "Database error - cannot find character ID!<br /><br />\n";
+    	echo '<h4 class="text-danger">Database error - cannot find character ID!</h4>';
 	else
     {
     	?>
-		Do you really want to delete <?php echo $cname ?>?<br /><br />
-        <form action="index.php?option=<?php echo option ?>&task=<?php echo task ?>&action=common&lib=cdel2" method="post">
-		<input type="hidden" name="cid" value="<?php echo $id ?>" />
-        <input type="hidden" name="sid" value="<?php echo $shipid ?>" />
-
-        Reason for deletion:<br />
-        <textarea name="reason" rows="5" cols="60" wrap="physical"></textarea><br /><br />
-
-		<table border="0"><tr><td>
-        <input type="submit" value="DELETE!" /></form></td><td>
-        <form action="index.php?option=<?php echo option ?>&task=<?php echo task ?>" method="post">
-        <input type="submit" value="Cancel" /></form></td></tr></table>
+		<p class="lead">Do you really want to delete <?php echo $cname ?>?</p>
+        <form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cdel2" method="post">
+		<input type="hidden" name="cid" value="<?php echo $id ?>">
+        <input type="hidden" name="sid" value="<?php echo $shipid ?>">
+		<?php
+        if ($multiship)
+            echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+        ?>
+		<div class="form-group">
+        	<label for="reason">Reason for deletion:</label>
+        	<textarea class="form-control" name="reason" id="reason" rows="5" cols="60" wrap="physical"></textarea>
+		</div>
+        <div>
+        	<div>
+        		<input type="submit" value="DELETE!">
+            </div>
+        </form>
+        	<form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>" method="post">
+				<?php
+                if ($multiship)
+                    echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+                ?>
+                <div>
+                	<input type="submit" value="Cancel">
+                </div>
+            </form>
+        </div>
 		<?php
     }
 }
 
 // Do crew delete
-function crew_delete_save ($database, $mpre, $spre, $id, $shipid, $reason, $uflag)
+function crew_delete_save ($database, $mpre, $spre, $id, $shipid, $reason, $uflag, $multiship)
 {
 	$deltime = date("Y-m-d H:i:s") . " from ship $shipid";
-	$qry = "UPDATE {$spre}characters SET ship='74',other='$deltime' WHERE id=" . $id;
+	$qry = "UPDATE {$spre}characters SET ship='3',other='$deltime' WHERE id=" . $id;
 	$result=$database->openConnectionWithReturn($qry);
 
     // take them off the academy wait lists, if needed
@@ -327,7 +360,8 @@ function crew_delete_save ($database, $mpre, $spre, $id, $shipid, $reason, $ufla
             VALUES (now(), '" . uid . " $uname', 'Character Deleted', '$id from ship $shipid')";
 	$database->openConnectionNoReturn($qry);
 
-	// JAG should be notified when someone is removed.  So let's do it.
+	// JAG/Personnel should be notified when someone is removed.  So let's do it.
+	
     $qry = "SELECT name, tf, tg FROM {$spre}ships WHERE id='$shipid'";
     $result = $database->openConnectionWithReturn($qry);
     list ($sname, $tfid, $tgid) = mysql_fetch_array($result);
@@ -343,7 +377,7 @@ function crew_delete_save ($database, $mpre, $spre, $id, $shipid, $reason, $ufla
 	$qry = "SELECT email FROM {$mpre}users WHERE id='$pid'";
 	$result = $database->openConnectionWithReturn($qry);
 	list ($pemail) = mysql_fetch_array($result);
-
+	
 	$qry = "SELECT jag FROM {$spre}taskforces WHERE tf='$tfid' AND tg='0'";
     $result = $database->openConnectionWithReturn($qry);
     list ($jag) = mysql_fetch_array($result);
@@ -353,12 +387,14 @@ function crew_delete_save ($database, $mpre, $spre, $id, $shipid, $reason, $ufla
 	$result = $database->openConnectionWithReturn($qry);
 	list ($coemail) = mysql_fetch_array($result);
 
-   	require_once "includes/mail/jag_playerremove.mail.php";
+	require_once "includes/mail/jag_playerremove.mail.php";
+	
+	require_once "includes/mail/pers_playerremove.mail.php";
 
 	// We should also add this to the service record
-	$coname = addslashes($coname);
+	$coname = mysql_real_escape_string($coname);
 	$time = time();
-	$details .= $reason;
+	$details .= mysql_real_escape_string($reason);
 	$qry = "SELECT player FROM {$spre}characters WHERE id='$id'";
 	$result = $database->openConnectionWithReturn($qry);
 	list ($uid) = mysql_fetch_array($result);
@@ -370,14 +406,14 @@ function crew_delete_save ($database, $mpre, $spre, $id, $shipid, $reason, $ufla
 	$qry = "INSERT INTO {$spre}record
     		SET pid='$uid', cid='$id', level='Player', date='$time',
             	entry='Character Deletion: $cname', details='CID: $id',
-                name='Obsidian Fleet IFS'";
+                name='$fleetname IFS'";
 	$database->openConnectionNoReturn($qry);
 
 	redirect("");
 }
 
 // Edit Crew page
-function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag)
+function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag, $multiship)
 {
 	$qry = "SELECT id FROM {$spre}characters WHERE id='$cid'";
     $result = $database->openConnectionWithReturn($qry);
@@ -407,214 +443,226 @@ function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag)
 	        $qry3 = "SELECT email FROM {$mpre}users WHERE id='$player'";
 	        $result3=$database->openConnectionWithReturn($qry3);
 	        list($cemail)=mysql_fetch_array($result3);
+
+			// Let's sanitise the character name, since it shouldn't need backslashes anymore
+			$cname = stripslashes($cname);
 	    }
 
 	    $qry3 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
 	    $result3=$database->openConnectionWithReturn($qry3);
 	    list($sname)=mysql_fetch_array($result3);
+		$sname = stripslashes($sname);
 
 	    ?>
-	    <br />
-	    <table border="0" cellpadding="0" cellspacing="0" align="center"><tr>
-	        <td width="100" valign="top">&nbsp;</td>
-	        <td width="15">&nbsp;</td>
-	        <td width="100%">
-	        <center><h2>Edit a Crewman</h2></center>
-	            <form method="post" action="index.php?option=<?php echo option ?>&task=<?php echo task ?>&action=common&lib=cedit">
-	            <input type="hidden" NAME="cid" VALUE="<?php echo $cid ?>" />
-	            <i>All of the following information is required.</i><br />
-                <table cellspacing="5">
-                <tr>
-                    <td align="right" width="200"><b>Name: </b></td>
-                    <td>
-                        <input type="text" name="cname" size="30" value="<?php echo $cname ?>" />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><font size="-1">
-                        <i>DO NOT include the rank with the character's name.
-                        It will be automatically generated when you pick the rank below</i>
-                    </font></td>
-                </tr>
-                <tr>
-                    <td align="right"><b>Race: </b></td>
-                    <td>
-                        <input type="text" name="race" size="30" value="<?php echo $crace ?>" />
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right"><b>Gender: </b></td>
-                    <td>
-                        <input type="text" name="gender" size="30" value="<?php echo $cgender ?>" />
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right"><b>E-mail Address: </b></td>
-                    <?php
-                    if ($action == "add")
-                        echo "<td><input type=\"text\" name=\"email\" size=\"30\" /></td>\n";
-                    else
-                        echo "<td>$cemail</td>\n";
-                    ?>
-                </tr>
-                <tr>
-                    <td align="right"><b>Ship: </b></td>
-                    <td><?php echo $sname ?></td>
-                </tr>
-                <tr>
-                    <td align="right"><b>Position: </b></td>
-                    <td>
-                        <?php
-                        $qry2 = "SELECT t.tf
-                                FROM {$spre}characters c, {$spre}taskforces t, {$spre}ships s
-                                WHERE t.tg=0 AND t.co=c.id AND c.player='$uid' AND s.tf=t.tf
-                                    AND s.id='$sid'";
-                        $result2 = $database->openConnectionWithReturn($qry2);
-                        list ($usertf) = mysql_fetch_array($result2);
+	    <h2 class="text-center">Edit a Crewman</h2>
+        <form method="post" action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cedit">
+        <input type="hidden" name="cid" value="<?php echo $cid ?>">
+        <p class="help-block text-center">All of the following information is required.</p>
+        <div class="form-group">
+        	<label for="cname" class="control-label">Name:</label>
+            <div>
+                <input type="text" class="form-control" name="cname" id="cname" size="30" value="<?php echo $cname ?>">
+        		<span class="help-block">DO NOT include the rank with the character's name. It will be automatically generated when you pick the rank below</span>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="crace" class="control-label">Race:</label>
+            <div>
+                <input type="text" class="form-control" name="race" id="crace" size="30" value="<?php echo $crace ?>">
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="cgender" class="control-label">Gender:</label>
+            <div>
+                <input type="text" class="form-control" name="gender" id="cgender" size="30" value="<?php echo $cgender ?>">
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="email" class="control-label">E-mail Address:</label>
+            <div>
+                <?php
+            	if ($action == "add")
+            	    echo '<input type="text" class="form-control" name="email" id="email" size="30">';
+            	else
+            	    echo '<p class="form-control-static">' . $cemail . '</p>';
+            	?>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="sname" class="control-label">Ship:</label>
+            <div>
+                <p class="form-control-static" id="sname"><?php echo $sname ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label for="position" class="control-label">Position:</label>
+            <div>
+                    <select class="form-control" name="position" id="position">
+					<?php
+                    $qry2 = "SELECT t.tf
+                            FROM {$spre}characters c, {$spre}taskforces t, {$spre}ships s
+                            WHERE t.tg=0 AND t.co=c.id AND c.player='$uid' AND s.tf=t.tf
+                                AND s.id='$sid'";
+                    $result2 = $database->openConnectionWithReturn($qry2);
+                    list ($usertf) = mysql_fetch_array($result2);
+    
+                    $qry2 = "SELECT t.tf
+                            FROM {$spre}characters c, {$spre}taskforces t, {$spre}ships s
+                            WHERE t.tg!=0 AND t.co=c.id AND c.player='$uid' AND s.tf=t.tf
+                                AND s.id='$sid' AND s.tg=t.tg";
+                    $result2 = $database->openConnectionWithReturn($qry2);
+                    list ($usertg) = mysql_fetch_array($result2);
+    
+                    $qry2 = "SELECT co FROM {$spre}ships WHERE id='$sid'";
+                    $result2 = $database->openConnectionWithReturn($qry2);
+                    list ($coid) = mysql_fetch_array($result2);
+                    if ($coid == 0 && $action=="add" && (($usertf || $uflag['t'] == 2 || $usertg || $uflag['g'] == 2)&&$sid!=4) )
+                        $pos = "Commanding Officer";
+                        
+					$filename = $relpath . "tf/positions.txt";
+					$contents = file($filename);
+					$length = sizeof($contents);
+					$counter = 0;
+					$matched = 0;
 
-                        $qry2 = "SELECT t.tf
-                                FROM {$spre}characters c, {$spre}taskforces t, {$spre}ships s
-                                WHERE t.tg!=0 AND t.co=c.id AND c.player='$uid' AND s.tf=t.tf
-                                    AND s.id='$sid' AND s.tg=t.tg";
-                        $result2 = $database->openConnectionWithReturn($qry2);
-                        list ($usertg) = mysql_fetch_array($result2);
+					do
+					{
+						$pos2 = trim($contents[$counter]);
+						$pos2 = mysql_real_escape_string($pos2);
 
-                        $qry2 = "SELECT co FROM {$spre}ships WHERE id='$sid'";
-                        $result2 = $database->openConnectionWithReturn($qry2);
-                        list ($coid) = mysql_fetch_array($result2);
-                        if ($coid == 0 && $action=="add" &&
-                        	($usertf || $uflag['t'] == 2 || $usertg || $uflag['g'] == 2) )
-                            $pos = "Commanding Officer";
+						$qry2 = "SELECT pos FROM {$spre}positions
+								 WHERE ship='$sid' AND action='rem' AND pos='$pos2'";
+						$result2 = $database->openConnectionWithReturn($qry2);
 
-                        if ($pos != "Commanding Officer")
-                        {
-                            echo "<select name=\"position\">\n";
+						if (!mysql_num_rows($result2))
+						{
+							$pos2 = stripslashes($pos2);
+							if ($pos == $pos2)
+							{ ?>
+								<option value="<?php echo $pos2 ?>" selected="selected"><?php echo $pos2 ?></option>
+                            <?php
+								$matched = 1;
+							}
+							else
+							{ ?>
+								<option value="<?php echo $pos2 ?>"><?php echo $pos2 ?></option>
+                            <?php
+							}
+						}
+						$counter = $counter + 1;
 
-                            $filename = $relpath . "tf/positions.txt";
-                            $contents = file($filename);
-                            $length = sizeof($contents);
-                            $counter = 0;
-                            $matched = 0;
+					} while ($counter < ($length));
 
-                            do
-                            {
-                                $pos2 = trim($contents[$counter]);
-                                $pos2 = addslashes($pos2);
+					$qry2 = "SELECT pos FROM {$spre}positions
+							 WHERE ship='$sid' AND action='add'";
+					$result2 = $database->openConnectionWithReturn($qry2);
 
-                                $qry2 = "SELECT pos FROM {$spre}positions
-                                		 WHERE ship='$sid' AND action='rem' AND pos='$pos2'";
-                                $result2 = $database->openConnectionWithReturn($qry2);
-
-                                if (!mysql_num_rows($result2))
-                                {
-                                    $pos2 = stripslashes($pos2);
-                                    if ($pos == $pos2)
-                                    {
-                                        echo "<option value=\"{$pos2}\" selected=\"selected\">{$pos2}</option>\n";
-                                        $matched = 1;
-                                    }
-                                    else
-                                        echo "<option value=\"{$pos2}\">{$pos2}</option>\n";
-                                }
-                                $counter = $counter + 1;
-
-                            } while ($counter < ($length));
-
-                            $qry2 = "SELECT pos FROM {$spre}positions
-                            		 WHERE ship='$sid' AND action='add'";
-                            $result2 = $database->openConnectionWithReturn($qry2);
-
-                            while (list ($pos2) = mysql_fetch_array($result2))
-                            {
-                                if ($pos == $pos2)
-                                {
-                                    echo "<option value=\"{$pos2}\" selected=\"selected\">{$pos2}</option>\n";
-                                    $matched = 1;
-                                }
-                                else
-                                    echo "<option value=\"{$pos2}\">{$pos2}</option>\n";
-                            }
-                            if ($matched == 0)
-                                echo "<option value=\"Other\" selected=\"selected\">Other</option>>\n";
-                            else
-                                echo "<option value=\"Other\">Other</option>\n";
-                            echo "</select><br />\n";
-
-                            echo "If other: ";
-                            echo "<input type=\"text\" name=\"otherpos\" size=\"30\" value=\"";
-                            if ($matched != 1)
-                            	echo $pos;
-                            echo "\" /><br />\n";
-
-                        }
-                        else
-                        {
-                            echo "Commanding Officer";
-                            echo "<input type=\"hidden\" name=\"position\" value=\"Commanding Officer\" />";
-                        }
-						?>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right"><b>Rank:</b></td>
-                    <td>
-                        <select name="rank" size="1">
+					while (list ($pos2) = mysql_fetch_array($result2))
+					{
+						if ($pos == $pos2)
+						{ ?>
+							<option value="<?php echo $pos2 ?>" selected="selected"><?php echo $pos2 ?></option>
 						<?php
+							$matched = 1;
+						}
+						else
+						{ ?>
+							<option value="<?php echo $pos2 ?>"><?php echo $pos2 ?></option>
+						<?php
+						}
+					}
+					if ($matched == 0)
+						echo '<option value="Other" selected="selected">Other</option>';
+					else
+						echo '<option value="Other">Other</option>';
+					?>
+					</select>
+                <div class="help-block form-inline">
+                    <div class="form-group">
+                        <label for="otherpos">If other:</label> <input type="text" name="otherpos" size="30" value="<?php if ($matched != 1) echo $pos ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+        	<div>
+                <div class="form-group">
+                    <label for="rank" class="control-label">Rank:</label>
+                    <div>
+                        <select class="form-control" name="rank" id="rank">
+                        <?php
+							$rpath = $relpath . 'images/ranks/';
+						
                         while($rid)
                         {
-                        	echo "<option value=\"{$rid}\"";
-                            if ($rid == $crank)
-                            	echo " selected=\"selected\"";
-                            echo ">{$rname} ({$rcol})</option>\n";
-
+							echo '<option value="' . $rid . '"';
+							if ($rid == $crank)
+								echo ' selected="selected"';
+							echo ' img="' . $rpath . $rimg . '"';
+							if ($rcol != '')
+								echo '>' . $rname . ' (' . $rcol . ')</option>';
+							else
+								echo '>' . $rname . '</option>';
+        
                             list($rid,$rname,$rimg,$rcol)=mysql_fetch_array($result);
                         }
-						?>
-                        </select>
-                    </td></tr><tr><td>&nbsp;</td><td>
-                        <font size="-1"><i>The rank is color sensitive.  Please make
-                        	admin officers red, services yellow, science teal, diplomat purple,
-                            intel grey, and marine staff green!</i></font><br /><br />
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right"><b>Pending:</b></td>
-                    <td>
-                        <?php
-                        echo "<input type=\"checkbox\" name=\"pending\"";
-                        if ($pending == "1")
-                            echo " checked=\"checked\"";
-                        echo " />\n";
                         ?>
-                        <i>If this box is checked, it will show up on the OPM Listings,
-                        	and the OPM Hounds will chase you and tell you to process the app!</i>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="100%" colspan=2">
-                    	<?php
-						if ($action == "add")
-                        	echo "<input type=\"hidden\" name=\"add\" value=\"yes\" />\n";
-						?>
-                        <input type="hidden" name="sid" value="<?php echo $sid ?>" />
-                        <input type="submit" value="Edit" /><input type="reset" value="Clear Form" />
-                    </td>
-                </tr>
-                </table>
-	            </form>
-	        </td>
-	        <td width="15">&nbsp;</td>
-	        </tr>
-	    </table>
+                        </select><br />
+                        <div class="rank"><img id="rnkpreview" src="<?php echo $rpath . $rimg?>" alt="<?php echo $rname ?>" class="img-responsive"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+			<p class="help-block">
+				Standard colours: Command and helm officers wear red; engineering, security and operations wear yellow; medical and sciences wear teal.
+            </p>
+		</div>
+        <div class="checkbox">
+            <label for="pending">
+				<?php
+                echo '<input type="checkbox" name="pending"';
+                if ($pending == "1")
+                    echo ' checked="checked"';
+                echo '>';
+                ?>
+                Pending?
+            	<span class="help-block">If this box is checked, it will show up on the DPM Listings, and the DPM Hounds will chase you and tell you to process the app!</span>
+            </label>
+        </div>
+		<?php
+        if ($action == "add")
+            echo '<input type="hidden" name="add" value="yes">';
+        if ($multiship)
+            echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+        ?>
+        <input type="hidden" name="sid" value="<?php echo $sid ?>">
+        <div class="form-group">
+        	<div>
+                <input type="submit" value="Edit">
+                <input type="reset" value="Clear Form">
+            </div>
+        </div>
+        </form>
+		<script>
+			$(document).ready(function(){
+				$('#rank').change(function(){
+					$('#rnkpreview').attr({
+						"src" : $('#rank option:selected').attr('img'),
+						"alt" : $('#rank option:selected').text()
+					});
+				});
+			});
+		</script>
 	    <?php
     }
 }
 
-// Reason for promotion of demotion
-function crew_edit_reason ($database, $spre, $mpre, $add, $position, $otherpos, $name, $email, $race, $gender, $rank, $sid, $crewid, $pending, $uflag)
+// Reason for promotion or demotion
+function crew_edit_reason ($database, $spre, $mpre, $add, $position, $otherpos, $name, $email, $race, $gender, $rank, $sid, $crewid, $pending, $uflag, $multiship)
 {
 	if ($add == "yes")
-        crew_edit_save($database, $spre, $mpre, $add, $position, $otherpos, $name, $email, $race, $gender, $rank, '', $sid, $crewid, $pending, $uflag);
+        crew_edit_save($database, $spre, $mpre, $add, $position, $otherpos, $name, $email, $race, $gender, $rank, '', $sid, $crewid, $pending, $uflag, $multiship);
 	else
     {
 		$qry = "SELECT rank FROM {$spre}characters WHERE id='$crewid'";
@@ -635,38 +683,54 @@ function crew_edit_reason ($database, $spre, $mpre, $add, $position, $otherpos, 
         {
 	 	   ?>
 
-	        <form action="index.php?option=<?php echo option ?>&task=<?php echo task ?>&action=common&lib=cedit2" method="post">
-			<input type="hidden" name="cid" value="<?php echo $crewid ?>" />
-        	<input type="hidden" name="sid" value="<?php echo $sid ?>" />
-
-			<?php
-			if ($oldranklevel < $newranklevel)
-				echo "Reason for promotion:<br />\n";
-    	    else
-        		echo "Reason for demotion:<br />\n";
-	        ?>
-	        <textarea name="reason" rows="5" cols="60" wrap="physical"></textarea><br /><br />
-
-			<table border="0"><tr><td>
-    	    <input type="hidden" name="position" value="<?php echo $position ?>" />
-			<input type="hidden" name="otherpos" value="<?php echo $otherpos ?>" />
-	        <input type="hidden" name="cname" value="<?php echo $name ?>" />
-    	    <input type="hidden" name="email" value="<?php echo $email ?>" />
-        	<input type="hidden" name="race" value="<?php echo $race ?>" />
-	        <input type="hidden" name="gender" value="<?php echo $gender ?>" />
-    	    <input type="hidden" name="rank" value="<?php echo $rank ?>" />
-        	<input type="hidden" name="pending" value="<?php echo $pending ?>" />
-	        <input type="submit" value="Submit" /></form></td><td>
-    	    <form action="index.php?option=<?php echo option ?>&task=<?php echo task ?>" method="post">
-        	<input type="submit" value="Cancel" /></form></td></tr></table>
-
+	        <form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cedit2" method="post">
+                <input type="hidden" name="cid" value="<?php echo $crewid ?>">
+                <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                <?php
+                if ($multiship)
+                    echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+                ?>
+                <div class="form-group">
+                    <label for="reason">
+                        <?php
+                        if ($oldranklevel < $newranklevel)
+                            echo 'Reason for promotion:';
+                        else
+                            echo 'Reason for demotion:';
+                        ?>
+                    </label>
+                    <textarea class="form-control" name="reason" id="reason" rows="5" cols="60" wrap="physical"></textarea>
+                </div>
+                <input type="hidden" name="position" value="<?php echo $position ?>">
+                <input type="hidden" name="otherpos" value="<?php echo $otherpos ?>">
+                <input type="hidden" name="cname" value="<?php echo $name ?>">
+                <input type="hidden" name="email" value="<?php echo $email ?>">
+                <input type="hidden" name="race" value="<?php echo $race ?>">
+                <input type="hidden" name="gender" value="<?php echo $gender ?>">
+                <input type="hidden" name="rank" value="<?php echo $rank ?>">
+                <input type="hidden" name="pending" value="<?php echo $pending ?>">
+                <div>
+                	<div>
+                		<input type="submit" value="Submit">
+                    </div>
+            </form>
+    	    <form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>" method="post">
+				<?php
+                if ($multiship)
+                    echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+                ?>
+                	<div>
+                		<input type="submit" value="Cancel">
+                    </div>
+                </div>
+            </form>
             <?php
 		}
 	}
 }
 
 // Save changes
-function crew_edit_save ($database, $spre, $mpre, $add, $position, $otherpos, $name, $email, $race, $gender, $rank, $reason, $sid, $crewid, $pending, $uflag)
+function crew_edit_save ($database, $spre, $mpre, $add, $position, $otherpos, $name, $email, $race, $gender, $rank, $reason, $sid, $crewid, $pending, $uflag, $multiship)
 {
 	if ($position == "Other")
     {
@@ -682,13 +746,13 @@ function crew_edit_save ($database, $spre, $mpre, $add, $position, $otherpos, $n
     	$pending = "1";
     elseif ($pending == "")
     	$pending = "0";
-
+			
 	if ($add == "yes")
     {
 		if ($reason = check_ban($database, $mpre, $spre, $email, 'na', $postype))
         {
-			echo "This player has been banned from Obsidian Fleet!<br /><br />\n";
-		    echo $reason . "\n";
+			echo '<h3 class="text-danger">This player has been banned from ' . $fleetname . '!</h3>';
+		    echo '<p>' . $reason . '</p>';
 		}
         elseif( $name != "" && $email != "" && $position != "")
         {
@@ -705,7 +769,11 @@ function crew_edit_save ($database, $spre, $mpre, $add, $position, $otherpos, $n
 				$name = stripslashes($name);
 
 				require_once "includes/mail/crew_newplayer.mail.php";
-echo $message;
+				
+				//Let's sanitise some values for the DB query
+				$username = mysql_real_escape_string($username);
+				$couname = mysql_real_escape_string($couname);
+
 				$qry2 = "INSERT INTO {$spre}logs
                 		 (date, user, action, comments)
                          VALUES (now(), '" . uid . " $username', 'User created',
@@ -720,23 +788,45 @@ echo $message;
 			$qry2 = "SELECT username FROM {$mpre}users WHERE id='" . uid . "'";
 			$result2 = $database->openConnectionWithReturn($qry2);
 			list ($couname) = mysql_fetch_array($result2);
+			
+			// Let's sanitise some of the values
+			$name = mysql_real_escape_string($name);
+			$race = mysql_real_escape_string($race);
+			$gender = mysql_real_escape_string($gender);
+			$position = mysql_real_escape_string($position);
 
 			$qry = "INSERT INTO {$spre}characters
-            		(id,name,race,gender,rank,ship,pos,player,app,pending)
-                    VALUES(NULL,'$name','$race','$gender',$rank,$sid,'$position','$uid','0','$pending')";
+            		(name,race,gender,rank,ship,pos,player,app,pending)
+                    VALUES('$name','$race','$gender',$rank,$sid,'$position','$uid','0','$pending')";
 			$result=$database->openConnectionWithReturn($qry);
 
             $qry = "SELECT id FROM {$spre}characters WHERE id=LAST_INSERT_ID()";
             $result = $database->openConnectionWithReturn($qry);
             list ($cid) = mysql_fetch_array($result);
 
-            $qry = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$qry = "SELECT name, rank, player FROM {$spre}characters WHERE id=" . $cid;
+			$result = $database->openConnectionWithReturn($qry);
+			list ($cname, $rankid, $pid) = mysql_fetch_array($result);
+
+			$qry = "SELECT rankdesc FROM {$spre}rank WHERE rankid='$rankid'";
+			$result = $database->openConnectionWithReturn($qry);
+			list($rankname) = mysql_fetch_array($result);
+
+            $qry = "SELECT name, tf, tg FROM {$spre}ships WHERE id='$sid'";
             $result = $database->openConnectionWithReturn($qry);
-            list ($sname) = mysql_fetch_array($result);
+            list ($sname, $tfid, $tgid) = mysql_fetch_array($result);
 
             $coname = addslashes(get_usertype($database, $mpre, $spre, $cid, $uflag));
-
-			$details .= "Ship: " . $sname . "<br />\n";
+			$qry = "SELECT email FROM {$mpre}users WHERE id='" . UID . "'";
+			$result = $database->openConnectionWithReturn($qry);
+			list ($coemail) = mysql_fetch_array($result);
+			
+			// We should email Personnel to let them know someone has been added
+			require_once "includes/mail/pers_playeradd.mail.php";			
+			
+			// We should also add this to the service record
+			$details .= "Sim: " . $sname . "<br />\n";
+			$details = mysql_real_escape_string($details);
             $time = time();
 			$qry = "INSERT INTO {$spre}record
             		SET pid='$uid', cid='$cid', level='Out-of-Character', date='$time',
@@ -745,7 +835,7 @@ echo $message;
 			$qry = "INSERT INTO {$spre}record
             		SET pid='$uid', cid='$cid', level='Player', date='$time',
                     	entry='Character Created: $name', details='CID: $cid',
-                        name='Obsidian Fleet IFS'";
+                        name='$fleetname IFS'";
 			$database->openConnectionNoReturn($qry);
 
             // If it's a CO, they deserve the userlevel too...
@@ -794,7 +884,7 @@ echo $message;
             redirect("");
 		}
         else
-			echo "You did not enter all required information.  Hit your BACK button and try again. <br /><br />\n\n";
+			echo '<h3 class="text-warning">You did not enter all required information. Hit your BACK button and try again.</h3>';
 	}
     else
     {
@@ -843,34 +933,39 @@ echo $message;
                 $qry = "SELECT rankdesc, level FROM {$spre}rank WHERE rankid='$rank'";
    	   		    $result = $database->openConnectionWithReturn($qry);
     	        list ($newrank, $newranklevel) = mysql_fetch_array($result);
+				
+				$qry = "SELECT name, tf FROM {$spre}ships WHERE id='$sid'";
+		        $result = $database->openConnectionWithReturn($qry);
+		        list ($sname, $tfid) = mysql_fetch_array($result);
+
+		        $qry = "SELECT email FROM {$mpre}users WHERE id='$pid'";
+    	   		$result = $database->openConnectionWithReturn($qry);
+	    	    list ($pemail) = mysql_fetch_array($result);
 
                 if ($oldranklevel > $newranklevel)
                 {
-					$qry = "SELECT name, tf FROM {$spre}ships WHERE id='$sid'";
-		            $result = $database->openConnectionWithReturn($qry);
-		            list ($sname, $tfid) = mysql_fetch_array($result);
-
-		            $qry = "SELECT email FROM {$mpre}users WHERE id='$pid'";
-    	   		    $result = $database->openConnectionWithReturn($qry);
-	    	        list ($pemail) = mysql_fetch_array($result);
-
 					$qry = "SELECT jag FROM {$spre}taskforces WHERE tf='$tfid' AND tg='0'";
 				    $result = $database->openConnectionWithReturn($qry);
 				    list ($jag) = mysql_fetch_array($result);
 
 					require_once "includes/mail/jag_playerdemoted.mail.php";
+					
+					require_once "includes/mail/pers_playerdemoted.mail.php";
 
                     $entry = "Demotion: " . $cname;
                 }
                 else
+					require_once "includes/mail/pers_playerpromoted.mail.php";
+					
 					$entry = "Promotion: " . $cname;
 
                 // We should also add this to the service record
-				$coname = addslashes($coname);
+				$coname = mysql_real_escape_string($coname);
                 $time = time();
                 $details = "Old Rank: " . $oldrank . "<br />\n";
                 $details .= "New Rank: " . $newrank . "<br />\n";
                 $details .= $reason;
+				$details = mysql_real_escape_string($details);
                 $qry = "INSERT INTO {$spre}record
                 		SET pid='$pid', cid='$crewid', level='Out-of-Character', date='$time',
                         	entry='$entry', details='$details', name='$coname'";
@@ -892,14 +987,14 @@ echo $message;
             redirect("");
 		}
         else
-			echo "You did not enter all required information.  Hit your BACK button and try again.<br /><br />\n\n";
+			echo '<h3 class="text-warning">You did not enter all required information. Hit your BACK button and try again.</h3>';
 	}
 }
 
 // Search for all crew associated with an email address
 function crew_list_email ($database, $mpre, $spre, $email, $uflag)
 {
-   	echo "<font size=\"+2\">Searching for email address {$email}...</font><br /><br />\n";
+   	echo '<h3>Searching for email address ' . $email . '...</h3>';
 
 	$qry = "SELECT id FROM {$mpre}users WHERE email='$email'";
 	$result = $database->openConnectionWithReturn($qry);
@@ -907,32 +1002,81 @@ function crew_list_email ($database, $mpre, $spre, $email, $uflag)
 
 	if ($uid)
     {
-		$qry = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid'";
+		?>
+        <ul class="list-unstyled">
+        <?php
+		$results = false;
+		
+		# So we can sort better, let's find characters who aren't deleted first
+		$qry = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid' AND ship <> " . DELETED_SHIP;
 		$result = $database->openConnectionWithReturn($qry);
 
+		if (mysql_num_rows($result))
+			$results = true;
+			
 		while ( list($cid,$name,$sid)=mysql_fetch_array($result) )
         {
 			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
 			$result2=$database->openConnectionWithReturn($qry2);
 			list($ship)=mysql_fetch_array($result2);
-
-			echo "($cid) ";
-            echo "<a href=\"index.php?option=" . option . "&task=" . task . "&action=common&lib=cview&cid={$cid}\">";
-            echo "$name</a> on ";
-            echo "<a href=\"index.php?option=" . option . "&task=" . task . "&action=common&lib=sview&sid={$sid}\">";
-            echo "$ship</a> (";
-            echo "<a href=\"index.php?option=" . option . "&task=" . task . "&action=common&lib=rview&cid={$cid}\">";
-			echo "service record</a>)<br />\n";
+			?>
+            <li>
+				<h4>Character ID #<?php echo $cid ?> - 
+					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+						<?php echo $name ?>
+					</a>
+				</h4>
+				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+					<?php echo $ship ?>
+				</a></p>
+				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+					View Service Record
+				</a>
+            </li>
+            <?php
 		}
+		# Now let's add the deleted characters
+		$qry = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid' AND ship = " . DELETED_SHIP;
+		$result = $database->openConnectionWithReturn($qry);
+
+		if (mysql_num_rows($result))
+			$results = true;
+			
+		while ( list($cid,$name,$sid)=mysql_fetch_array($result) )
+        {
+			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($ship)=mysql_fetch_array($result2);
+			?>
+            <li>
+				<h4>Character ID #<?php echo $cid ?> - 
+					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+						<?php echo $name ?>
+					</a> <span class="help-inline text-uppercase">[Deleted]</span>
+				</h4>
+				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+					<?php echo $ship ?>
+				</a></p>
+				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+					View Service Record
+				</a>
+            </li>
+            <?php
+		}
+		?>
+        </ul>
+        <?php
+		if (!$results)
+			echo '<h3 class="text-warning">No characters found.</h3>';
 	}
     else
-		echo "Email address not found!<br /><br />\n\n";
+		echo '<h4 class="text-warning">Email address not found!</h4>';
 }
 
 // List all characters associated with a player ID
 function crew_list_id ($database, $mpre, $spre, $pid, $uflag)
 {
-   	echo "<font size=\"+2\">Searching for Player ID#{$pid}...</font><br /><br />\n";
+   	echo '<h3>Searching for Player ID #' . $pid . '...</h3>';
 
 	$qry = "SELECT id FROM {$mpre}users WHERE id='$pid'";
 	$result = $database->openConnectionWithReturn($qry);
@@ -940,42 +1084,88 @@ function crew_list_id ($database, $mpre, $spre, $pid, $uflag)
 
 	if ($uid)
     {
-		$qry = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid'";
+		?>
+        <ul class="list-unstyled">
+        <?php
+		$results = false;
+		
+		# So we can sort better, let's find characters who aren't deleted first
+		$qry = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid' AND ship <> " . DELETED_SHIP;
 		$result = $database->openConnectionWithReturn($qry);
 
-		if (!mysql_num_rows($result))
-			echo "No characters found.<br />\n";
+		if (mysql_num_rows($result))
+			$results = true;
 
 		while ( list($cid,$name,$sid)=mysql_fetch_array($result) )
         {
 			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
 			$result2=$database->openConnectionWithReturn($qry2);
 			list($ship)=mysql_fetch_array($result2);
-
-			echo "($cid) ";
-            echo "<a href=\"index.php?option=" . option . "&task=" . task . "&action=common&lib=cview&cid={$cid}\">";
-            echo "$name</a> on ";
-            echo "<a href=\"index.php?option=" . option . "&task=" . task . "&action=common&lib=sview&sid={$sid}\">";
-            echo "$ship</a> (";
-            echo "<a href=\"index.php?option=" . option . "&task=" . task . "&action=common&lib=rview&cid={$cid}\">";
-			echo "service record</a>)<br />\n";
+			?>
+            <li>
+				<h4>Character ID #<?php echo $cid ?> - 
+					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+						<?php echo $name ?>
+					</a>
+				</h4>
+				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+					<?php echo $ship ?>
+				</a></p>
+				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+					View Service Record
+				</a>
+            </li>
+            <?php
 		}
+		# Now let's add the deleted characters
+		$qry = "SELECT id, name, ship FROM {$spre}characters WHERE player='$uid' AND ship = " . DELETED_SHIP;
+		$result = $database->openConnectionWithReturn($qry);
+
+		if (mysql_num_rows($result))
+			$results = true;
+			
+		while ( list($cid,$name,$sid)=mysql_fetch_array($result) )
+        {
+			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($ship)=mysql_fetch_array($result2);
+			?>
+            <li>
+				<h4>Character ID #<?php echo $cid ?> - 
+					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+						<?php echo $name ?>
+					</a> <span class="help-inline text-uppercase">[Deleted]</span>
+				</h4>
+				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+					<?php echo $ship ?>
+				</a></p>
+				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+					View Service Record
+				</a>
+            </li>
+            <?php
+		}
+		?>
+        </ul>
+        <?php
+		if (!$results)
+			echo '<h3 class="text-warning">No characters found.</h3>';
 	}
     else
-		echo "Invalid ID!<br /><br />\n\n";
+		echo '<h4 class="text-warning">Invalid ID!</h4>';
 }
 
 // Transfer a character to another simm
 function crew_transfer ($database, $mpre, $spre, $cid, $sid)
 {
-	echo "<font size=\"+2\"><u><b>Character Transfer</b></u></font><br /><br />\n";
+	echo '<h2>Character Transfer</h2>';
 
 	$qry = "SELECT id, name, player, ship FROM {$spre}characters WHERE id='$cid'";
 	$result = $database->openConnectionWithReturn($qry);
 	list ($test, $charname, $pid, $oldsid) = mysql_fetch_array($result);
 
 	if (!$test)
-		echo "<font size=\"+1\">Bad character ID!</font><br /><br />\n\n";
+		echo '<h3 class="text-warning">Bad character ID!</h3>';
 	else
     {
 	    $qry = "SELECT id, name FROM {$spre}ships WHERE id='$sid'";
@@ -983,7 +1173,7 @@ function crew_transfer ($database, $mpre, $spre, $cid, $sid)
 	    list ($stest, $sname) = mysql_fetch_array($result);
 
 	    if (!$stest)
-	        echo "<font size=\"+1\">Bad destination ID!</font><br /><br />\n\n";
+	        echo '<h3 class="text-warning">Bad destination ID!</h3>';
 	    else
         {
 	        $qry = "SELECT name FROM {$spre}ships WHERE id='$oldsid'";
@@ -1031,8 +1221,8 @@ function crew_transfer ($database, $mpre, $spre, $cid, $sid)
                     	entry='Transfer', details='$details', name='$name'";
 	        $database->openConnectionNoReturn($qry);
 
-	        echo "Transfer successful!<br />\n";
-	        echo "$charname transferred to $sname<br /><br />\n\n";
+	        echo '<h3 class="text-success">Transfer successful!</h3>';
+	        echo '<h5>' . $charname . ' transferred to ' . $sname . '</h5>';
 	    }
     }
 }
@@ -1041,10 +1231,7 @@ function crew_transfer ($database, $mpre, $spre, $cid, $sid)
 function crew_view_app ($database, $spre, $cid)
 {
 	?>
-
-  	<center>
-	<h2>View Application</h2>
- 	<br /><font size="+1">
+	<h2 class="text-center">View Application</h2>
 
 	<?php
 	$qry = "SELECT a.date, a.app
@@ -1054,21 +1241,594 @@ function crew_view_app ($database, $spre, $cid)
 
     if (!mysql_num_rows($result))
     {
-    	echo "Application Not Found.<br /><br />\n";
-        echo "<font size=\"-1\">Applications received before June 24, 2003, are not on file.</font><br />\n\n";
+    	echo '<h4 class="text-warning">Application Not Found.</h4>';
     }
     else
     {
     	list ($date, $app) = mysql_fetch_array($result);
 		$date = date("F j, Y, g:i a", $date);
     	?>
-        Date: <?php echo $date ?><br /><br />
-        <font size"-1">
-        <?php echo nl2br($app) ?>
-        </font>
-        <br /><br />
+        <p class="lead text-center">Date: <?php echo $date; ?></p>
+        
         <?php
+        echo '<p>' . nl2br($app) . '</p>';
     }
 }
 
+// Lookup characters by name
+function crew_lookup_name ($database, $mpre, $spre, $charname, $uflag)
+{
+   	echo '<h3>Searching for characters named ' . $charname . '...</h3>';
+
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.name LIKE '%$charname%' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC";
+	$result = $database->openConnectionWithReturn($qry);
+	
+	$num = mysql_num_rows($result);
+	
+	echo '<h3>Found ' . $num . '</h3>';
+
+	if (!mysql_num_rows($result))
+		{ echo '<h3 class="text-warning">No characters found.</h3>'; }
+	else {
+	?>
+	<table class="table manifest">
+      <thead>
+	   	<tr>
+        	<th>ID#</th>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Ship</th>
+        </tr>
+      </thead>
+      <tbody>
+    
+<?php	while ( list($cid,$name,$rank,$sid,$pos,$gender,$race)=mysql_fetch_array($result) )
+    	{
+			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($ship)=mysql_fetch_array($result2);
+			
+			$qry2 = "SELECT rankid, rankdesc, image FROM {$spre}rank WHERE rankid='$rank'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($rid,$rname,$rimg)=mysql_fetch_array($result2);
+		
+		?>
+			<tr>
+				<td><?php echo $cid; ?></td>
+				<td rowspan="2">
+                    	<?php
+						$rnkimg = $relpath . 'images/ranks/' . $rimg;
+						if (file_exists($rnkimg)) $rnksize = getimagesize($rnkimg);
+						echo '<div style="max-width:'.$rnksize[0].'px; max-height:'.$rnksize[1].'px;" class="rank img-responsive">';
+						echo '<img src="' . $rnkimg .'" alt="' .$rname .'" border="0" class="img-responsive" />';
+						echo '</div>'; ?>
+                </td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid; ?>"><?php echo stripslashes($rname) . ' ' . stripslashes($name); ?></a><br /><?php echo stripslashes($race) . " " . stripslashes($gender); ?></td>
+				<td><?php echo $pos; ?></td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid; ?>"><?php echo stripslashes($ship); ?></a></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="2" class="text-center">
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="submit" value="View App">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Edit">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cdel" method="post">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Delete">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Service Record">
+                        </form>
+                </td>
+				<td class="text-right">
+                    <form class="form-inline" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=ctrans" method="post">
+                        <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                        <div class="form-group">
+                            <label for="transsid<?php echo $cid ?>" class="sr-only">Transfer to ship:</label>
+                            <select class="form-control input-sm" name="sid" id="transsid<?php echo $cid ?>">
+                                <?php
+                                $res69=mysql_query("SELECT id, name FROM ifs_ships WHERE (tf != 99 AND name NOT LIKE '%Your Own%') OR id = 4 ORDER BY tf DESC, name ASC");
+                                while (list($vd, $ve)=mysql_fetch_array($res69)) {
+                                    echo '<option value="'.$vd.'">'.stripslashes($ve).'</option>
+                                '; }
+                                ?>      
+                            </select>
+                        </div>
+                        <input type="submit" value="Transfer">
+                    </form>
+				</td>
+            </tr>
+<?php	} ?>
+	  </tbody>
+	</table>
+<?php
+	}
+}
+
+// Lookup characters by species
+function crew_lookup_race ($database, $mpre, $spre, $charrace, $uflag)
+{
+   	echo '<h3>Searching for ' . $charrace . ' characters...</h3>';
+
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.race LIKE '%$charrace%' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$result = $database->openConnectionWithReturn($qry);
+	
+	$num = mysql_num_rows($result);
+	
+	echo '<h3>Found ' . $num . '</h3>';
+
+	if (!mysql_num_rows($result))
+		{ echo '<h3 class="text-warning">No characters found.</h3>'; }
+	else {
+	?>
+	<table class="table manifest">
+      <thead>
+	   	<tr>
+        	<th>ID#</th>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Ship</th>
+        </tr>
+      </thead>
+      <tbody>
+    
+<?php	while ( list($cid,$name,$rank,$sid,$pos,$gender,$race)=mysql_fetch_array($result) )
+    	{
+			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($ship)=mysql_fetch_array($result2);
+			
+			$qry2 = "SELECT rankid, rankdesc, image FROM {$spre}rank WHERE rankid='$rank'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($rid,$rname,$rimg)=mysql_fetch_array($result2);
+		
+		?>
+			<tr>
+				<td><?php echo $cid; ?></td>
+				<td rowspan="2">
+                    	<?php
+						$rnkimg = $relpath . 'images/ranks/' . $rimg;
+						if (file_exists($rnkimg)) $rnksize = getimagesize($rnkimg);
+						echo '<div style="max-width:'.$rnksize[0].'px; max-height:'.$rnksize[1].'px;" class="rank img-responsive">';
+						echo '<img src="' . $rnkimg .'" alt="' .$rname .'" border="0" class="img-responsive" />';
+						echo '</div>'; ?>
+                </td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid; ?>"><?php echo stripslashes($rname) . ' ' . stripslashes($name); ?></a><br /><?php echo stripslashes($race) . " " . stripslashes($gender); ?></td>
+				<td><?php echo $pos; ?></td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid; ?>"><?php echo stripslashes($ship); ?></a></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="2" class="text-center">
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="submit" value="View App">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Edit">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cdel" method="post">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Delete">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Service Record">
+                        </form>
+                </td>
+				<td class="text-right">
+                    <form class="form-inline" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=ctrans" method="post">
+                        <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                        <div class="form-group">
+                            <label for="transsid<?php echo $cid ?>" class="sr-only">Transfer to ship:</label>
+                            <select class="form-control input-sm" name="sid" id="transsid<?php echo $cid ?>">
+                                <?php
+                                $res69=mysql_query("SELECT id, name FROM ifs_ships WHERE (tf != 99 AND name NOT LIKE '%Your Own%') OR id = 4 ORDER BY tf DESC, name ASC");
+                                while (list($vd, $ve)=mysql_fetch_array($res69)) {
+                                    echo '<option value="'.$vd.'">'.stripslashes($ve).'</option>
+                                '; }
+                                ?>      
+                            </select>
+                        </div>
+                        <input type="submit" value="Transfer">
+                    </form>
+				</td>
+            </tr>
+<?php	} ?>
+
+	</table>
+<?php
+	}
+}
+
+// Lookup characters by gender
+function crew_lookup_gender ($database, $mpre, $spre, $chargender, $uflag)
+{
+   	echo '<h3>Searching for ' . $chargender . ' characters...</h3>';
+
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.gender = '$chargender' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$result = $database->openConnectionWithReturn($qry);
+	
+	$num = mysql_num_rows($result);
+	
+	echo '<h3>Found ' . $num . '</h3>';
+
+	if (!mysql_num_rows($result))
+		{ echo '<h3 class="text-warning">No characters found.</h3>'; }
+	else {
+	?>
+	<table class="table manifest">
+      <thead>
+	   	<tr>
+        	<th>ID#</th>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Ship</th>
+        </tr>
+      </thead>
+      <tbody>
+    
+<?php	while ( list($cid,$name,$rank,$sid,$pos,$gender,$race)=mysql_fetch_array($result) )
+    	{
+			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($ship)=mysql_fetch_array($result2);
+			
+			$qry2 = "SELECT rankid, rankdesc, image FROM {$spre}rank WHERE rankid='$rank'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($rid,$rname,$rimg)=mysql_fetch_array($result2);
+		
+		?>
+			<tr>
+				<td><?php echo $cid; ?></td>
+				<td rowspan="2">
+                    	<?php
+						$rnkimg = $relpath . 'images/ranks/' . $rimg;
+						if (file_exists($rnkimg)) $rnksize = getimagesize($rnkimg);
+						echo '<div style="max-width:'.$rnksize[0].'px; max-height:'.$rnksize[1].'px;" class="rank img-responsive">';
+						echo '<img src="' . $rnkimg .'" alt="' .$rname .'" border="0" class="img-responsive" />';
+						echo '</div>'; ?>
+                </td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid; ?>"><?php echo stripslashes($rname) . ' ' . stripslashes($name); ?></a><br /><?php echo stripslashes($race) . " " . stripslashes($gender); ?></td>
+				<td><?php echo $pos; ?></td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid; ?>"><?php echo stripslashes($ship); ?></a></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="2" class="text-center">
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="submit" value="View App">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Edit">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cdel" method="post">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Delete">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Service Record">
+                        </form>
+                </td>
+				<td class="text-right">
+                    <form class="form-inline" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=ctrans" method="post">
+                        <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                        <div class="form-group">
+                            <label for="transsid<?php echo $cid ?>" class="sr-only">Transfer to ship:</label>
+                            <select class="form-control input-sm" name="sid" id="transsid<?php echo $cid ?>">
+                                <?php
+                                $res69=mysql_query("SELECT id, name FROM ifs_ships WHERE (tf != 99 AND name NOT LIKE '%Your Own%') OR id = 4 ORDER BY tf DESC, name ASC");
+                                while (list($vd, $ve)=mysql_fetch_array($res69)) {
+                                    echo '<option value="'.$vd.'">'.stripslashes($ve).'</option>
+                                '; }
+                                ?>      
+                            </select>
+                        </div>
+                        <input type="submit" value="Transfer">
+                    </form>
+				</td>
+            </tr>
+<?php	} ?>
+	  </tbody>
+	</table>
+<?php
+	}
+}
+
+// Lookup characters by rank
+function crew_lookup_rank ($database, $mpre, $spre, $charrank, $uflag)
+{	
+	$qry = "SELECT rankid, rankdesc FROM {$spre}rank WHERE rankid='$charrank'";
+	$result=$database->openConnectionWithReturn($qry);
+	list($rid,$rname)=mysql_fetch_array($result);
+   	echo '<h3>Searching for ' . $rname . 's...</h3>';
+
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.rank = '$charrank' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$result = $database->openConnectionWithReturn($qry);
+	
+	$num = mysql_num_rows($result);
+	
+	echo '<h3>Found ' . $num . '</h3>';
+
+	if (!mysql_num_rows($result))
+		{ echo '<h3 class="text-warning">No characters found.</h3>'; }
+	else {
+	?>
+	<table class="table manifest">
+      <thead>
+	   	<tr>
+        	<th>ID#</th>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Ship</th>
+        </tr>
+      </thead>
+      <tbody>
+<?php	while ( list($cid,$name,$rank,$sid,$pos,$gender,$race)=mysql_fetch_array($result) )
+    	{
+			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($ship)=mysql_fetch_array($result2);
+			
+			$qry2 = "SELECT rankid, rankdesc, image FROM {$spre}rank WHERE rankid='$rank'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($rid,$rname,$rimg)=mysql_fetch_array($result2);
+		
+		?>
+			<tr>
+				<td><?php echo $cid; ?></td>
+				<td rowspan="2">
+                    	<?php
+						$rnkimg = $relpath . 'images/ranks/' . $rimg;
+						if (file_exists($rnkimg)) $rnksize = getimagesize($rnkimg);
+						echo '<div style="max-width:'.$rnksize[0].'px; max-height:'.$rnksize[1].'px;" class="rank img-responsive">';
+						echo '<img src="' . $rnkimg .'" alt="' .$rname .'" border="0" class="img-responsive" />';
+						echo '</div>'; ?>
+                </td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid; ?>"><?php echo stripslashes($rname) . ' ' . stripslashes($name); ?></a><br /><?php echo stripslashes($race) . " " . stripslashes($gender); ?></td>
+				<td><?php echo $pos; ?></td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid; ?>"><?php echo stripslashes($ship); ?></a></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="2" class="text-center">
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="submit" value="View App">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Edit">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cdel" method="post">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Delete">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Service Record">
+                        </form>
+                </td>
+				<td class="text-right">
+                    <form class="form-inline" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=ctrans" method="post">
+                        <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                        <div class="form-group">
+                            <label for="transsid<?php echo $cid ?>" class="sr-only">Transfer to ship:</label>
+                            <select class="form-control input-sm" name="sid" id="transsid<?php echo $cid ?>">
+                                <?php
+                                $res69=mysql_query("SELECT id, name FROM ifs_ships WHERE (tf != 99 AND name NOT LIKE '%Your Own%') OR id = 4 ORDER BY tf DESC, name ASC");
+                                while (list($vd, $ve)=mysql_fetch_array($res69)) {
+                                    echo '<option value="'.$vd.'">'.stripslashes($ve).'</option>
+                                '; }
+                                ?>      
+                            </select>
+                        </div>
+                        <input type="submit" value="Transfer">
+                    </form>
+				</td>
+            </tr>
+<?php	} ?>
+	  </tbody>
+	</table>
+<?php
+	}
+}
+
+// Lookup characters by position
+function crew_lookup_pos ($database, $mpre, $spre, $charpos, $uflag)
+{	
+   	echo '<h3>Searching for ' . $charpos . ' characters...</h3>';
+
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.pos = '$charpos' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$result = $database->openConnectionWithReturn($qry);
+	
+	$num = mysql_num_rows($result);
+	
+	echo '<h3>Found ' . $num . '</h3>';
+
+	if (!mysql_num_rows($result))
+		{ echo '<h3 class="text-warning">No characters found.</h3>'; }
+	else {
+	?>
+	<table class="table manifest">
+      <thead>
+	   	<tr>
+        	<th>ID#</th>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Ship</th>
+        </tr>
+      </thead>
+      <tbody>
+    
+<?php	while ( list($cid,$name,$rank,$sid,$pos,$gender,$race)=mysql_fetch_array($result) )
+    	{
+			$qry2 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($ship)=mysql_fetch_array($result2);
+			
+			$qry2 = "SELECT rankid, rankdesc, image FROM {$spre}rank WHERE rankid='$rank'";
+			$result2=$database->openConnectionWithReturn($qry2);
+			list($rid,$rname,$rimg)=mysql_fetch_array($result2);
+		
+		?>
+			<tr>
+				<td><?php echo $cid; ?></td>
+				<td rowspan="2">
+                    	<?php
+						$rnkimg = $relpath . 'images/ranks/' . $rimg;
+						if (file_exists($rnkimg)) $rnksize = getimagesize($rnkimg);
+						echo '<div style="max-width:'.$rnksize[0].'px; max-height:'.$rnksize[1].'px;" class="rank img-responsive">';
+						echo '<img src="' . $rnkimg .'" alt="' .$rname .'" border="0" class="img-responsive" />';
+						echo '</div>'; ?>
+                </td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid; ?>"><?php echo stripslashes($rname) . ' ' . stripslashes($name); ?></a><br /><?php echo stripslashes($race) . " " . stripslashes($gender); ?></td>
+				<td><?php echo $pos; ?></td>
+	        	<td><a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid; ?>"><?php echo stripslashes($ship); ?></a></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="2" class="text-center">
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="submit" value="View App">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid; ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Edit">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=cdel" method="post">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Delete">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                        </form>
+                        <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
+                            <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="hidden" class="btn" /><!-- Fake button sibling -->
+                            <input type="submit" value="Service Record">
+                        </form>
+                </td>
+				<td class="text-right">
+                    <form class="form-inline" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=ctrans" method="post">
+                        <input type="hidden" name="cid" value="<?php echo $cid ?>">
+                        <div class="form-group">
+                            <label for="transsid<?php echo $cid ?>" class="sr-only">Transfer to ship:</label>
+                            <select class="form-control input-sm" name="sid" id="transsid<?php echo $cid ?>">
+                                <?php
+                                $res69=mysql_query("SELECT id, name FROM ifs_ships WHERE (tf != 99 AND name NOT LIKE '%Your Own%') OR id = 4 ORDER BY tf DESC, name ASC");
+                                while (list($vd, $ve)=mysql_fetch_array($res69)) {
+                                    echo '<option value="'.$vd.'">'.stripslashes($ve).'</option>
+                                '; }
+                                ?>      
+                            </select>
+                        </div>
+                        <input type="submit" value="Transfer">
+                    </form>
+				</td>
+            </tr>
+<?php	} ?>
+	  </tbody>
+	</table>
+<?php
+	}
+}
 ?>
