@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17: June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	1/6/04
   * Comments: Displays ship listing, by TF and TG
  ***/
 
@@ -24,9 +27,14 @@ if ($database=="")
 else
 {
 	$relpath = "";
-
-    echo "<br><center><font size=\"+1\"><u>Ship Listing</u></font></center><br /><br />\n";
-
+	?>
+    <div class="row">
+    	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+    		<h2>Sim Listing</h2>
+        </div>
+    </div>
+	
+    <?php
 	$qry = "SELECT name, co FROM {$spre}taskforces
     		WHERE tf='$tf' AND tg='$tg'";
 	$result=$database->openConnectionWithReturn($qry);
@@ -39,32 +47,37 @@ else
 	}
 
 	if ($tf == '0' || $tf == '')
-    {
-		/************************\
-		|*	SELECT TASK FORCE	*|
-		\************************/
-		echo "<center>Please choose a Task Force:<br />\n";
-		if ($option)
-        {
-			echo "<form action=\"{$relpath}index.php\" method=\"get\">\n";
-	        echo "<input type=\"hidden\" name=\"option\" value=\"ships\">\n";
-		}
-        else
-			echo "<form action=\"{$relpath}tf/ships.php\" method=\"get\">\n";
-
-		echo "<SELECT NAME=\"tf\">\n";
-	        $qry = "SELECT tf,name FROM {$spre}taskforces WHERE tg='0' ORDER BY tf";
-	        $result=$database->openConnectionWithReturn($qry);
-
-	        while ( list($tfid,$tfname)=mysql_fetch_array($result) )
-	            if ($tfid != '99')
-	                echo "<option value=\"$tfid\">Task Force $tfid -- $tfname</option>\n";
-	        echo "<option value=\"all\">(show all)</option>\n";
-		echo "</select><br /><br />";
-        echo "<input type=\"checkbox\" name=\"textonly\" />Text Only<br /><br />";
-        echo "<input type=\"submit\" value=\"Submit\" />";
-		echo "</form></center><br /><br /><br />";
-
+    {		
+		/****************************\
+		|*	  SELECT TASK FORCE 	*|
+		\****************************/
+		?>
+        <div class="row">
+        	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+				<?php
+                echo 'Please choose a Task Force:';
+                echo '<p><a href="' . $relpath . 'index.php?option=ships&tf=all" />Show All</a></p>';
+                
+                    $qry = "SELECT tf,name FROM {$spre}taskforces WHERE tg='0' ORDER BY tf";
+                    $result=$database->openConnectionWithReturn($qry);
+        
+                    while ( list($tfid,$tfname)=mysql_fetch_array($result) )
+                        if ($tfid != '99')
+                        {
+                            echo '<p>
+                                <a href="' . $relpath . 'index.php?option=ships&tf=' . $tfid . '" />
+                                    <img src="' . $relpath . 'images/tfbanners/tf' . $tfid . '.png" border="0" class="img-responsive center-block">
+                                    Task Force ' . $tfid . ' -- ' . $tfname . '
+                                </a>
+                                <a href="' . $relpath . 'index.php?option=ships&tf=' . $tfid . '&textonly=on" class="help-block" />
+                                    (Text only)
+                                </a>
+                            </p>';
+                        }
+				?>
+            </div>
+        </div>
+    <?php
 	}
     elseif (($tg == '0' || $tg == '') && $tf != "all")
     {
@@ -90,29 +103,28 @@ else
 					redirect("tf/ships.php?tf={$tf}&tg={$tgid}");
         }
 
-		echo "<center>Please choose a Task Group:<br />";
-		if ($option)
-        {
-			echo "<form action=\"{$relpath}index.php\" method=\"get\">\n";
-	        echo "<input type=\"hidden\" name=\"option\" value=\"ships\">\n";
-		}
-        else
-			echo "<form action=\"{$relpath}tf/ships.php\" method=\"get\">\n";
-
-		echo "<input type=\"hidden\" name=\"tf\" value=\"{$tf}\">\n";
-		echo "<select name=\"tg\">\n";
-
-		while ( list($tgid,$tgname)=mysql_fetch_array($result) )
-			echo "<option value=\"$tgid\">$tgname</option>\n";
-        echo "<option value=\"all\">(show all)</option>\n";
-		echo "</select><br /><br />";
-
-        if ($textonly == "on")
-	        echo "<input type=\"checkbox\" name=\"textonly\" checked=\"checked\">Text Only<br /><br />\n";
-        else
-	        echo "<input type=\"checkbox\" name=\"textonly\">Text Only<br /><br />";
-		echo "<input type=\"submit\" value=\"Submit\">\n";
-   		echo "</form></center><br /><br /><br />";
+		?>
+        <div class="row">
+        	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+				<?php
+                echo 'Please choose a Task Group:';
+                echo '<p><a href="' . $relpath . 'index.php?option=ships&tf=' . $tf . '&tg=all" />Show All</a></p>';
+        
+                    while ( list($tgid,$tgname)=mysql_fetch_array($result) )
+                                echo '<p>';
+                                if($textonly) {
+                                    echo '<a href="' . $relpath . 'index.php?option=ships&tf=' . $tf . '&tg=' . $tgid . '" />';
+                                } else {
+                                    echo '<a href="' . $relpath . 'index.php?option=ships&tf=' . $tf . '&tg=' . $tgid . '" />
+                                        <img src="' . $relpath . 'images/tfbanners/tg' . $tf . '-'. $tgid . '.png" border="0" class="img-responsive center-block">';
+                                }
+                                echo    'Task Group ' . $tgid . ' -- ' . $tgname . '
+                                    </a>
+                                </p>';
+				?>
+            </div>
+        </div>
+    <?php
 	}
     else
     {
@@ -140,8 +152,8 @@ else
         }
         else
         {
-        	$tfname = "Ships of Obsidian Fleet";
-            $tfco = "Triad";
+        	$tfname = "Ships of $fleetname";
+            $tfco = "Admin";
         }
 
 		if ($tf == "all")
@@ -153,86 +165,131 @@ else
 		$result=$database->openConnectionWithReturn($qry);
 
 	    ?>
-	    <br>
-	    <center>
-	    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-	        <tr>
-	            <td width="100" valign="top"></td>
+        <div class="row taskforce-info">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+            <?php
+            if ($seltf != "all")
+            {
+                echo '<p><strong>';
+                echo 'Task Force ';
+                
+                echo $tf .' -- ' .$tfname . '</strong></p>';
+                if (!$textonly)
+                    echo '<img src="' . $relpath . 'images/tfbanners/tf' . $tf . '.png" alt="Task Force ' . $tf . ' -- ' . $tfname . '" class="img-responsive center-block" />';
 
-	            <td width="100%" valign="top">
-	            <?php
-                if ($seltf != "all")
+                if (($tf == '99' || $tg != '1') && $seltf != "all" && $seltg != "all")
                 {
-	                echo "<center><b>Task Force $tf -- $tfname</b><br />\n";
-	                if (!$textonly)
-	                    echo "<img src=\"{$relpath}images/tfbanners/tf{$tf}.jpg\" alt=\"Task Force $tf -- $tfname\" /><br /><br />\n";
+                    echo '<p><strong>Task Group ' . $tg. ' -- ' .$tgname . '</strong></p>';
+                    if (!$textonly)
+                        echo '<img src="' . $relpath . 'images/tfbanners/tg' . $tf . '-' . $tg . '.png" alt="Task Group ' . $tg . ' -- ' . $tgname . '" class="img-responsive center-block" />';
+                }
+            }
+            ?>
+            </div>
+        </div><!-- End of taskforce-info row -->
+        <div class="row switch-tf">
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <?php
+            if (defined("IFS"))
+            {
+			?>
+                <p><strong>Switch Task Force:</strong></p>
+                	<div class="btn-group" role="group" aria-label="...">	
+					<?php
+                
+                    $qry9 = "SELECT tf,name FROM {$spre}taskforces WHERE tg='0' ORDER BY tf";
+                    $result9=$database->openConnectionWithReturn($qry9);
 
- 	                if ($tf != '1' && $seltf != "all" && $seltg != "all")
-                    {
-		                echo "<b>Task Group $tg -- $tgname</b><br />\n";
-		                if (!$textonly)
-		                    echo "<img src=\"{$relpath}images/tfbanners/tg{$tf}-{$tg}.jpg\" alt=\"Task Group $tg -- $tgname\" /><br />\n";
-		            }
-	            }
-	            echo "</b></center><br>\n";
-
-	            if (defined("IFS"))
-				{
-	                echo "<center>Sort by:";
-	                if ($sort != "")
-                    {
-	                    if ($textonly)
-	                        echo "<a href=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg&amp;textonly=on\">";
-	                    else
-	                        echo "<a href=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg\">";
-	                    echo "name</a> | ";
-	                }
-                    else
-	                    echo "name | ";
-
-	               if ($sort != "class, ")
-                   {
-	                    if ($textonly)
-	                        echo "<a href=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg&amp;sort=class&amp;textonly=on\">";
-	                    else
-	                        echo "<a href=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg&amp;sort=class\">";
-	                    echo "class</a> | ";
-	               }
-                   else
-	                    echo "class | ";
-
-	               if ($sort != "tf, tg, ")
-                   {
-	                    if ($textonly)
-	                        echo "<a href=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg&amp;sort=tf&amp;textonly=on\">";
-	                    else
-	                        echo "<A HREF=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg&amp;sort=tf\">";
-	                    echo "TF/TG</a> | ";
-	               }
-                   else
-	               		echo "TF/TG | ";
-
-	               if ($sort != "status, ")
-                   {
-	                    if ($textonly)
-	                        echo "<a href=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg&amp;sort=status&amp;textonly=on\">";
-	                    else
-	                        echo "<A HREF=\"index.php?option=ships&amp;tf=$seltf&amp;tg=$seltg&amp;sort=status\">";
-	                    echo "status</a>";
-	               }
-                   else
-	                    echo "status";
-
-	               echo "</center><br />";
-	           	}
-
-	            while( list($sid,$sname,$reg,$class,$site,$co,$xo,$tf,$tg,$status,$image,,,$desc,$format)=mysql_fetch_array($result) )
-	                ship_list ($database, $mpre, $spre, $sdb, $uflag, $textonly, $relpath, $sid, $sname, $reg, $site, $image, $co, $xo, $status, $class, $format, $tf, $tg, $desc);
-                ?>
-  			    </td>
-	            <td>&nbsp;</td>
-		    </tr>
-	    </table></center>
+                    if (mysql_num_rows($result9) > 2) {
+        
+                        while ( list($tfid,$tfname)=mysql_fetch_array($result9) )
+                            if ($tfid != '99')
+                            {
+                                echo '<a role="button" class="btn btn-default btn-xs smallgrey';
+                                if ($seltf == $tfid)
+                                    echo ' active" href="" />';
+                                else
+                                    echo '" href="' . $relpath . 'index.php?option=ships&tf=' . $tfid . '" />';
+                                
+                                if ($tfid == '74')
+                                    echo 'Division ' . $tfid;
+                                else
+                                    echo 'Task Force ' . $tfid;
+                                    
+                                echo '<br />' . $tfname . '</a>';
+                            }
+                    }
+						?>
+                    </div>
+                <?php
+            }
+            ?>
+            </div>
+        </div><!-- End of switch-tf row -->
+        <div class="row sort-options">
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <?php
+            if (defined("IFS"))
+            {
+			?>
+                <p><strong>Sort by:</strong></p>
+                	<div class="btn-group" role="group" aria-label="...">
+						<?php 
+                        if ($sort != "")
+                        {
+                            if ($textonly)
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '&amp;textonly=on">';
+                            else
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '">';
+                            echo 'Name</a>';
+                        }
+                        else
+                            echo '<a role="button" class="btn btn-default btn-sm active" href="">Name</a>';
+        
+                       if ($sort != "class, ")
+                       {
+                            if ($textonly)
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '&amp;sort=class&amp;textonly=on">';
+                            else
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '&amp;sort=class">';
+                            echo 'Class</a>';
+                       }
+                       else
+                            echo '<a role="button" class="btn btn-default btn-sm active" href="">Class</a>';
+        
+                       if ($sort != "tf, tg, ")
+                       {
+                            if ($textonly)
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '&amp;sort=tf&amp;textonly=on">';
+                            else
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '&amp;sort=tf">';
+                            echo 'TF</a>';
+                       }
+                       else
+                            echo '<a role="button" class="btn btn-default btn-sm active" href="">TF</a>';
+        
+                       if ($sort != "status, ")
+                       {
+                            if ($textonly)
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '&amp;sort=status&amp;textonly=on">';
+                            else
+                                echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ships&amp;tf=' . $seltf. '&amp;tg=' . $seltg . '&amp;sort=status">';
+                            echo 'Status</a>';
+                       }
+                       else
+                            echo '<a role="button" class="btn btn-default btn-sm active" href="">Status</a>';
+						?>
+                    </div>
+                <?php
+            }
+            ?>
+            </div>
+        </div><!-- End of sort-options row -->
+        
+        <?php
+            while( list($sid,$sname,$reg,$class,$site,$co,$xo,$tf,$tg,$status,$image,,,$desc,$format)=mysql_fetch_array($result) )
+                ship_list ($database, $mpre, $spre, $sdb, $uflag, $textonly, $relpath, $sid, $sname, $reg, $site, $image, $co, $xo, $status, $class, $format, $tf, $tg, $desc);
+            ?>
 		<?php
     }
 }
