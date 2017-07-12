@@ -10,11 +10,15 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.15n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *		matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
   * Patch 1.15n:  April 2010
+  * Patch 1.17:   June 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -23,7 +27,6 @@
   * This file based on code from Open Positions List
   * Copyright (C) 2002, 2003 Frank Anon
   *
-  * Date:	12/12/03
   * Comments: Open Positions List main page
   *
   * See CHANGELOG for patch details
@@ -57,7 +60,7 @@ switch ($task)
         </div>
         <br />
 
-	    <a name="class">
+	    <a name="class" style="text-decoration: none;">
 	    <h4>Search by class:</h4>
 	    <form class="form-inline" action="index.php?option=opl&amp;task=find" method="post">
             <div class="form-group">
@@ -77,13 +80,13 @@ switch ($task)
                 </select>
             </div>
             <input type="hidden" name="srClass" id="srClass" value="yes">
-            <input type="submit" value="Search" />
-            <input type="reset" value="Reset" />
+            <input class="btn btn-default btn-sm" type="submit" value="Search" />
+            <input class="btn btn-default btn-sm" type="reset" value="Reset" />
 	    </form></a>
 
         <br /><br />
 
-		<a name="format">
+		<a name="format" style="text-decoration: none;">
 	    <h4>Search by format:</h4>
 	    <form class="form-inline" action="index.php?option=opl&task=find" method="post">
             <div class="form-group">
@@ -99,13 +102,13 @@ switch ($task)
                 </select>
             </div>
             <input type="hidden" name="srFormat" id="srFormat" value="yes">
-            <input type="submit" value="Search">
-            <input type="reset" value="Reset">
+            <input class="btn btn-default btn-sm" type="submit" value="Search">
+            <input class="btn btn-default btn-sm" type="reset" value="Reset">
 	    </form></a>
 
         <br /><br />
 
-	    <a name="name">
+	    <a name="name" style="text-decoration: none;">
 	    <h4>Search by ship name:</h4>
 	    <form class="form-inline" action="index.php?option=opl&task=find" method="post">
             <div class="form-group">
@@ -121,13 +124,13 @@ switch ($task)
                 </select>
             </div>
             <input type="hidden" name="srName" id="srName" value="yes">
-            <input type="submit" value="Search" />
-            <input type="reset" value="Reset" />
+            <input class="btn btn-default btn-sm" type="submit" value="Search" />
+            <input class="btn btn-default btn-sm" type="reset" value="Reset" />
 	    </form></a>
 
 	    <br /><br />
 
-	    <a name="pos">
+	    <a name="pos" style="text-decoration: none;">
 	    <h4>Search by Position</h4>
 	    <form class="form-inline" action="index.php?option=opl&task=find" method="post">
             <div class="form-group">
@@ -166,8 +169,8 @@ switch ($task)
                 </select>
             </div>    
             <input type="hidden" name="srPos" id="srPos" value="yes">
-            <input type="submit" value="Search">
-            <input type="reset" value="Reset">
+            <input class="btn btn-default btn-sm" type="submit" value="Search">
+            <input class="btn btn-default btn-sm" type="reset" value="Reset">
 	    </form></a>
         
         <br /><br />
