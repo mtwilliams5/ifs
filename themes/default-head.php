@@ -36,8 +36,18 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Meta tags required for Bootstrap. They must be first in the head. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <meta charset="utf-8">
     <title><?php echo fleetname ?></title>
+    <!-- Import Bootstrap files -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <!-- /Bootstrap -->
     <link rel="stylesheet" href="<?php echo $relpath ?>themes/default.css" type="text/css" />
   </head>
 
@@ -50,8 +60,8 @@ echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
     if (defined("IFS")){
     ?>
       <header id="head">
-        <div class="text-center">
-          <img src="<?php echo $fleetbanner ?>" alt="<?php echo $fleetname ?>">
+        <div class="container text-center">
+          <img src="<?php echo $fleetbanner ?>" alt="<?php echo $fleetname ?>" class="img-responsive center-block">
         </div>
       </header><br />
     <?php } ?>

@@ -37,8 +37,8 @@ if ( $pop == "y" && defined("JS") )
 <footer>
 	<div class="container">
 	<div class="row">
-		<div class="smallgrey text-center">
-            <div style="float:right"><a href="http://ifs.obsidianfleet.net"><img src="images/ifs.png" border="0" class="img-obsidian img-responsive" /></a></div>
+		<div class="col-xs-12 smallgrey text-center">
+            <div class="pull-right"><a href="http://ifs.obsidianfleet.net"><img src="images/ifs.png" border="0" class="img-obsidian img-responsive" /></a></div>
             <p class="smallgrey">IFS software - All Rights Reserved Obsidian Fleet RPG &#169; 2001 - 2003.</p>
             <?php
             if ($pop != "y")
@@ -61,7 +61,7 @@ if ( $pop == "y" && defined("JS") )
     { ?>
 
         <div class="row">
-            <div class="text-center">
+            <div class="col-xs-12 text-center">
             <?php
                 echo '<a href="http://www.mamboserver.com" target="_blank">';
                 echo '<img src="' . $relpath . $poweredby . '" width="278" height="9" alt="Powered by Mambo Site Server" border="0" />';
