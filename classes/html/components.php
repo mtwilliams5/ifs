@@ -111,7 +111,7 @@ class components
             <?php /* <div class="checkbox"><label><input type="checkbox" name="remember" id="remember"> Remember Me</label></div> */ ?>
             <input type="hidden" name="op2" value="login">
             <input type="hidden" name="option" value="<?php echo $option ?>">
-            <button type="submit">Login</button><br />
+            <button class="btn btn-default btn-sm" type="submit">Login</button><br />
             <a href="index.php?option=registration&amp;task=register">Register</a><br />
             <a href="index.php?option=registration&amp;task=lostPassword">Lost password?</a>
         </form>
