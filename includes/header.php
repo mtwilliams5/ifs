@@ -120,6 +120,9 @@ else
     include_once ($relpath . "tf/lib.php");				// IFS-based stuff
 	include_once ($relpath . "includes/lib.php");		// More general stuff
 
+	// Include our page to grab position emails from the db
+	include_once ($relpath . "includes/emails.php");
+
     // if this is supposed to be a protected page, make sure it's protected
 	if ($reqtype)
 		require ($relpath . "includes/auth.php");
