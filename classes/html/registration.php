@@ -28,29 +28,29 @@ class registration
 {
     function lostPassForm($option)
     {
-    	?>
+        ?>
 		<h3 class="articlehead">Lost your Password?</h3>
         <p>No problem. Just type your User name and click on send button.<br />
             You'll receive a Confirmation Code by Email, then return here and retype your
             User name and your Code, after that you'll receive your new Password by Email.</p>
-        <form action="index.php" method="post">
+        <form class="form-horizontal" action="index.php" method="post">
         	<div class="form-group">
-            	<label for="checkusername" class="control-label">User name:</label>
-                <div>
+            	<label for="checkusername" class="col-sm-2 control-label">User name:</label>
+                <div class="col-sm-10 col-md-4">
                 	<input type="text" class="form-control" name="checkusername" id="checkusername" size="25">
                 </div>
             </div>
         	<div class="form-group">
-            	<label for="checkusername" class="control-label">Email Address:</label>
-                <div>
+            	<label for="checkusername" class="col-sm-2 control-label">Email Address:</label>
+                <div class="col-sm-10 col-md-4">
                 	<input type="text" class="form-control" name="confirmEmail" id="confirmEmail" size="35">
                 </div>
             </div>
             <input type="hidden" name="option" value="<?php echo $option ?>" />
             <input type="hidden" name="task" value="sendNewPass" />
         	<div class="form-group">
-            	<div>
-            		<input type="submit" value="Send Password" />
+            	<div class="col-sm-offset-2 col-sm-10">
+            		<input class="btn btn-default" type="submit" value="Send Password" />
                 </div>
             </div>
         </form>
@@ -62,34 +62,34 @@ class registration
         ?>
 
 		<h3 class="articlehead">Create an account</h3>
-        <form action="index.php" method="post">
+        <form class="form-horizontal" action="index.php" method="post">
         	<div class="form-group">
-                <label for="yourname" class="control-label">Name:</label>
-                <div>
+                <label for="yourname" class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-10 col-md-4">
                 	<input type="text" class="form-control" name="yourname" id="yourname">
                 </div>
         	</div>
         	<div class="form-group">
-                <label for="username1" class="control-label">User Name:</label>
-                <div>
+                <label for="username1" class="col-sm-2 control-label">User Name:</label>
+                <div class="col-sm-10 col-md-4">
                 	<input type="text" class="form-control" name="username1" id="username1">
                 </div>
         	</div>
         	<div class="form-group">
-                <label for="email" class="control-label">Email:</label>
-                <div>
+                <label for="email" class="col-sm-2 control-label">Email:</label>
+                <div class="col-sm-10 col-md-4">
                 	<input type="text" class="form-control" name="email" id="email" size="30">
                 </div>
         	</div>
         	<div class="form-group">
-                <label for="pass" class="control-label">Password:</label>
-                <div>
+                <label for="pass" class="col-sm-2 control-label">Password:</label>
+                <div class="col-sm-10 col-md-4">
                 	<input type="password" class="form-control" name="pass" id="pass" size="15">
                 </div>
         	</div>
         	<div class="form-group">
-                <label for="verifyPass" class="control-label">Verify Password:</label>
-                <div>
+                <label for="verifyPass" class="col-sm-2 control-label">Verify Password:</label>
+                <div class="col-sm-10 col-md-4">
                 	<input type="password" class="form-control" name="verifyPass" id="verifyPass" size="15">
                 </div>
             </div>
@@ -97,8 +97,8 @@ class registration
             <input type="hidden" name="option" value="<?php echo $option ?>">
             <input type="hidden" name="task" value="saveRegistration">
             <div class="form-group">
-            	<div>
-            		<input type="submit" value="Send Registration">
+            	<div class="col-sm-offset-2 col-sm-10">
+            		<input class="btn btn-default" type="submit" value="Send Registration">
                 </div>
             </div>
         </form>

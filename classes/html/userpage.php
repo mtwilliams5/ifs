@@ -30,16 +30,16 @@ class HTML_user
     {
     	?>
         <h2 class="heading">Submit a News Story</h2>
-        <form action="index.php" method="post" name="adminform">
+        <form class="form-horizontal" action="index.php" method="post" name="adminform">
 	        <div class="form-group">
-	        	<label for="newstitle" class="control-label">Title:</label>
-	            <div>
+	        	<label for="newstitle" class="col-sm-2 control-label">Title:</label>
+	            <div class="col-sm-8">
                 	<input type="text" class="form-control" name="newstitle" id="newstitle" value="<?php echo $title ?>">
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="newssection" class="control-label">Section:</label>
-	            <div>
+	        	<label for="newssection" class="col-sm-2 control-label">Section:</label>
+	            <div class="col-sm-8">
                 	<select class="form-control" name="newssection" id="newssection">
 	                        <option value="" selected="selected">select a Section</option>
 	                    	<?php
@@ -51,8 +51,8 @@ class HTML_user
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="introtext" class="control-label">Introduction:</label>
-	            <div>
+	        	<label for="introtext" class="col-sm-2 control-label">Introduction:</label>
+	            <div class="col-sm-8">
                 	<textarea class="form-control" cols="70" rows="15" name="introtext" id="introtext"></textarea>
                 </div>
 	        </div>
@@ -63,8 +63,8 @@ class HTML_user
             }
             ?>
 	        <div class="form-group">
-	        	<label for="fultext" class="control-label">Extended Text:</label>
-	            <div>
+	        	<label for="fultext" class="col-sm-2 control-label">Extended Text:</label>
+	            <div class="col-sm-8">
                 	<textarea class="form-control" cols="70" rows="15" name="fultext" id="fultext"></textarea>
                 </div>
 	        </div>
@@ -79,8 +79,8 @@ class HTML_user
             <input type="hidden" name="uid" value="<?php echo $uid ?>">
             <input type="hidden" name="Imagename2" value="<?php echo $Imagename ?>">
             <div class="form-group">
-            	<div></div>
-            	<input type="submit" name="submit" value="Add News">
+            	<div class="col-sm-2"></div>
+            	<input class="btn btn-default" type="submit" name="submit" value="Add News">
             </div>
 	    </form>
 		<?php
@@ -90,10 +90,10 @@ class HTML_user
     {
     	?>
         <h2 class="heading">Submit An Article</h2>
-	    <form action="index.php" method="post" name="adminform">
+	    <form class="form-horizontal" action="index.php" method="post" name="adminform">
 	        <div class="form-group">
-	        	<label for="Imagename" class="control-label">Image:</label>
-	            <div>
+	        	<label for="Imagename" class="col-sm-2 control-label">Image:</label>
+	            <div class="col-sm-8 col-md-6 col-lg-4">
                 	<?php if ($Imagename=="") echo '<div class="input-group">' ?>
                 	<input type="text" class="form-control" name="Imagename" id="Imagename" disabled="disabled" value="<?php echo $Imagename ?>">
 	                <?php
@@ -104,19 +104,19 @@ class HTML_user
 					}
                     ?>
 	            </div>
-                <div class="text-right">
+                <div class="col-sm-2 col-md-3 col-lg-4 text-right">
                 	<img src="images/6977transparent.gif" name="imagelib" class="img-responsive img-thumbnail">
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="arttitle" class="control-label">Title:</label>
-	            <div>
+	        	<label for="arttitle" class="col-sm-2 control-label">Title:</label>
+	            <div class="col-sm-8">
                 	<input type="text" class="form-control" name="arttitle" id="arttitle" value="<?php echo $title ?>">
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="artsection" class="control-label">Section:</label>
-	            <div>
+	        	<label for="artsection" class="col-sm-2 control-label">Section:</label>
+	            <div class="col-sm-8">
                 	<select class="form-control" name="artsection" id="artsection">
 	                        <option value="" selected="selected">select a Section</option>
 	                    	<?php
@@ -127,8 +127,8 @@ class HTML_user
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="pagecontent" class="control-label">Content:</label>
-	            <div>
+	        	<label for="pagecontent" class="col-sm-2 control-label">Content:</label>
+	            <div class="col-sm-8">
                 	<textarea class="form-control" cols="70" rows="15" name="pagecontent" id="pagecontent"></textarea>
                 </div>
 	        </div>
@@ -139,7 +139,7 @@ class HTML_user
             }
             ?>
 	        <div class="checkbox">
-            	<div></div>
+            	<div class="col-sm-2"></div>
 	            <label>
 	                <input type="checkbox" name="anonymous" id="anonymous">
                 	Remain Anonymous?
@@ -150,8 +150,8 @@ class HTML_user
             <input type="hidden" name="uid" value="<?php echo $uid ?>">
             <input type="hidden" name="Imagename2" value="<?php echo $Imagename ?>">
             <div class="form-group">
-            	<div></div>
-            	<input type="submit" name="submit" value="Add Article">
+            	<div class="col-sm-2"></div>
+            	<input class="btn btn-default" type="submit" name="submit" value="Add Article">
             </div>
 	    </form>
 		<?php
@@ -161,16 +161,16 @@ class HTML_user
     {
     	?>
         <h2 class="heading">Submit a FAQ</h2>
-	    <form action="index.php" method="post" name="adminform">
+	    <form class="form-horizontal" action="index.php" method="post" name="adminform">
 	        <div class="form-group">
-	        	<label for="faqtitle" class="control-label">Title:</label>
-	            <div>
+	        	<label for="faqtitle" class="col-sm-2 control-label">Title:</label>
+	            <div class="col-sm-8">
                 	<input type="text" class="form-control" name="faqtitle" id="faqtitle" value="<?php echo $title ?>">
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="faqsection" class="control-label">Section:</label>
-	            <div>
+	        	<label for="faqsection" class="col-sm-2 control-label">Section:</label>
+	            <div class="col-sm-8">
                 	<select class="form-control" name="faqsection" id="faqsection">
 	                        <option value="" selected="selected">select a Section</option>
 	                    	<?php
@@ -181,8 +181,8 @@ class HTML_user
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="pagecontent" class="control-label">Content:</label>
-	            <div>
+	        	<label for="pagecontent" class="col-sm-2 control-label">Content:</label>
+	            <div class="col-sm-8">
                 	<textarea class="form-control" cols="70" rows="15" name="pagecontent" id="pagecontent"></textarea>
                 </div>
 	        </div>
@@ -197,8 +197,8 @@ class HTML_user
             <input type="hidden" name="uid" value="<?php echo $uid ?>">
             <input type="hidden" name="Imagename2" value="<?php echo $Imagename ?>">
             <div class="form-group">
-            	<div></div>
-            	<input type="submit" name="submit" value="Add FAQ">
+            	<div class="col-sm-2"></div>
+            	<input class="btn btn-default" type="submit" name="submit" value="Add FAQ">
             </div>
 	    </form>
 		<?php
@@ -208,16 +208,16 @@ class HTML_user
     {
     	?>
         <h2 class="heading">Submit a Web Link</h2>
-	    <form action="index.php" method="post" name="NewLink">
+	    <form class="form-horizontal" action="index.php" method="post" name="NewLink">
 	        <div class="form-group">
-	        	<label for="linktitle" class="control-label">Name:</label>
-	            <div>
+	        	<label for="linktitle" class="col-sm-2 control-label">Name:</label>
+	            <div class="col-sm-8">
                 	<input type="text" class="form-control" name="linktitle" id="linktitle" value="<?php echo $title ?>">
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="linksection" class="control-label">Section:</label>
-	            <div>
+	        	<label for="linksection" class="col-sm-2 control-label">Section:</label>
+	            <div class="col-sm-8">
                 	<select class="form-control" name="linksection" id="linksection">
 	                        <option value="" selected="selected">select a Section</option>
 	                    	<?php
@@ -228,8 +228,8 @@ class HTML_user
                 </div>
 	        </div>
 	        <div class="form-group">
-	        	<label for="linkurl" class="control-label">URL:</label>
-	            <div>
+	        	<label for="linkurl" class="col-sm-2 control-label">URL:</label>
+	            <div class="col-sm-8">
                 	<input type="text" class="form-control" name="linkurl" id="linkurl">
                 </div>
 	        </div><br />
@@ -237,8 +237,8 @@ class HTML_user
             <input type="hidden" name="op" value="SaveNewLink">
             <input type="hidden" name="uid" value="<?php echo $uid ?>">
             <div class="form-group">
-            	<div></div>
-            	<input type="submit" name="submit" value="Add Link">
+            	<div class="col-sm-2"></div>
+            	<input class="btn btn-default" type="submit" name="submit" value="Add Link">
             </div>
 	    </form>
 		<?php
@@ -248,87 +248,91 @@ class HTML_user
     {
         ?>
 	    <h2 class="heading">Edit Your Details</h2>
-	    <form action="index.php" method="post" name="EditUser">
+	    <form class="form-horizontal" action="index.php" method="post" name="EditUser">
 	        <div class="form-group">
-	            <label for="name2" class="control-label">Your name:</label>
-                <div>
+	            <label for="name2" class="col-sm-2 control-label">Your name:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
 	            	<input type="text" class="form-control" name="name2" id="name2" value="<?php echo $name ?>">
 	        	</div>
             </div>
 	        <div class="form-group">
-	            <label for="email2" class="control-label">Email:</label>
-                <div>
+	            <label for="email2" class="col-sm-2 control-label">Email:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
 	            	<input type="text" class="form-control" name="email2" id="email2" value="<?php echo $email ?>">
 	        	</div>
             </div>
 	        <div class="form-group">
-	            <label for="username2" class="control-label">User name:</label>
-                <div>
+	            <label for="username2" class="col-sm-2 control-label">User name:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
 	            	<input type="text" class="form-control" name="username2" id="username2" value="<?php echo $username ?>">
 	        	</div>
             </div>
 	        <div class="form-group">
-	            <label for="pass2" class="control-label">Password:</label>
-                <div>
+	            <label for="pass2" class="col-sm-2 control-label">Password:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
 	            	<input type="password" class="form-control" name="pass2" id="pass2" value="">
 	        	</div>
             </div>
 	        <div class="form-group">
-	            <label for="verifyPass" class="control-label">Verify Password:</label>
-                <div>
+	            <label for="verifyPass" class="col-sm-2 control-label">Verify Password:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
 	            	<input type="password" class="form-control" name="verifyPass" id="verifyPass">
 	        	</div>
             </div>
 	        <div class="form-group">
-	            <label for="bdaymon" class="control-label">Birthday:
+	            <label for="bdaymon" class="col-sm-2 control-label">Birthday:
                 	<span class="help-block">(optional)</span></label>
-                <div>
-                	<div>
-						<select class="form-control" name="bdaymon" id="bdaymon">
-							<option value="00"<?php if ($bday['month'] == "00") echo 'selected="selected"' ?>>--</option>
-							<option value="01"<?php if ($bday['month'] == "01") echo 'selected="selected"' ?>>January</option>
-							<option value="02"<?php if ($bday['month'] == "02") echo 'selected="selected"' ?>>February</option>
-							<option value="03"<?php if ($bday['month'] == "03") echo 'selected="selected"' ?>>March</option>
-							<option value="04"<?php if ($bday['month'] == "04") echo 'selected="selected"' ?>>April</option>
-							<option value="05"<?php if ($bday['month'] == "05") echo 'selected="selected"' ?>>May</option>
-							<option value="06"<?php if ($bday['month'] == "06") echo 'selected="selected"' ?>>June</option>
-							<option value="07"<?php if ($bday['month'] == "07") echo 'selected="selected"' ?>>July</option>
-							<option value="08"<?php if ($bday['month'] == "08") echo 'selected="selected"' ?>>August</option>
-							<option value="09"<?php if ($bday['month'] == "09") echo 'selected="selected"' ?>>September</option>
-							<option value="10"<?php if ($bday['month'] == "10") echo 'selected="selected"' ?>>October</option>
-							<option value="11"<?php if ($bday['month'] == "11") echo 'selected="selected"' ?>>November</option>
-							<option value="12"<?php if ($bday['month'] == "12") echo 'selected="selected"' ?>>December</option>
-						</select>
-						<select class="form-control" name="bdayday" id="bdayday">
-							<option value="00"<?php if ($bday['day'] == "00") echo 'selected="selected"' ?>>--</option>
-							<?php
-							for ($i=1; $i<=31; $i++)
-							{
-								if ($i < 10)
-									$i = '0' . $i;
-								echo '<option value="' . $i . '"';
-								if ($bday['day'] == $i)
-									echo ' selected="selected"';
-								echo '>' . $i . '</option>';
-							}
-							?>
-						</select>
+                <div class="col-sm-10 col-md-6 col-lg-4">
+                	<div class="row">
+                        <div class="col-sm-6 col-md-8">
+                            <select class="form-control" name="bdaymon" id="bdaymon">
+                                <option value="00"<?php if ($bday['month'] == "00") echo 'selected="selected"' ?>>--</option>
+                                <option value="01"<?php if ($bday['month'] == "01") echo 'selected="selected"' ?>>January</option>
+                                <option value="02"<?php if ($bday['month'] == "02") echo 'selected="selected"' ?>>February</option>
+                                <option value="03"<?php if ($bday['month'] == "03") echo 'selected="selected"' ?>>March</option>
+                                <option value="04"<?php if ($bday['month'] == "04") echo 'selected="selected"' ?>>April</option>
+                                <option value="05"<?php if ($bday['month'] == "05") echo 'selected="selected"' ?>>May</option>
+                                <option value="06"<?php if ($bday['month'] == "06") echo 'selected="selected"' ?>>June</option>
+                                <option value="07"<?php if ($bday['month'] == "07") echo 'selected="selected"' ?>>July</option>
+                                <option value="08"<?php if ($bday['month'] == "08") echo 'selected="selected"' ?>>August</option>
+                                <option value="09"<?php if ($bday['month'] == "09") echo 'selected="selected"' ?>>September</option>
+                                <option value="10"<?php if ($bday['month'] == "10") echo 'selected="selected"' ?>>October</option>
+                                <option value="11"<?php if ($bday['month'] == "11") echo 'selected="selected"' ?>>November</option>
+                                <option value="12"<?php if ($bday['month'] == "12") echo 'selected="selected"' ?>>December</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <select class="form-control" name="bdayday" id="bdayday">
+                                <option value="00"<?php if ($bday['day'] == "00") echo 'selected="selected"' ?>>--</option>
+                                <?php
+                                for ($i=1; $i<=31; $i++)
+                                {
+                                    if ($i < 10)
+                                        $i = '0' . $i;
+                                    echo '<option value="' . $i . '"';
+                                    if ($bday['day'] == $i)
+                                        echo ' selected="selected"';
+                                    echo '>' . $i . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
 	        	</div>
             </div>
 
 	        <div class="form-group">
-	            <label for="email2" class="control-label">Your Characters:</label>
-                <div>
-                	<ul>
+	            <label for="email2" class="col-sm-2 control-label">Your Characters:</label>
+                <div class="col-sm-10 col-md-8 col-lg-6">
+                	<div class="list-group">
 	            		<?php echo $shiplist ?>
-                    </ul>
+                    </div>
 	        	</div>
             </div>
             <input type="hidden" name="uid" value="<?php echo $uid ?>">
             <input type="hidden" name="option" value="<?php echo $option ?>">
             <input type="hidden" name="op" value="saveUserEdit">
-            <input type="submit" name="submit" value="Save Changes">
+            <input class="btn btn-default" type="submit" name="submit" value="Save Changes">
 	    </form>
 		<?php
     }
