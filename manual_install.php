@@ -317,7 +317,7 @@ else
 	  `promotions` text NOT NULL,
 	  `newco` text NOT NULL,
 	  `resigned` text NOT NULL,
-	  `webupdates` text NOT NULL,
+	  `improvements` text NOT NULL,
 	  `notes` text NOT NULL,
 	  KEY `id` (`id`)
 	);

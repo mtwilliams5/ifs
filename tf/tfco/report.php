@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	12/22/03
   * Comments: Prepares monthly report
  ***/
 
@@ -53,47 +56,54 @@ else
     $avchar = $totalchar / $coships;
 
 	?>
-	<br />
-	<center>
     <form method="post" action="index.php?option=ifs&amp;task=tfco&amp;action=save_report">
         <?php
         if ($adminship)
-            echo "<input type=\"hidden\" name=\"adminship\" value=\"{$adminship}\" />\n";
+            echo '<input type="hidden" name="adminship" value="' . $adminship . '">';
         ?>
-        Welcome to the monthly report generator.  As a TFCO in Obsidian Fleet,
-        you are required to submit a monthly report to the FCOps and Triad.<br /><br />
-        Please check and complete the following information<br /><br />
-        Your login will not time-out while submitting the report.<br />
-        <br />
-        <b>Task Force: </b><?php echo $tfid ?> - <?php echo $tfname ?><br />
-        <br />
-        <b>Total Ships: </b><?php echo $ships ?><br />
-        &nbsp;&nbsp;&nbsp;<b>CO'ed Ships: </b><?php echo $coships ?><br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Active Ships: </b><?php echo $actships ?><br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Inactive Ships: </b><?php echo $inships ?><br />
-        &nbsp;&nbsp;&nbsp;<b>Open Ships: </b><?php echo $openships ?><br />
-        <br />
-        <b>Total Characters: </b><?php echo $totalchar ?><br />
-        <b>Average Characters per COed ship: </b><?php echo $avchar ?><br />
-        <br />
+        <h4 class="text-center">Welcome to the monthly report generator.</h4>
+        <p class="text-center">As a TFCO in <?php echo $fleetname ?>, you are required to submit a monthly report to the CFOps.</p>
+        <p class="text-center">Please check and complete the following information</p>
+        <p class="text-center">Your login will not time-out while submitting the report.</p>
+        
+        <h4>Task Force <?php echo $tfid . ' - ' . $tfname ?></h4>
+        
+        <ul class="list-unstyled">
+          <li><strong>Total Ships:</strong> <?php echo $ships ?></li>
+            <li><strong>&nbsp;&nbsp;&nbsp;CO'ed Ships:</strong> <?php echo $coships ?></li>
+              <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Active Ships:</strong> <?php echo $actships ?></li>
+              <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inactive Ships:</strong> <?php echo $inships ?></li>
+            <li><strong>&nbsp;&nbsp;&nbsp;Open Ships:</strong> <?php echo $openships ?></li>
+          <br />
+          <li><strong>Total Characters:</strong> <?php echo $totalchar ?></li>
+          <li><strong>Average Characters per COed ship:</strong> <?php echo $avchar ?></li>
+        </ul>
+		
+        <div class="form-group">
+        	<label for="promotions">Promotions:</label>
+        	<textarea class="form-control" name="promotions" id="promotions" rows="5" cols="60" wrap="physical"></textarea>
+        </div>
+        <div class="form-group">
+        	<label for="newco">New COs since last report:</label>
+        	<textarea class="form-control" name="newco" id="newco" rows="5" cols="60" wrap="physical"></textarea>
+        </div>
+        <div class="form-group">
+        	<label for="resigned">COs that Resigned or were Removed since last report:</label>
+        	<textarea class="form-control" name="resigned" id="resigned" rows="5" cols="60" wrap="physical"></textarea>
+        </div>
+        <div class="form-group">
+        	<label for="improvements">Improvements since last report:</label>
+        	<textarea class="form-control" name="improvements" id="improvements" rows="5" cols="60" wrap="physical"></textarea>
+        </div>
 
-        <p><b>Promotions:</b><br />
-        <textarea name="promotions" rows="5" cols="60" wrap="PHYSICAL"></textarea><br /><br />
-
-        <p><b>New COs since last report:</b><br />
-        <textarea name="newco" rows="5" cols="60" wrap="PHYSICAL"></textarea><br /><br />
-
-        <p><b>COs that Resigned since last report:</b><br />
-        <textarea name="resigned" rows="5" cols="60" wrap="PHYSICAL"></textarea><br /><br />
-
-        <p><b>Website Updates:</b><br />
-        <textarea name="webupdates" rows="5" cols="60" wrap="PHYSICAL"></textarea><br /><br />
-
-        <p><b>Other Notes:</b><br />
-        <textarea name="other" rows="5" cols="60" wrap="PHYSICAL"></textarea><br /><br />
-
-        <input type="SUBMIT" value="Submit" />
-        <input type="RESET" value="Clear Form" />
+        <div class="form-group">
+        	<label for="notes">General Notes:</label>
+        	<textarea class="form-control" name="notes" id="notes" rows="5" cols="60" wrap="physical"></textarea>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-success" type="submit" name="Submit" value="Submit Report">
+            <input class="btn btn-danger" type="reset" name="Reset" value="Clear Form">
+        </div>
     </form>
 	<?php
 }
