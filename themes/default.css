@@ -145,10 +145,10 @@ h6, .h6 {
     background-color: #C0C0C0;
 }
 
-.ifsHeading {
-        font: bold 16px Verdana, Geneva, Arial, Helvetica, sans-serif;
-        color: #FFFFFF;
-        text-align: centre;
+.ifsHeading, .heading {
+    font: bold 1.15em Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+    text-align: centre;
 }
 
 .fleetstats {
@@ -159,7 +159,8 @@ h6, .h6 {
 	font-size: 10pt;
 }
 .fleetdesc {
-	
+    font: 1.1em Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color: #C0C0C0;
 }
 
 input.button {
@@ -211,7 +212,7 @@ p {
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
 }
 
-.small {
+small, .small {
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 10px;
     color: #FFFFFF;

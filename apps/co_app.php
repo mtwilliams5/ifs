@@ -33,11 +33,13 @@ if (!defined("IFS"))
    	require("../includes/lib.php");
 ?>
 
-<div class="switch-app">
-  <div class="text-center">
-	<a href="index.php?option=app&amp;task=crew">Player Application</a>
-	<a href="index.php?option=app&amp;task=co">CO Application</a>
-	<a href="index.php?option=app&amp;task=ship">Sim Application</a>
+<div class="row switch-app">
+  <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+  	<div class="btn-group">
+	  <a role="button" class="btn btn-default btn-sm" href="index.php?option=app&amp;task=crew">Player Application</a>
+	  <a role="button" class="btn btn-default btn-sm active" href="index.php?option=app&amp;task=co">CO Application</a>
+	  <a role="button" class="btn btn-default btn-sm" href="index.php?option=app&amp;task=ship">Sim Application</a>
+    </div>
   </div>
 </div>
 
@@ -45,49 +47,49 @@ if (!defined("IFS"))
 <form class="form-horizontal" action="index.php?option=app&amp;task=co2" method="post">
 	<h3 class="heading">Player Information</strong></h3>
     <div class="form-group">
-	    <label for="Name" class="control-label">Your Real Name:</label>
-        <div>
+	    <label for="Name" class="col-sm-2 control-label">Your Real Name:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<input type="text" class="form-control" size="37" name="Name" id="Name">
         </div>
     </div>
     <div class="form-group">
-	    <label for="Age" class="control-label">Your Real Age:</label>
-        <div>
+	    <label for="Age" class="col-sm-2 control-label">Your Real Age:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<input type="text" class="form-control" size="37" name="Age" id="Age">
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="Email" class="control-label">Email Address:</label>
-        <div>
+	    <label for="Email" class="col-sm-2 control-label">Email Address:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<input type="text" class="form-control" size="37" name="Email" id="Email">
 	    </div>
     </div>
     
-    <div class="form-group"><h5 class="heading">Contact Info</strong></h5></div>
+    <div class="form-group"><h5 class="headblue col-xs-offset-1">Contact Info</strong></h5></div>
     <div class="form-group">
-	    <label for="IM" class="control-label">Instant Messengers:</label>
-        <div>
+	    <label for="IM" class="col-sm-2 control-label">Instant Messengers:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<textarea class="form-control" name="IM" id="IM" cols="30" rows="2"></textarea>
 	    </div>
     </div>
     
-    <div class="form-group"><h5 class="heading">Player Experience</strong></h5></div>
+    <div class="form-group"><h5 class="headblue col-xs-offset-1">Player Experience</strong></h5></div>
     <div class="form-group">
-	    <label for="RPG_Experience" class="control-label">List all Sim Groups:
+	    <label for="RPG_Experience" class="col-sm-2 control-label">List all Sim Groups:
         <span class="help-block" id="RPG_HelpBlock">(Including group names, sims, etc)</span></label>
-        <div>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<textarea class="form-control" name="RPG_Experience" id="RPG_Experience" rows="4" cols="50"></textarea>
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="CO_Experience" class="control-label">Do you have any previous CO experience? If so, describe:</label>
-        <div>
+	    <label for="CO_Experience" class="col-sm-2 control-label">Do you have any previous CO experience? If so, describe:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<textarea class="form-control" name="CO_Experience" id="CO_Experience" rows="4" cols="50"></textarea>
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="Time_In_Other_RPGs" class="control-label">How long have you been simming?</label>
-        <div>
+	    <label for="Time_In_Other_RPGs" class="col-sm-2 control-label">How long have you been simming?</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<select class="form-control" name="Time_In_Other_RPGs" id="Time_In_Other_RPGs">
                 <option selected="selected" value="-----Select----">-----Select----</option>
                 <option value="0 - 3 Months">0 - 3 Months</option>
@@ -100,8 +102,8 @@ if (!defined("IFS"))
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="rules" class="control-label">Will you follow all the rules?</label>
-        <div>
+	    <label for="rules" class="col-sm-2 control-label">Will you follow all the rules?</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
         	<div class="radio">
             	<label>
                 	<input type="radio" name="rules" value="yes">
@@ -119,8 +121,8 @@ if (!defined("IFS"))
     
 	<h3 class="heading">Sim Information</strong></h3>
     <div class="form-group">
-	    <label for="desiredclass" class="control-label">Sim Class:</label>
-        <div>
+	    <label for="desiredclass" class="col-sm-2 control-label">Sim Class:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<select class="form-control" name="desiredclass" id="desiredclass">
 	    		<option value="Any" selected="selected">Any</option>
 				<?php
@@ -136,8 +138,8 @@ if (!defined("IFS"))
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="altclass" class="control-label">Alternate Sim Class:</label>
-        <div>
+	    <label for="altclass" class="col-sm-2 control-label">Alternate Sim Class:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<select class="form-control" name="altclass" id="altclass">
                 <option value="Any" selected="selected">Any</option>
                 <?php
@@ -153,8 +155,8 @@ if (!defined("IFS"))
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="ship" class="control-label">Desired Sim:</label>
-        <div>
+	    <label for="ship" class="col-sm-2 control-label">Desired Sim:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<select class="form-control" name="ship" id="ship">
                 <option value="Any" selected="selected">Any</option>
                 <?php
@@ -176,27 +178,28 @@ if (!defined("IFS"))
     
 	<h3 class="heading">Character Information</strong></h3>
     <div class="form-group">
-	    <label for="Characters_Name" class="control-label">Character's Name:</label>
-        <div>
+	    <label for="Characters_Name" class="col-sm-2 control-label">Character's Name:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<input type="text" class="form-control" size="37" name="Characters_Name" id="Characters_Name">
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="Characters_Race" class="control-label">Character's Species:</label>
-        <div>
+	    <label for="Characters_Race" class="col-sm-2 control-label">Character's Species:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<input type="text" class="form-control" size="37" name="Characters_Race" id="Characters_Race">
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="Characters_Gender" class="control-label">Character's Gender:</label>
-        <div>
+	    <label for="Characters_Gender" class="col-sm-2 control-label">Character's Gender:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<input type="text" class="form-control" size="37" name="Characters_Gender" id="Characters_Gender">
 	    </div>
     </div>
     <div class="form-group">
 	    <label for="Character_Bio" class="col-sm-3 control-label">Character Bio:
-	    <span class="help-block">Please make this as detailed as you can. The better it is, the more likely you are to succeed in your application</span>
-        <div>
+            <span class="help-block">Please make this as detailed as you can. The better it is, the more likely you are to succeed in your application</span>
+        </label>
+        <div class="col-sm-9 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="Character_Bio" id="Character_Bio" rows="20" cols="50"></textarea>
 	    </div>
     </div>
@@ -204,38 +207,38 @@ if (!defined("IFS"))
 	<h3 class="heading">Questionnaire</strong></h3>
 	<p class="help-block">Instructions: Please answer the following questions honestly and completely. Take time to consider your answers. The answers are subjective, thus there are no &quot;right&quot; or &quot;wrong&quot; replies. Your answers will be judged by the TFCO the sim you are applying for is in. If, after review, they feel that you are not qualified, they will suggest you take a position as sim XO, Department Head, or Command Intern for further training before you attend Command Class. If they find you are ready for command they will assign you to a ship and you'll be entered into Command Class. Every opportunity for success is afforded the candidate.</p>
     <div class="form-group">
-	    <label for="q1" class="control-label">1) What do you think are the duties of a sim's Commanding Officer, both in-character and out-of-character?</label>
-        <div>
+	    <label for="q1" class="col-sm-4 control-label">1) What do you think are the duties of a sim's Commanding Officer, both in-character and out-of-character?</label>
+        <div class="col-sm-8 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="q1" id="q1" rows="9" cols="50"></textarea>
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="q2" class="control-label">2) What role do you think XOs and department heads should play in helping run the sim?</label>
-        <div>
+	    <label for="q2" class="col-sm-4 control-label">2) What role do you think XOs and department heads should play in helping run the sim?</label>
+        <div class="col-sm-8 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="q2" id="q2" rows="9" cols="50"></textarea>
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="q3" class="control-label">3) How do you plan to recruit?</label>
-        <div>
+	    <label for="q3" class="col-sm-4 control-label">3) How do you plan to recruit?</label>
+        <div class="col-sm-8 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="q3" id="q3" rows="9" cols="50"></textarea>
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="q4" class="control-label">4) Posting has dropped to an all-time low, there are only 1 or 2 posts a week. What will you do to motive your crew into posting again?</label>
-        <div>
+	    <label for="q4" class="col-sm-4 control-label">4) Posting has dropped to an all-time low, there are only 1 or 2 posts a week. What will you do to motive your crew into posting again?</label>
+        <div class="col-sm-8 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="q4" id="q4" rows="9" cols="50"></textarea>
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="q5" class="control-label">5) A crewmember has come to you, complaining about someone else and accusing them of being control-freaks. How do you handle it?</label>
-        <div>
+	    <label for="q5" class="col-sm-4 control-label">5) A crewmember has come to you, complaining about someone else and accusing them of being control-freaks. How do you handle it?</label>
+        <div class="col-sm-8 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="q5" id="q5" rows="9" cols="50"></textarea>
 	    </div>
     </div>
     <div class="form-group">
-	    <label for="q6" class="control-label">6) You disagree with a decision made by the Admiralty and other CO's of the fleet. What do you do?</label>
-        <div>
+	    <label for="q6" class="col-sm-4 control-label">6) You disagree with a decision made by the Admiralty and other CO's of the fleet. What do you do?</label>
+        <div class="col-sm-8 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="q6" id="q6" rows="9" cols="50"></textarea>
 	    </div>
     </div>
@@ -243,16 +246,16 @@ if (!defined("IFS"))
 	<h3 class="heading">Sample Post</strong></h3>
     <p class="help-block">Please reply to the situation below:</p>
     <div class="form-group">
-	    <label for="Sample_Post" class="control-label">You are in the lounge when suddenly the ship shakes violently and the lights go out. A few seconds later, the emergency lights come on. A few crewmen try the door, but it doesn't work -- it seems like power is out throughout the whole ship.</label>
-        <div>
+	    <label for="Sample_Post" class="col-sm-4 control-label">You are in the lounge when suddenly the ship shakes violently and the lights go out. A few seconds later, the emergency lights come on. A few crewmen try the door, but it doesn't work -- it seems like power is out throughout the whole ship.</label>
+        <div class="col-sm-8 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="Sample_Post" id="Sample_Post" rows="9" cols="50"></textarea>
 	    </div>
     </div>
     
 	<h3 class="heading">Reference</strong></h3>
     <div class="form-group">
-	    <label for="Reference" class="control-label">How did you Hear About Us?:</label>
-        <div>
+	    <label for="Reference" class="col-sm-2 control-label">How did you Hear About Us?:</label>
+        <div class="col-sm-10 col-md-6 col-lg-4">
 	    	<select class="form-control" name="Reference" id="Reference">
                 <option selected="selected" value="select">-----Select Reference----</option>
                 <option value="Already In Fleet">Already in the Fleet</option>
@@ -275,12 +278,12 @@ if (!defined("IFS"))
 	<h3 class="heading">Other Comments</strong></h3>
     <div class="form-group">
 	    <label for="comments" class="col-sm-3 control-label">Do you have anything else you would like to add to your application?</label>
-        <div>
+        <div class="col-sm-9 col-md-8 col-lg-6">
 	    	<textarea class="form-control" name="comments" id="comments" rows="5" cols="50"></textarea>
 	    </div>
     </div>
 	<div class="form-group">
-		<input type="submit" name="Submit" value="Submit Application">
-		<input type="reset" name="Reset" value="Reset Application">
+		<input class="btn btn-success" type="submit" name="Submit" value="Submit Application">
+		<input class="btn btn-danger" type="reset" name="Reset" value="Reset Application">
     </div>
 </form>
