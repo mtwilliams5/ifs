@@ -254,10 +254,14 @@ else
 	  `status` text NOT NULL,
 	  `crew` tinyint(4) NOT NULL default '0',
 	  `crewlist` text NOT NULL,
-	  `mission` tinytext NOT NULL,
-	  `missdesc` tinytext NOT NULL,
-	  `improvement` tinytext NOT NULL,
-	  `comments` tinytext NOT NULL,
+		`newcrew` text NOT NULL default '',
+		`removedcrew` text NOT NULL default '',
+		`promotions` text NOT NULL default '',
+	  `mission` text NOT NULL default '',
+	  `missdesc` text NOT NULL default '',
+		`posts` tinytext NOT NULL default '',
+		`awards` text NOT NULL default '',
+	  `comments` text NOT NULL default '',
 	  PRIMARY KEY  (`id`)
 	);
 

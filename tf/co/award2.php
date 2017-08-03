@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	6/03/04
   * Comments: Allows COs to nominate characters for awards
  ***/
 
@@ -89,7 +92,7 @@ else
 
 	}
 
-    echo "<h1>$fleetname Awards</h1>\n";
-    echo "<p>Your submission has been received.  Thanks for taking good care of your crew!</p><br /><br />\n";
+    echo '<h1>' . $fleetname . ' Awards</h1>';
+    echo '<p class="text-success">Your submission has been received.  Thanks for taking good care of your crew!</p>';
 }
 ?>

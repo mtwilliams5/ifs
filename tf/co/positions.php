@@ -7,8 +7,12 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -17,7 +21,6 @@
   * This file based on code from Open Positions List
   * Copyright (C) 2002, 2003 Frank Anon
   *
-  * Date:	12/22/03
   * Comments: Allows COs to edit positions for the OPL
  ***/
 
@@ -26,128 +29,144 @@ if (!defined("IFS"))
 else
 {
 	?>
-	<br>
-	<center>
-	<table border="0" cellpadding="0" cellspacing="0">
-		<tr>
-			<td width="100" valign="top">&nbsp;</td>
-			<td width="15">&nbsp;</td>
-			<td width="100%">
-				<center><h2>Edit Positions</h2></center>
-				<i>Below is a list of positions for your ship<br />
-				This list is used in generating your ship's listing on the Open Positions List.</i><br />
+	<h2 class="text-center">Edit Positions</h2>
+    <p>Below is a list of positions for your ship<br />
+    This list is used in generating your ship's listing on the Open Positions List.</p>
 
-				<table>
-					<form method="post" action="index.php?option=ifs&amp;task=co&amp;action=save_pos">
-						<input type="hidden" name="sid" value="<?php echo $sid ?>" />
-						<input type="hidden" name="pos_act" value="remove" />
-                        <?php
-                        if ($adminship)
-                           	echo "<input type=\"hidden\" name=\"adminship\" value=\"{$adminship}\">\n";
-                        ?>
-						<tr><th colspan="2">Remove Current Positions</th></tr>
-						<tr>
-                        	<td><b>Position</b></td>
-							<td width="15"><b>Remove</b></td>
-                        </tr>
-						<?
-						$filename = "tf/positions.txt";
-						$contents = file($filename);
-						$length = sizeof($contents);
-						$counter = 0;
+    <form class="form-horizontal" method="post" action="index.php?option=ifs&amp;task=co&amp;action=save_pos">
+    	<input type="hidden" name="sid" value="<?php echo $sid ?>" />
+		<?php
+        if ($multiship)
+            echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+        ?>
+        <input type="hidden" name="pos_act" value="remove">
+        <?php
+        if ($adminship)
+            echo '<input type="hidden" name="adminship" value="' . $adminship . '">';
+        ?>
+        <h5>Remove Current Positions</h5>
+        <div class="form-group">
+        	<strong class="col-xs-8 col-sm-6 col-lg-4">Position</strong>
+            <strong class="col-xs-4 col-sm-3">Remove</strong>
+        </div>
+        <?php
+		$filename = "tf/positions.txt";
+        $contents = file($filename);
+        $length = sizeof($contents);
+        $counter = 0;
 
-						do
-                        {
-							$pos = trim($contents[$counter]);
-							$pos = addslashes($pos);
+        do
+        {
+            $pos = trim($contents[$counter]);
+            $pos = mysql_real_escape_string($pos);
 
-							$qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='rem' AND pos='$pos'";
-							$result = $database->openConnectionWithReturn($qry);
+            $qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='rem' AND pos='$pos'";
+            $result = $database->openConnectionWithReturn($qry);
 
-							if (!mysql_num_rows($result))
-                            {
-								$pos = stripslashes($pos);
+            if (!mysql_num_rows($result))
+            {
+                $pos = stripslashes($pos);
+				?>
+                <div class="checkbox">
+                	<label class="col-xs-10 col-sm-6 col-lg-4"><?php echo $pos ?></label>
+                	<div class="col-xs-2">
+                    	<input type="checkbox" class="pull-right" name="check[]" value="<?php echo $pos ?>">
+                    </div>
+                </div>
+                <?php
+            }
+            $counter = $counter + 1;
+        } while ($counter < ($length));
 
-								echo "<tr><td>";
-								echo $pos . "</td>\n";
+        $qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='add'";
+        $result = $database->openConnectionWithReturn($qry);
+        while ( list ($pos) = mysql_fetch_array($result) )
+        {
+            $pos = htmlentities($pos);
+			?>
+                <div class="checkbox">
+                	<label class="col-xs-10 col-sm-6 col-lg-4"><?php echo $pos ?></label>
+                	<div class="col-xs-2">
+                    	<input type="checkbox" class="pull-right" name="check[]" value="<?php echo $pos ?>">
+                    </div>
+                </div>
+            <?php
+        }
 
-								echo "<td><input type=\"checkbox\" name=\"check[]\" value=\"$pos\" /></td></tr>\n";
-							}
-							$counter = $counter + 1;
-						} while ($counter < ($length));
+        ?>
+        <br />
+        <div class="form-group">
+        	<div class="col-xs-7 col-sm-5 col-lg-3"></div>
+            <div class="col-xs-4 col-sm-3">
+            	<input class="btn btn-danger btn-sm" type="submit" value="Remove">
+            </div>
+        </div>
+    </form>
 
-						$qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='add'";
-						$result = $database->openConnectionWithReturn($qry);
-						while ( list ($pos) = mysql_fetch_array($result) )
-                        {
-                        	$pos = htmlentities($pos);
-							echo "<tr><td>";
-							echo $pos . "</td>";
-							echo "<td><input type=\"checkbox\" name=\"check[]\" value=\"$pos\" /></td></tr>\n";
-						}
+    <form class="form-horizontal" method="post" action="index.php?option=ifs&amp;task=co&amp;action=save_pos">
+        <input type="hidden" name="sid" value="<?php echo $sid ?>">
+        <?php
+        if ($multiship)
+            echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+        ?>
+        <input type="hidden" name="pos_act" value="add">
+        <?php
+        if ($adminship)
+            echo '<input type="hidden" name="adminship" value="' . $adminship .'" />';
+        ?>
+        <h5>Add Positions</h5>
+        <div class="form-group">
+        	<strong class="col-xs-8 col-sm-6 col-lg-4">Position</strong>
+            <strong class="col-xs-4 col-sm-3">Add</strong>
+        </div>
 
-						?>
-						<tr>
-                        	<td>&nbsp;</td>
-							<td><input type="submit" value="Submit" /></td>
-                        </tr>
-					</form>
-				</table>
-
-				<br /><br />
-
-				<table>
-					<form method="post" action="index.php?option=ifs&amp;task=co&amp;action=save_pos">
-						<input type="hidden" name="sid" value="<?php echo $sid ?>" />
-						<input type="hidden" name="pos_act" value="add" />
-                        <?php
-                        if ($adminship)
-                           	echo "<input type=\"hidden\" name=\"adminship\" value=\"{$adminship}\" />\n";
-                        ?>
-						<tr><th colspan="2">Add Positions</th></tr>
-						<tr>
-                        	<td><b>Position</b></td>
-							<td width="15"><b>Add</b></td>
-                        </tr>
-
-						<?php
-						$qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='rem'";
-						$result = $database->openConnectionWithReturn($qry);
-						while ( list ($pos) = mysql_fetch_array($result) )
-                    	{
-							echo "<tr><td>$pos</td>";
-							echo "<td><input type=\"checkbox\" name=\"check[]\" value=\"$pos\" /></td></tr>\n";
-						}
-						?>
-						<tr>
-                        	<td><input type="text" length="25" name="other" /></td>
-							<td><input type="checkbox" name="o1" /></td>
-                        </tr>
-
-						<tr>
-                        	<td><input type="text" length="25" name="other2" /></td>
-							<td><input type="checkbox" name="o2" /></td>
-                        </tr>
-
-						<tr>
-                        	<td><input type="text" length="25" name="other3" /></td>
-							<td><input type="checkbox" name="o3" /></td>
-                        </tr>
-
-						<tr>
-                        	<td>&nbsp;</td>
-							<td><input type="submit" value="Submit" /></td>
-                        </tr>
-					</form>
-				</table>
-
-		  		<br /><br />
-			</td>
-			<td width="15">&nbsp;</td>
-		  </tr>
-
-	</table>
-	<br />
+        <?php
+        $qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='rem'";
+        $result = $database->openConnectionWithReturn($qry);
+        while ( list ($pos) = mysql_fetch_array($result) )
+        {
+		?>
+            <div class="checkbox">
+                <label class="col-xs-10 col-sm-6 col-lg-4"><?php echo $pos ?></label>
+                <div class="col-xs-2">
+                    <input type="checkbox" class="pull-right" name="check[]" value="<?php echo $pos ?>">
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+        <div class="form-group">
+        	<div class="col-xs-9 col-sm-6 col-lg-4 other-checkbox-input">
+            	<input type="text" class="form-control input-sm" length="25" name="other">
+            </div>
+            <div class="col-xs-2 checkbox other-checkbox">
+                <input type="checkbox" class="pull-right" name="o1">
+            </div>
+        </div>
+        <div class="form-group">
+        	<div class="col-xs-9 col-sm-6 col-lg-4 other-checkbox-input">
+            	<input type="text" class="form-control input-sm" length="25" name="other2">
+            </div>
+            <div class="col-xs-2 checkbox other-checkbox">
+                <input type="checkbox" class="pull-right" name="o2">
+            </div>
+        </div>
+        <div class="form-group">
+        	<div class="col-xs-9 col-sm-6 col-lg-4 other-checkbox-input">
+            	<input type="text" class="form-control input-sm" length="25" name="other3">
+            </div>
+            <div class="col-xs-2 checkbox other-checkbox">
+                <input type="checkbox" class="pull-right" name="o3">
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+        	<div class="col-xs-7 col-sm-5 col-lg-3"></div>
+            <div class="col-xs-4 col-sm-3">
+            	<input class="btn btn-success btn-sm" type="submit" value="Add">
+            </div>
+        </div>
+    </form>
 	<?php
 }
 ?>
