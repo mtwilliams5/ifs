@@ -821,18 +821,18 @@ foreach($types AS $type) {
 		$i = 1;
 		if($type != "Marine") {
 			foreach($ranks AS $rankpip => $rankname) {
-				$querym = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', 'ranks/".$type."/".$color."-".$rankpip.".png', '".$colorname."', ".$i.")";
+				$querym = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', '".$type."/".$color."-".$rankpip.".png', '".$colorname."', ".$i.")";
 				mysql_query($querym);
 				$i++;
 			}
 		} else {
 			foreach($ranksm AS $rankpip => $rankname) {
-				$queryn = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', 'ranks/".$type."/".$color."-".$rankpip.".png', 'Marine ".$colorname."', ".$i.")";
+				$queryn = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', '".$type."/".$color."-".$rankpip.".png', 'Marine ".$colorname."', ".$i.")";
 				mysql_query($queryn);
 				$i++;
 			}
 		}
-		$queryb = "INSERT INTO `{$spre}rank` VALUES (NULL, 'Blank', 'ranks/".$color."-blank1.png', '".$colorname."', 0)";
+		$queryb = "INSERT INTO `{$spre}rank` VALUES (NULL, 'Blank', '".$color."-blank1.png', '".$colorname."', 0)";
 		mysql_query($queryb);
 	}
 }
