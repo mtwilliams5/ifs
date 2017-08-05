@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated by: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	12/22/03
   * Comments: Admin tool for playing with peoples' userlevels
   *
  ***/
@@ -39,19 +42,20 @@ else
             $result = $database->openConnectionWithReturn($qry);
 
 			if (!mysql_num_rows($result))
-            	echo "UID not found";
+            	echo '<h4 class="text-danger">UID not found</h4>';
             else
             {
 	            list ($uname, $curflag) = mysql_fetch_array($result);
-    	        echo "<b>$euid - $uname</b><br /><br />\n";
+    	        echo '<h4>User ID: ' . $euid . ' - ' . $uname . '</h4>';
         	    ?>
-				<form action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=save" method="post">
-    	        	<input type="hidden" name="euid" value="<?php echo $euid ?>" />
-    	        	<input type="hidden" name="uname" value="<?php echo $uname ?>" />
-	    	        <table width="100%" align="center" border="1" cellpadding="5">
+				<form class="form-horizontal" action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=save" method="post">
+    	        	<input type="hidden" name="euid" value="<?php echo $euid ?>">
+    	        	<input type="hidden" name="uname" value="<?php echo $uname ?>">
+	    	        <table class="table ulevels">
+                      <thead>
     	    	    	<tr>
         	    	    	<th>
-            	    	    	Flag (admin-type in italics)
+            	    	    	Flag
                 	    	</th>
 	                    	<th>
 		                    	No Access
@@ -66,6 +70,8 @@ else
                             	Main Flag
                             </th>
         		        </tr>
+                      </thead>
+                      <tbody>
 
 						<?php
 			            $qry = "SELECT name, flag, admin FROM {$spre}flags ORDER BY flag";
@@ -73,64 +79,85 @@ else
 
 						while (list ($fname, $fid, $admin) = mysql_fetch_array($result))
                         {
-    	            	    echo "<tr>\n";
-                            	if ($admin == "1")
-		    	               		echo "<td><i>{$fname}</i></td>\n";
-                                else
-		    	               		echo "<td>{$fname}</td>\n";
-    	    	               	echo "<td>";
-		        	                if (!strstr($curflag, $fid))
-        	        	            	echo "<input type=\"radio\" name=\"flag[{$fid}]\" value=\"0\" checked=\"checked\" />";
-		                	        else
-        	                	    	echo "<input type=\"radio\" name=\"flag[{$fid}]\" value=\"0\" />";
-		                    	echo "</td>\n";
-		                        echo "<td>";
-	    	                        if (strstr($curflag, $fid))
-	        	                    	echo "<input type=\"radio\" name=\"flag[{$fid}]\" value=\"1\" checked=\"checked\" />";
-	            	                else
-	                	            	echo "<input type=\"radio\" name=\"flag[{$fid}]\" value=\"1\" />";
-	                    		echo "</td>\n";
-		                        echo "<td>";
-		                            if (strstr($curflag, strtoupper($fid)))
-	    	                        	echo "<input type=\"radio\" name=\"flag[{$fid}]\" value=\"2\" checked=\"checked\" />";
-	        	                    else
-	            	                	echo "<input type=\"radio\" name=\"flag[{$fid}]\" value=\"2\" />";
-	                    		echo "</td>\n";
-                                echo "<td>";
-                                	if ($curflag{0} == $fid)
-	                                	echo "<input type=\"radio\" name=\"mainflag\" value=\"{$fid}\" checked=\"checked\" />";
-                                    else
-	                                	echo "<input type=\"radio\" name=\"mainflag\" value=\"{$fid}\" />";
-                            	echo "</td>\n";
-		                    echo "</tr>\n";
+						?>
+    	            	    <tr>
+                            	<td>
+									<?php
+                                    	echo $fname;
+										if ($admin == "1") echo '<span class="help-block">(Admin-level flag)</span>'
+									?>
+                                </td>
+    	    	               	<td>
+                                	<div class="radio">
+                                    	<label>
+                                        	<input type="radio" name="flag[<?php echo $fid ?>]" value="0" <?php if (!strstr($curflag, $fid)) echo ' checked="checked"' ?>>
+                                            <span class="sr-only"><?php echo $fname ?> to <em>No Access</em></span>
+                                    	</label>
+                                    </div>
+		                    	</td>
+		                        <td>
+                                	<div class="radio">
+                                    	<label>
+                                        	<input type="radio" name="flag[<?php echo $fid ?>]" value="1" <?php if (strstr($curflag, $fid)) echo ' checked="checked"' ?>>
+                                            <span class="sr-only"><?php echo $fname ?> to <em>Regular Access</em></span>
+                                    	</label>
+                                    </div>
+	                    		</td>
+		                        <td>
+                                	<div class="radio">
+                                    	<label>
+                                        	<input type="radio" name="flag[<?php echo $fid ?>]" value="2" <?php if (strstr($curflag, strtoupper($fid))) echo ' checked="checked"' ?>>
+                                            <span class="sr-only"><?php echo $fname ?> to <em>Super Access</em></span>
+                                    	</label>
+                                    </div>
+	                    		</td>
+                                <td>
+                                	<div class="radio">
+                                    	<label>
+                                        	<input type="radio" name="mainflag" value="<?php echo $fid ?>" <?php if ($curflag{0} == $fid) echo ' checked="checked"' ?>>
+                                            <span class="sr-only"><?php echo $fname ?> to <em>Main Flag</em></span>
+                                    	</label>
+                                    </div>
+                            	</td>
+		                    </tr>
+                        <?php
 		            	}
 	    	            ?>
-	        	    </table><br />
-                    <i>Note that regular triad access includes super access to everything else,<br />
-                    and that no other flags need to be set.</i><br /><br />
-
-					Main Character:
-                    <select name="mainchar">
-	                    <?php
-						$qry = "SELECT mainchar FROM {$mpre}users WHERE id='$euid'";
-                        $result = $database->openConnectionWithReturn($qry);
-                        list ($mainchar) = mysql_fetch_array($result);
-
-	                    $qry = "SELECT c.id, r.rankdesc, c.name, s.name
-                        		FROM {$spre}rank r, {$spre}characters c, {$spre}ships s
-                                WHERE c.player='$euid' AND c.ship=s.id AND c.rank=r.rankid";
-						$result = $database->openConnectionWithReturn($qry);
-
-						while (list ($cid, $rname, $coname, $sname) = mysql_fetch_array($result))
-                        {
-	                    	echo "<option value=\"$cid\"";
-                            if ($cid == $mainchar)
-                            	echo " selected=\"selected\"";
-                            echo ">$rname {$coname}, $sname</option>\n";
-	                	}
-    	                ?>
-                    </select><br />
-                	<input type="submit" value="Update" />
+                      </tbody>
+	        	    </table>
+                    <p class="help-block">Note that regular admin access includes super access to everything else, and that no other flags need to be set.</p>
+                    
+                    <div class="checkbox">
+                    	<label>
+                    		<input type="checkbox" name="clear" value="yes">
+                            Remove all access?
+                        </label>
+                    </div>
+					<br />
+					<div class="form-group">
+                        <label for="mainchar">Main Character:</label>
+                        <select class="form-control" name="mainchar">
+                            <?php
+                            $qry = "SELECT mainchar FROM {$mpre}users WHERE id='$euid'";
+                            $result = $database->openConnectionWithReturn($qry);
+                            list ($mainchar) = mysql_fetch_array($result);
+    
+                            $qry = "SELECT c.id, r.rankdesc, c.name, s.name
+                                    FROM {$spre}rank r, {$spre}characters c, {$spre}ships s
+                                    WHERE c.player='$euid' AND c.ship=s.id AND c.rank=r.rankid";
+                            $result = $database->openConnectionWithReturn($qry);
+    
+                            while (list ($cid, $rname, $coname, $sname) = mysql_fetch_array($result))
+                            {
+                                echo "<option value=\"$cid\"";
+                                if ($cid == $mainchar)
+                                    echo " selected=\"selected\"";
+                                echo ">$rname {$coname}, $sname</option>\n";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                	<button type="submit" class="btn btn-default">Update</button>
 	            </form>
     	        <?php
             }
@@ -138,83 +165,156 @@ else
 
 
         case "save":
-   	        echo "<b>$euid - $uname</b><br /><br />\n";
-        	if ($flag[$mainflag] == "0")
-            	echo "the main flag must be set to have at least regular access!";
-            else
-            {
-	            $qry = "SELECT name, flag FROM {$spre}flags ORDER BY flag";
-		        $result = $database->openConnectionWithReturn($qry);
-
-				if ($flag[$mainflag] == "1")
-		            $userflags = strtolower($mainflag);
-                elseif ($flag[$mainflag] == "2")
-		            $userflags = strtoupper($mainflag);
-				while (list ($fname, $fid) = mysql_fetch_array($result))
-                {
-                	if ($fid != $mainflag)
-                    {
-	        	        if ($flag[$fid] == "1")
-                        {
-					        $userflags .= strtolower($fid);
-                            echo $fname . " set to regular access.<br />\n";
-        	        	}
-                        elseif ($flag[$fid] == "2")
-                        {
-					        $userflags .= strtoupper($fid);
-                            echo $fname . " set to super access.<br />\n";
-                        }
-                    }
-                    else
-	        	        if ($flag[$fid] == "1")
-                            echo $fname . " set to regular access. <b>MAIN FLAG</b><br />\n";
-        	        	elseif ($flag[$fid] == "2")
-                            echo $fname . " set to super access. <b>MAIN FLAG</b><br />\n";
-        	    }
-                $qry = "SELECT c.id, r.rankdesc, c.name, s.name FROM {$spre}rank r, {$spre}characters c, {$spre}ships s WHERE c.id='$mainchar' AND c.ship=s.id AND c.rank=r.rankid";
+   	        echo '<h3>' . $euid . ' - ' . $uname . '</h3>';
+			if ($clear =='yes')
+			{
+				$qry = "SELECT c.id, r.rankdesc, c.name, s.name FROM {$spre}rank r, {$spre}characters c, {$spre}ships s WHERE c.id='$mainchar' AND c.ship=s.id AND c.rank=r.rankid";
 				$result = $database->openConnectionWithReturn($qry);
                 list ($mcid, $mcrank, $mcname, $mcship) = mysql_fetch_array($result);
-                echo "<br />($mcid) <i>$mcrank $mcname, $mcship</i> set as main character.<br /><br />\n";
+                echo '<h4>(' . $mcid . ') <em>' . $mcrank . ' ' . $mcname . ', ' . $mcship . '</em> set as main character.</h4>';
+				
+				$qry = "UPDATE {$mpre}users SET flags='', mainchar='$mainchar' WHERE id='$euid'";
+               	$database->openConnectionNoReturn($qry);
+               	echo '<h4 class="text-success">All access flags removed.</h4>';
+			}
+			else
+			{
+        		if ($flag[$mainflag] == "0")
+            		echo '<h4 class="text-warning">The main flag must be set to have at least regular access!</h4>';
+            	else
+            	{
+	        	    $qry = "SELECT name, flag FROM {$spre}flags ORDER BY flag";
+		    	    $result = $database->openConnectionWithReturn($qry);
 
-                $qry = "UPDATE {$mpre}users SET flags='$userflags', mainchar='$mainchar' WHERE id='$euid'";
-                $database->openConnectionNoReturn($qry);
-                echo "Done.\n";
-            }
+					if ($flag[$mainflag] == "1")
+		            	$userflags = strtolower($mainflag);
+                	elseif ($flag[$mainflag] == "2")
+		            	$userflags = strtoupper($mainflag);
+					while (list ($fname, $fid) = mysql_fetch_array($result))
+                	{
+                		if ($fid != $mainflag)
+                    	{
+	        	    	    if ($flag[$fid] == "1")
+                        	{
+					        	$userflags .= strtolower($fid);
+                            	echo '<h4 class="text-success">' . $fname . ' set to regular access.</h4>';
+        	        		}
+                        	elseif ($flag[$fid] == "2")
+                        	{
+					        	$userflags .= strtoupper($fid);
+                            	echo '<h4 class="text-success">' . $fname . ' set to super access.</h4>';
+                        	}
+                    	}
+                    	else
+	        	        	if ($flag[$fid] == "1")
+                            	echo '<h4 class="text-success">' . $fname . ' set to regular access. <strong class="text-uppercase">Main Flag</strong></h4>';
+        	        		elseif ($flag[$fid] == "2")
+                            	echo '<h4 class="text-success">' . $fname . ' set to super access. <strong class="text-uppercase">Main Flag</strong></h4>';
+        	    	}
+                	$qry = "SELECT c.id, r.rankdesc, c.name, s.name FROM {$spre}rank r, {$spre}characters c, {$spre}ships s WHERE c.id='$mainchar' AND c.ship=s.id AND c.rank=r.rankid";
+					$result = $database->openConnectionWithReturn($qry);
+                	list ($mcid, $mcrank, $mcname, $mcship) = mysql_fetch_array($result);
+                	echo '<h4 class="text-success">' . $mcid . ' <em>' . $mcrank . ' ' . $mcname . ', ' . $mcship . '</em> set as main character.</h4>';
+
+                	$qry = "UPDATE {$mpre}users SET flags='$userflags', mainchar='$mainchar' WHERE id='$euid'";
+                	$database->openConnectionNoReturn($qry);
+                	echo '<h3 class="text-success">Done.</h3>';
+            	}
+			}
         	break;
 
 
         case "sname":
         	$qry = "SELECT id, username FROM {$mpre}users WHERE username LIKE '%{$uname}%' ORDER BY username";
             $result = $database->openConnectionWithReturn($qry);
-
-            while (list ($uid, $uname) = mysql_fetch_array($result))
-            	echo "<a href=\"index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=disp&amp;euid={$uid}\">$uid - $uname</a><br />\n";
-            echo "<br /><br />\n";
+			?>
+            <div class="list-group ulevels-results">
+				<?php
+                while (list ($uid, $uname) = mysql_fetch_array($result)){
+				?>
+                    <a class="list-group-item" href="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=disp&amp;euid=<?php echo $uid ?>">
+						<h5 class="list-group-item-heading">User ID: <?php echo $uid ?></h5>
+                        <p class="list-group-item-text"><?php echo $uname ?></p>
+                    </a>
+                <?php
+				}
+                ?>
+            </div>
+            <?php
         	break;
+			
+		case "audit":
+			$qry2 = "SELECT id, username, mainchar FROM {$mpre}users WHERE flags LIKE '%{$audit}%' ORDER BY username";
+			$result2 = $database->openConnectionWithReturn($qry2);
+			?>
+            <div class="list-group ulevels-results">
+				<?php
+                while (list ($uid, $uname, $mainchar) = mysql_fetch_array($result2)){
+					$qry9 = "SELECT r.rankdesc, c.name, s.name
+                            FROM {$spre}rank r, {$spre}characters c, {$spre}ships s
+                            WHERE c.id='$mainchar' AND c.ship=s.id AND c.rank=r.rankid";
+                    $result9 = $database->openConnectionWithReturn($qry9);
+					list ($mcrank, $mchar, $mcship) = mysql_fetch_array($result9)
+				?>
+                    <a class="list-group-item" href="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=disp&amp;euid=<?php echo $uid ?>">
+						<h5 class="list-group-item-heading">User ID: <?php echo $uid ?></h5>
+                        <p class="list-group-item-text"><?php echo $uname ?></p>
+						<p class="list-group-item-text"><?php if (!$mainchar) echo 'No main character set'; else echo 'Main character: ' . $mcrank . ' ' . $mchar . ' on ' . $mcship ?></p>
+                    </a>
+                <?php
+				}
+                ?>
+            </div>
+            <?php
+			break;
 
 
         default:
 	    	?>
-			<form action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=sname" method="post">
-		    	Search for a user by username:
-	    	    <input type="text" name="uname" size="30" />
-	        	<input type="submit" value="Submit" />
-	        </form>
-	        <br />
+          <div class="ulevel-search">
+			<form class="form-inline" action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=sname" method="post">
+		    	<div class="form-group">
+                	<label for="uname">Search for a user by username:</label>
+	    	    	<input type="text" class="form-control" name="uname" id="uname" size="30">
+                </div>
+	        	<button type="submit" class="btn btn-default btn-sm">Search</button>
+	        </form><br />
 
-			<form action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=disp" method="post">
-		    	Select a user by ID:
-	    	    <input type="text" name="euid" size="5" />
-	        	<input type="submit" value="Submit" />
-	        </form>
-	        <br />
+			<form class="form-inline" action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=disp" method="post">
+		    	<div class="form-group">
+                    <label for="euid">Select a user by ID:</label>
+                    <input type="text" class="form-control" name="euid" name="euid" size="5">
+                </div>
+	        	<button type="submit" class="btn btn-default btn-sm">Search</button>
+	        </form><br />
 
-			<form action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=disp" method="post">
-		    	Select a user by characer ID (the player for this character):
-	    	    <input type="text" name="cid" size="5" />
-	        	<input type="submit" value="Submit" />
+			<form class="form-inline" action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=disp" method="post">
+		    	<div class="form-group">
+                    <label for="cid">Select a user by characer ID (the player for this character):</label>
+                    <input type="text" class="form-control" name="cid" id="cid" size="5">
+                    </div>
+	        	<button type="submit" class="btn btn-default btn-sm">Search</button>
+	        </form><br />
+
+			<form class="form-inline" action="index.php?option=ifs&amp;task=admin&amp;action=ulev&amp;lib=audit" method="post">
+		    	<div class="form-group">
+                    <label for="audit">Search for a user by access:</label>
+                    <select class="form-control" name="audit" id="audit">
+                        <option value="a">Admin</option>
+                        <option value="c">Commanding Officer</option>
+                        <option value="o">Fleet Chief Ops</option>
+                        <option value="p">Personnel Management</option>
+                        <option value="t">Task Force CO</option>
+                        <option value="j">Judge Advocate General</option>
+                        <option value="r">R &amp; D</option>
+                        <option value="w">Awards Director</option>
+                        <option value="g">Task Group CO</option>
+                        <option value="d">Academy</option>
+                    </select>
+                </div>
+	        	<button type="submit" class="btn btn-default btn-sm">Search</button>
 	        </form>
-	        <br /><br />
+          </div>
 			<?php
         	break;
     }
