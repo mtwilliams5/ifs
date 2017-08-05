@@ -241,9 +241,9 @@ function crew_delete_confirm ($database, $mpre, $spre, $id, $shipid, $uflag, $mu
         	<label for="reason">Reason for deletion:</label>
         	<textarea class="form-control" name="reason" id="reason" rows="5" cols="60" wrap="physical"></textarea>
 		</div>
-        <div>
-        	<div>
-        		<input type="submit" value="DELETE!">
+        <div class="row">
+        	<div class="col-sm-1">
+        		<input class="btn btn-danger" type="submit" value="DELETE!">
             </div>
         </form>
         	<form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>" method="post">
@@ -251,8 +251,8 @@ function crew_delete_confirm ($database, $mpre, $spre, $id, $shipid, $uflag, $mu
                 if ($multiship)
                     echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
                 ?>
-                <div>
-                	<input type="submit" value="Cancel">
+                <div class="col-sm-1">
+                	<input class="btn btn-default" type="submit" value="Cancel">
                 </div>
             </form>
         </div>
@@ -446,7 +446,7 @@ function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag, $multi
 
 			// Let's sanitise the character name, since it shouldn't need backslashes anymore
 			$cname = stripslashes($cname);
-	    }
+		}
 
 	    $qry3 = "SELECT name FROM {$spre}ships WHERE id='$sid'";
 	    $result3=$database->openConnectionWithReturn($qry3);
@@ -455,31 +455,31 @@ function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag, $multi
 
 	    ?>
 	    <h2 class="text-center">Edit a Crewman</h2>
-        <form method="post" action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cedit">
+        <form class="form-horizontal" method="post" action="index.php?option=<?php echo option ?>&task=<?php echo task ?>&action=common&lib=cedit">
         <input type="hidden" name="cid" value="<?php echo $cid ?>">
         <p class="help-block text-center">All of the following information is required.</p>
         <div class="form-group">
-        	<label for="cname" class="control-label">Name:</label>
-            <div>
+        	<label for="cname" class="col-sm-2 control-label">Name:</label>
+            <div class="col-sm-10 col-md-6 col-lg-4">
                 <input type="text" class="form-control" name="cname" id="cname" size="30" value="<?php echo $cname ?>">
         		<span class="help-block">DO NOT include the rank with the character's name. It will be automatically generated when you pick the rank below</span>
             </div>
         </div>
         <div class="form-group">
-        	<label for="crace" class="control-label">Race:</label>
-            <div>
+        	<label for="crace" class="col-sm-2 control-label">Race:</label>
+            <div class="col-sm-10 col-md-6 col-lg-4">
                 <input type="text" class="form-control" name="race" id="crace" size="30" value="<?php echo $crace ?>">
             </div>
         </div>
         <div class="form-group">
-        	<label for="cgender" class="control-label">Gender:</label>
-            <div>
+        	<label for="cgender" class="col-sm-2 control-label">Gender:</label>
+            <div class="col-sm-10 col-md-6 col-lg-4">
                 <input type="text" class="form-control" name="gender" id="cgender" size="30" value="<?php echo $cgender ?>">
             </div>
         </div>
         <div class="form-group">
-        	<label for="email" class="control-label">E-mail Address:</label>
-            <div>
+        	<label for="email" class="col-sm-2 control-label">E-mail Address:</label>
+            <div class="col-sm-10 col-md-6 col-lg-4">
                 <?php
             	if ($action == "add")
             	    echo '<input type="text" class="form-control" name="email" id="email" size="30">';
@@ -489,14 +489,14 @@ function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag, $multi
             </div>
         </div>
         <div class="form-group">
-        	<label for="sname" class="control-label">Ship:</label>
-            <div>
+        	<label for="sname" class="col-sm-2 control-label">Ship:</label>
+            <div class="col-sm-10 col-md-6 col-lg-4">
                 <p class="form-control-static" id="sname"><?php echo $sname ?></p>
             </div>
         </div>
         <div class="form-group">
-        	<label for="position" class="control-label">Position:</label>
-            <div>
+        	<label for="position" class="col-sm-2 control-label">Position:</label>
+            <div class="col-sm-10 col-md-6 col-lg-4">
                     <select class="form-control" name="position" id="position">
 					<?php
                     $qry2 = "SELECT t.tf
@@ -584,11 +584,11 @@ function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag, $multi
                 </div>
             </div>
         </div>
-        <div>
-        	<div>
+        <div class="row">
+        	<div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                    <label for="rank" class="control-label">Rank:</label>
-                    <div>
+                    <label for="rank" class="col-sm-4 control-label">Rank Pips:</label>
+                    <div class="col-sm-8">
                         <select class="form-control" name="rank" id="rank">
                         <?php
 							$rpath = $relpath . 'images/ranks/';
@@ -611,15 +611,15 @@ function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag, $multi
                         <div class="rank"><img id="rnkpreview" src="<?php echo $rpath . $rimg?>" alt="<?php echo $rname ?>" class="img-responsive"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-		<div class="form-group">
-			<p class="help-block">
+			</div>
+		</div>
+        <div class="form-group">
+			<p class="col-sm-10 col-sm-offset-2 help-block">
 				Standard colours: Command and helm officers wear red; engineering, security and operations wear yellow; medical and sciences wear teal.
             </p>
 		</div>
         <div class="checkbox">
-            <label for="pending">
+            <label for="pending" class="col-sm-10 col-sm-offset-2">
 				<?php
                 echo '<input type="checkbox" name="pending"';
                 if ($pending == "1")
@@ -638,9 +638,9 @@ function crew_edit ($database, $spre, $mpre, $cid, $sid, $action, $uflag, $multi
         ?>
         <input type="hidden" name="sid" value="<?php echo $sid ?>">
         <div class="form-group">
-        	<div>
-                <input type="submit" value="Edit">
-                <input type="reset" value="Clear Form">
+        	<div class="col-sm-10 col-sm-offset-2">
+                <input class="btn btn-success btn-sm" type="submit" value="Edit">
+                <input class="btn btn-danger btn-sm" type="reset" value="Clear Form">
             </div>
         </div>
         </form>
@@ -709,9 +709,9 @@ function crew_edit_reason ($database, $spre, $mpre, $add, $position, $otherpos, 
                 <input type="hidden" name="gender" value="<?php echo $gender ?>">
                 <input type="hidden" name="rank" value="<?php echo $rank ?>">
                 <input type="hidden" name="pending" value="<?php echo $pending ?>">
-                <div>
-                	<div>
-                		<input type="submit" value="Submit">
+                <div class="row">
+                	<div class="col-sm-1">
+                		<input class="btn btn-default" type="submit" value="Submit">
                     </div>
             </form>
     	    <form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>" method="post">
@@ -719,8 +719,8 @@ function crew_edit_reason ($database, $spre, $mpre, $add, $position, $otherpos, 
                 if ($multiship)
                     echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
                 ?>
-                	<div>
-                		<input type="submit" value="Cancel">
+                	<div class="col-sm-1">
+                		<input class="btn btn-default" type="submit" value="Cancel">
                     </div>
                 </div>
             </form>
@@ -1003,7 +1003,7 @@ function crew_list_email ($database, $mpre, $spre, $email, $uflag)
 	if ($uid)
     {
 		?>
-        <ul class="list-unstyled">
+        <ul class="list-group">
         <?php
 		$results = false;
 		
@@ -1020,18 +1020,18 @@ function crew_list_email ($database, $mpre, $spre, $email, $uflag)
 			$result2=$database->openConnectionWithReturn($qry2);
 			list($ship)=mysql_fetch_array($result2);
 			?>
-            <li>
-				<h4>Character ID #<?php echo $cid ?> - 
-					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
-						<?php echo $name ?>
-					</a>
-				</h4>
-				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
-					<?php echo $ship ?>
-				</a></p>
-				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
-					View Service Record
-				</a>
+            <li class="list-group-item">
+			<h4 class="list-group-item-heading">Character ID #<?php echo $cid ?> - 
+                <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+                    <?php echo $name ?>
+                </a>
+            </h4>
+            <p class="list-group-item-text">On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+            	<?php echo $ship ?>
+            </a></p>
+            <a class="list-group-item-text" href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+				View Service Record
+            </a>
             </li>
             <?php
 		}
@@ -1048,18 +1048,18 @@ function crew_list_email ($database, $mpre, $spre, $email, $uflag)
 			$result2=$database->openConnectionWithReturn($qry2);
 			list($ship)=mysql_fetch_array($result2);
 			?>
-            <li>
-				<h4>Character ID #<?php echo $cid ?> - 
-					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
-						<?php echo $name ?>
-					</a> <span class="help-inline text-uppercase">[Deleted]</span>
-				</h4>
-				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
-					<?php echo $ship ?>
-				</a></p>
-				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
-					View Service Record
-				</a>
+            <li class="list-group-item">
+			<h4 class="list-group-item-heading">Character ID #<?php echo $cid ?> - 
+                <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+                    <?php echo $name ?>
+                </a> <span class="help-inline text-uppercase">[Deleted]</span>
+            </h4>
+            <p class="list-group-item-text">On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+            	<?php echo $ship ?>
+            </a></p>
+            <a class="list-group-item-text" href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+				View Service Record
+            </a>
             </li>
             <?php
 		}
@@ -1085,7 +1085,7 @@ function crew_list_id ($database, $mpre, $spre, $pid, $uflag)
 	if ($uid)
     {
 		?>
-        <ul class="list-unstyled">
+        <ul class="list-group">
         <?php
 		$results = false;
 		
@@ -1102,18 +1102,18 @@ function crew_list_id ($database, $mpre, $spre, $pid, $uflag)
 			$result2=$database->openConnectionWithReturn($qry2);
 			list($ship)=mysql_fetch_array($result2);
 			?>
-            <li>
-				<h4>Character ID #<?php echo $cid ?> - 
-					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
-						<?php echo $name ?>
-					</a>
-				</h4>
-				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
-					<?php echo $ship ?>
-				</a></p>
-				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
-					View Service Record
-				</a>
+            <li class="list-group-item">
+			<h4 class="list-group-item-heading">Character ID #<?php echo $cid ?> - 
+                <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+                    <?php echo $name ?>
+                </a>
+            </h4>
+            <p class="list-group-item-text">On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+            	<?php echo $ship ?>
+            </a></p>
+            <a class="list-group-item-text" href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+				View Service Record
+            </a>
             </li>
             <?php
 		}
@@ -1130,18 +1130,18 @@ function crew_list_id ($database, $mpre, $spre, $pid, $uflag)
 			$result2=$database->openConnectionWithReturn($qry2);
 			list($ship)=mysql_fetch_array($result2);
 			?>
-            <li>
-				<h4>Character ID #<?php echo $cid ?> - 
-					<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
-						<?php echo $name ?>
-					</a> <span class="help-inline text-uppercase">[Deleted]</span>
-				</h4>
-				<p>On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
-					<?php echo $ship ?>
-				</a></p>
-				<a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
-					View Service Record
-				</a>
+            <li class="list-group-item">
+			<h4 class="list-group-item-heading">Character ID #<?php echo $cid ?> - 
+                <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=cview&amp;cid=<?php echo $cid ?>">
+                    <?php echo $name ?>
+                </a> <span class="help-inline text-uppercase">[Deleted]</span>
+            </h4>
+            <p class="list-group-item-text">On <a href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">
+            	<?php echo $ship ?>
+            </a></p>
+            <a class="list-group-item-text" href="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=rview&amp;cid=<?php echo $cid ?>">
+				View Service Record
+            </a>
             </li>
             <?php
 		}
@@ -1315,7 +1315,7 @@ function crew_lookup_name ($database, $mpre, $spre, $charname, $uflag)
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
-                            <input type="submit" value="View App">
+                            <input class="btn btn-default btn-sm" type="submit" value="View App">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
@@ -1324,7 +1324,7 @@ function crew_lookup_name ($database, $mpre, $spre, $charname, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Edit">
+                            <input class="btn btn-default btn-sm" type="submit" value="Edit">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
@@ -1333,7 +1333,7 @@ function crew_lookup_name ($database, $mpre, $spre, $charname, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Delete">
+                            <input class="btn btn-default btn-sm" type="submit" value="Delete">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
@@ -1342,7 +1342,7 @@ function crew_lookup_name ($database, $mpre, $spre, $charname, $uflag)
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Service Record">
+                            <input class="btn btn-default btn-sm" type="submit" value="Service Record">
                         </form>
                 </td>
 				<td class="text-right">
@@ -1359,7 +1359,7 @@ function crew_lookup_name ($database, $mpre, $spre, $charname, $uflag)
                                 ?>      
                             </select>
                         </div>
-                        <input type="submit" value="Transfer">
+                        <input class="btn btn-default btn-sm" type="submit" value="Transfer">
                     </form>
 				</td>
             </tr>
@@ -1430,7 +1430,7 @@ function crew_lookup_race ($database, $mpre, $spre, $charrace, $uflag)
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
-                            <input type="submit" value="View App">
+                            <input class="btn btn-default btn-sm" type="submit" value="View App">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
@@ -1439,7 +1439,7 @@ function crew_lookup_race ($database, $mpre, $spre, $charrace, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Edit">
+                            <input class="btn btn-default btn-sm" type="submit" value="Edit">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
@@ -1448,7 +1448,7 @@ function crew_lookup_race ($database, $mpre, $spre, $charrace, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Delete">
+                            <input class="btn btn-default btn-sm" type="submit" value="Delete">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
@@ -1457,7 +1457,7 @@ function crew_lookup_race ($database, $mpre, $spre, $charrace, $uflag)
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Service Record">
+                            <input class="btn btn-default btn-sm" type="submit" value="Service Record">
                         </form>
                 </td>
 				<td class="text-right">
@@ -1474,7 +1474,7 @@ function crew_lookup_race ($database, $mpre, $spre, $charrace, $uflag)
                                 ?>      
                             </select>
                         </div>
-                        <input type="submit" value="Transfer">
+                        <input class="btn btn-default btn-sm" type="submit" value="Transfer">
                     </form>
 				</td>
             </tr>
@@ -1545,7 +1545,7 @@ function crew_lookup_gender ($database, $mpre, $spre, $chargender, $uflag)
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
-                            <input type="submit" value="View App">
+                            <input class="btn btn-default btn-sm" type="submit" value="View App">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
@@ -1554,7 +1554,7 @@ function crew_lookup_gender ($database, $mpre, $spre, $chargender, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Edit">
+                            <input class="btn btn-default btn-sm" type="submit" value="Edit">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
@@ -1563,7 +1563,7 @@ function crew_lookup_gender ($database, $mpre, $spre, $chargender, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Delete">
+                            <input class="btn btn-default btn-sm" type="submit" value="Delete">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
@@ -1572,7 +1572,7 @@ function crew_lookup_gender ($database, $mpre, $spre, $chargender, $uflag)
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Service Record">
+                            <input class="btn btn-default btn-sm" type="submit" value="Service Record">
                         </form>
                 </td>
 				<td class="text-right">
@@ -1589,7 +1589,7 @@ function crew_lookup_gender ($database, $mpre, $spre, $chargender, $uflag)
                                 ?>      
                             </select>
                         </div>
-                        <input type="submit" value="Transfer">
+                        <input class="btn btn-default btn-sm" type="submit" value="Transfer">
                     </form>
 				</td>
             </tr>
@@ -1662,7 +1662,7 @@ function crew_lookup_rank ($database, $mpre, $spre, $charrank, $uflag)
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
-                            <input type="submit" value="View App">
+                            <input class="btn btn-default btn-sm" type="submit" value="View App">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
@@ -1671,7 +1671,7 @@ function crew_lookup_rank ($database, $mpre, $spre, $charrank, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Edit">
+                            <input class="btn btn-default btn-sm" type="submit" value="Edit">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
@@ -1680,7 +1680,7 @@ function crew_lookup_rank ($database, $mpre, $spre, $charrank, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Delete">
+                            <input class="btn btn-default btn-sm" type="submit" value="Delete">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
@@ -1689,7 +1689,7 @@ function crew_lookup_rank ($database, $mpre, $spre, $charrank, $uflag)
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Service Record">
+                            <input class="btn btn-default btn-sm" type="submit" value="Service Record">
                         </form>
                 </td>
 				<td class="text-right">
@@ -1706,7 +1706,7 @@ function crew_lookup_rank ($database, $mpre, $spre, $charrank, $uflag)
                                 ?>      
                             </select>
                         </div>
-                        <input type="submit" value="Transfer">
+                        <input class="btn btn-default btn-sm" type="submit" value="Transfer">
                     </form>
 				</td>
             </tr>
@@ -1777,7 +1777,7 @@ function crew_lookup_pos ($database, $mpre, $spre, $charpos, $uflag)
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=capp" method="post">
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
-                            <input type="submit" value="View App">
+                            <input class="btn btn-default btn-sm" type="submit" value="View App">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
@@ -1786,7 +1786,7 @@ function crew_lookup_pos ($database, $mpre, $spre, $charpos, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                             <input type="hidden" name="sid" value="<?php echo $sid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Edit">
+                            <input class="btn btn-default btn-sm" type="submit" value="Edit">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
@@ -1795,7 +1795,7 @@ function crew_lookup_pos ($database, $mpre, $spre, $charpos, $uflag)
                             <input type="hidden" name="cid" value="<?php echo $cid ?>">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Delete">
+                            <input class="btn btn-default btn-sm" type="submit" value="Delete">
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                         </form>
                         <form class="btn-group" action="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=rview" method="post">
@@ -1804,7 +1804,7 @@ function crew_lookup_pos ($database, $mpre, $spre, $charpos, $uflag)
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
                             <input type="hidden" class="btn" /><!-- Fake button sibling -->
-                            <input type="submit" value="Service Record">
+                            <input class="btn btn-default btn-sm" type="submit" value="Service Record">
                         </form>
                 </td>
 				<td class="text-right">
@@ -1821,7 +1821,7 @@ function crew_lookup_pos ($database, $mpre, $spre, $charpos, $uflag)
                                 ?>      
                             </select>
                         </div>
-                        <input type="submit" value="Transfer">
+                        <input class="btn btn-default btn-sm" type="submit" value="Transfer">
                     </form>
 				</td>
             </tr>
