@@ -269,7 +269,12 @@ td {
 .openpos-list {
     margin-bottom: 10px;
 }
-a.list-group-item, a.list-group-item:visited {
+.list-group-item {
+    background-color: #3F3F3F;
+    border-color: #3F3F3F;
+    border-bottom-color: #333333;
+}
+a.list-group-item:visited {
     background-color: #3F3F3F;
     border-color: #3F3F3F;
     border-bottom-color: #333333;
@@ -281,4 +286,48 @@ a.list-group-item:hover, a.list-group-item:active {
 }
 a.list-group-item .list-group-item-heading {
     color: #C0C0C0;
+}
+div.rank {
+    margin: auto;
+}
+
+.help-inline {
+  display: inline;
+  color: #737373;
+}
+
+.center-block {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*
+--------------------
+SIM LISTING STYLES
+--------------------
+*/
+
+.sim-desc {
+	margin-top: 10px;
+}
+.sim-admin {
+	margin-top: 20px;
+}
+
+.sim-name a {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.sim-name {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.sort-options {
+	margin-top: 10px;
+}
+
+.sim-details .form-control-static {
+	min-height: 15px;
 }

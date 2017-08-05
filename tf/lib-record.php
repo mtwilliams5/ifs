@@ -33,10 +33,10 @@ function record_add_details ($database, $spre, $mpre, $cid, $level, $date, $entr
 	?>
 	<h2 class="text-center">Service Record for <?php echo $cname ?></h2>
 
-	<form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&action=common&lib=rsave" method="post">
+	<form class="form-horizontal" action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&action=common&lib=rsave" method="post">
         <div class="form-group">
-            <label for="level" class="control-label">Type:</label>
-            <div>
+            <label for="level" class="col-sm-2 control-label">Type:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="level"><?php echo $level ?>
                 <input type="hidden" name="level" value="<?php echo $level ?>">
                 <?php
@@ -47,29 +47,29 @@ function record_add_details ($database, $spre, $mpre, $cid, $level, $date, $entr
             </div>
         </div>
         <div class="form-group">
-            <label for="date" class="control-label">Date:</label>
-            <div>
+            <label for="date" class="col-sm-2 control-label">Date:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="date"><?php echo date("F j, Y", $date) ?></p>
                 <input type="hidden" name="date" value="<?php echo $date ?>">
             </div>
         </div>
         <div class="form-group">
-            <label for="entry" class="control-label">Entry:</label>
-            <div>
+            <label for="entry" class="col-sm-2 control-label">Entry:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="entry"><?php echo $entry ?></p>
                 <input type="hidden" name="entry" value="<?php echo $entry ?>">
             </div>
         </div>
         <div class="form-group">
-            <label for="pname" class="control-label">By:</label>
-            <div>
+            <label for="pname" class="col-sm-2 control-label">By:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="pname"><?php echo $name ?></p>
                 <input type="hidden" name="pname" value="<?php echo $name ?>">
             </div>
         </div>
         <div class="form-group">
-            <label for="details" class="control-label">Details:</label>
-            <div>
+            <label for="details" class="col-sm-2 control-label">Details:</label>
+            <div class="col-sm-10 col-md-8 col-lg-6">
                 <textarea class="form-control" name="details" id="details" rows="5" cols="50">Enter details</textarea>
                 <span class="help-block">Please use &lt;br /&gt; to indicate new lines, or &lt;p&gt; and &lt;/p&gt; to indicate paragraphs.</span>
             </div>
@@ -82,8 +82,8 @@ function record_add_details ($database, $spre, $mpre, $cid, $level, $date, $entr
             echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
         ?>
         <div class="form-group">
-        	<div>
-        		<input type="Submit" value="Submit">
+        	<div class="col-sm-10 col-sm-offset-2">
+        		<input class="btn btn-default" type="Submit" value="Submit">
     		</div>
         </div>
     </form>
@@ -119,10 +119,10 @@ function record_add_save ($database, $spre, $mpre, $cid, $level, $date, $entry, 
 	?>
 
     <h3>Entry Made</h3>
-	<div>
+	<div class="form-horizontal">
         <div class="form-group">
-            <label for="level" class="control-label">Level:</label>
-            <div>
+            <label for="level" class="col-sm-2 control-label">Level:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="level"><?php echo $level ?>
                     <?php
                     if ($radmin == "y")
@@ -132,26 +132,26 @@ function record_add_save ($database, $spre, $mpre, $cid, $level, $date, $entry, 
             </div>
         </div>
         <div class="form-group">
-            <label for="date" class="control-label">Date:</label>
-            <div>
+            <label for="date" class="col-sm-2 control-label">Date:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="date"><?php echo date("F j, Y", $date) ?></p>
             </div>
         </div>
         <div class="form-group">
-            <label for="entry" class="control-label">Entry:</label>
-            <div>
+            <label for="entry" class="col-sm-2 control-label">Entry:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="entry"><?php echo $entry ?></p>
             </div>
         </div>
         <div class="form-group">
-            <label for="details" class="control-label">Details:</label>
-            <div>
+            <label for="details" class="col-sm-2 control-label">Details:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="details"><?php echo $details ?></p>
             </div>
         </div>
         <div class="form-group">
-            <label for="pname" class="control-label">By:</label>
-            <div>
+            <label for="pname" class="col-sm-2 control-label">By:</label>
+            <div class="col-sm-10">
                 <p class="form-control-static" id="pname"><?php echo $name ?></p>
             </div>
         </div>
@@ -227,9 +227,9 @@ function record_details ($database, $spre, $mpre, $rid, $op, $uflag)
 
 	<?php
     if ($op == "RecordDetails")
-		echo '<a href="index.php?option=user&amp;op=ServiceRecord&amp;cid=' . $cid . '">Back to Service Record</a>';
+		echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=user&amp;op=ServiceRecord&amp;cid=' . $cid . '">Back to Service Record</a>';
     else
-	    echo '<a href="index.php?option=' . option . '&amp;task=' . task . '&amp;action=common&amp;lib=rview&amp;cid=' . $cid . '">Back to Service Record</a>';
+	    echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=' . option . '&amp;task=' . task . '&amp;action=common&amp;lib=rview&amp;cid=' . $cid . '">Back to Service Record</a>';
 }
 
 // View service record
@@ -318,7 +318,7 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag, $multiship)
 							?>
 									<input type="hidden" name="rid" value="<?php echo $rid ?>">
 									<input type="hidden" name="sid" value="na">
-									<input type="submit" value="Details">
+									<input class="btn btn-default" type="submit" value="Details">
                                 </form>
                             </td>
 						</tr>
@@ -379,7 +379,7 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag, $multiship)
 							?>
 									<input type="hidden" name="rid" value="<?php echo $rid ?>">
 									<input type="hidden" name="sid" value="na">
-									<input type="submit" value="Details">
+									<input class="btn btn-default" type="submit" value="Details">
                                 </form>
                             </td>
 						</tr>
@@ -437,7 +437,7 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag, $multiship)
                             ?>
 									<input type="hidden" name="rid" value="<?php echo $rid ?>">
                                     <input type="hidden" name="sid" value="na">
-                                    <input type="submit" value="Details">
+                                    <input class="btn btn-default" type="submit" value="Details">
                                 </form>
 							</td>
                         </tr>
@@ -504,7 +504,7 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag, $multiship)
     							if ($multiship)
         							echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
 								?>
-			    				<input type="submit" value="Add">
+			    				<input class="btn btn-success" type="submit" value="Add">
 							</td>
 						</tr>
                     </form>

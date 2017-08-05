@@ -63,7 +63,7 @@ function awards_detail ($database, $mpre, $spre, $award)
 	    	echo '<li>' . $rdate . '<a href="index.php?option=' . option . '&action=' . action . '&task=common&lib=areason&rid=' . $rid . '">' . stripcslashes($rrank) . ' ' . stripcslashes($rname) . ', ' . stripcslashes($sname) . '</a></li>';
 		}
 		echo '</ul>';
-	    echo '<a href="index.php?option=' . option . '&action=' . action . '&task=common&lib=arecip&award=' . $id . '">View All Recipients</a>';
+	    echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=' . option . '&action=' . action . '&task=common&lib=arecip&award=' . $id . '">View All Recipients</a>';
 	}
 }
 
@@ -77,27 +77,27 @@ function awards_list ($database, $mpre, $spre)
     while (list($level) = mysql_fetch_array($result))
     {
 		echo '<h2>Level ' . $level . ' Awards</h2>';
-		echo '<ul class="list-unstyled">';
+		echo '<div class="list-group">';
 		$qry2 = "SELECT id, name, intro FROM {$spre}awards
         		 WHERE active='1' AND level='$level' ORDER BY name";
 	    $result2 = $database->openConnectionWithReturn($qry2);
 	    while (list($id, $award, $intro) = mysql_fetch_array($result2)) {
-	        echo '<li><a href="index.php?option=' . option . '&task=' . task . '&action=common&lib=adet&award=' . $id . '">';
-			echo '<h4>' . $award . '</h4>';
-			echo '<p>' . $intro . '</p></a></li>';
+	        echo '<a class="list-group-item" href="index.php?option=' . option . '&task=' . task . '&action=common&lib=adet&award=' . $id . '">';
+			echo '<h4 class="list-group-item-heading">' . $award . '</h4>';
+			echo '<p class="list-group-item-text">' . $intro . '</p></a>';
 		}
-	    echo '</ul>';
+	    echo '</div>';
     }
 
 	$qry = "SELECT id, name, intro, level FROM {$spre}awards WHERE active<'1' ORDER BY level, name";
     $result = $database->openConnectionWithReturn($qry);
-	if (mysql_num_rows) echo '<h3>Discontinued Awards</h3><ul class="list-unstyled">';
+	if (mysql_num_rows) echo '<h3>Discontinued Awards</h3><div class="list-group">';
     while (list($id, $award, $intro, $level) = mysql_fetch_array($result)) {
-        echo '<li><a href="index.php?option=' . option . '&task=' . task . '&action=common&lib=adet&award=' . $id . '">';
-		echo '<h4><span class="text-muted">' . $award . ' <small>- Level ' . $level . '</small></span></h4>';
-		echo '<p class="text-muted">' . $intro . '</p></a></li>';
+        echo '<a class="list-group-item" href="index.php?option=' . option . '&task=' . task . '&action=common&lib=adet&award=' . $id . '">';
+		echo '<h4 class="list-group-item-heading"><span class="text-muted">' . $award . ' <small>- Level ' . $level . '</small></span></h4>';
+		echo '<p class="list-group-item-text text-muted">' . $intro . '</p></a>';
 	}
-    echo '</ul>';
+    echo '</div>';
 }
 
 // Award page for recipients
