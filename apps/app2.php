@@ -353,7 +353,7 @@ if (!$badapp) {
     else
     {
 	    require_once "includes/mail/app_pending.mail.php";
-	    $allemails .= $webmasteremail . ", " $personnelemail . ", " . $coemail;
+	    $allemails .= $webmasteremail . ", " . $personnelemail . ", " . $coemail;
 	}
 	
 	// Save it in the db
