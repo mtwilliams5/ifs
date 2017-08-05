@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -39,7 +43,7 @@ else
 	        	if ($uflag['d'] == 2)
 	                include("tf/academy/admin.php");
                 else
-                	echo "You do not have access to this area!";
+                	echo '<h3 class="text-warning">You do not have access to this area!</h3>';
 	            break;
             case 'common':
             	include("tf/tools.php");
@@ -65,7 +69,7 @@ else
 	    }
 	}
     else
-		echo "You do not have access to this area!";
+		echo '<h3 class="text-warning">You do not have access to this area!</h3>';
 }
 
 ?>

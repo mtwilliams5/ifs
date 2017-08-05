@@ -10,10 +10,14 @@
   * Updated By: David VanScott
   *		davidv@anodyne-productions.com
   *
-  * Version:	1.14n
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This file contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	6/13/04
   * Comments: Admin interface for Academy settings and stuffs
   *
   * See CHANGELOG for patch details
@@ -34,13 +37,11 @@ if (!defined("IFS"))
 else
 {
 	?>
-	<br /><center>
-	Welcome to Academy Tools<br />
-	Please note that your login will time out after about 10 minutes of inactivity.
-	</center><br /><br />
+	<h2 class="text-center">Welcome to Academy Tools</h2>
+	<p class="text-center">Please note that your login will time out after about 10 minutes of inactivity.</p>
 	
-	<h2>Reassign Academy Students</h2>
-	<p>Using the fields below, you can select a character and a new instructor so the student can be reassigned. <strong>Note:</strong> the list of students only shows students who have started their course within the last 90 days.</p><br />
+	<h3>Reassign Academy Students</h3>
+	<p class="help-block">Using the fields below, you can select a character and a new instructor so the student can be reassigned.</p>
 
     <?php
     if (!$lib)
@@ -51,20 +52,17 @@ else
 		while ($fetch = mysql_fetch_assoc($result)) {
 			extract($fetch, EXTR_OVERWRITE);
 			
-			if ($course == 3 || $course == 12 || $course == 13 || $course == 14)
-			{
-				$array[$course] = array(
-					'course' => $name,
-					'students' => array()
-				);
-			}
+            $array[$course] = array(
+                'course' => $name,
+                'students' => array()
+            );
 		}
 		
 		$today = getdate();
 		$constraint = 86400 * 90;
 		$date = $today[0] - $constraint;
 		
-		$qry = "SELECT a.*, b.* FROM {$spre}acad_students AS a, {$spre}characters AS b WHERE a.status = 'p' AND b.id = a.cid AND a.sdate >= '$date'";
+		$qry = "SELECT a.*, b.* FROM {$spre}acad_students AS a, {$spre}characters AS b WHERE a.status = 'p' AND b.id = a.cid";
 		$result = $database->openConnectionWithReturn($qry);
 		
 		while ($fetch = mysql_fetch_assoc($result)) {
@@ -75,60 +73,68 @@ else
 				'name' => $name
 			);
 		}
-		
-		echo '<form method="post" action="index.php?option=ifs&task=academy&action=reassign&lib=move">';
-		
-		echo '<b>Student:</b> &nbsp;&nbsp; <select name="character">';
-		
-		foreach ($array as $key => $value)
-		{
-			echo '<optgroup label="'. $value['course'] .'">';
-			
-			foreach ($value['students'] as $a => $b)
-			{
-				echo '<option value="'. $b['cid'] .','. $key .'">'. $b['name'] .'</option>';
-			}
-			
-			echo '</optgroup>';
-		}
-		
-		echo '</select>';
-		
-	    $qry = "SELECT a.*, b.* FROM {$spre}acad_instructors AS a, {$spre}characters AS b WHERE a.active = 1 AND a.cid = b.id";
-		$result = $database->openConnectionWithReturn($qry);
-		
-		while ($fetch = mysql_fetch_array($result)) {
-			extract($fetch, EXTR_OVERWRITE);
-			
-			$array[$course]['instructors'][] = array(
-				'id' => $fetch[0],
-				'name' => $fetch[6]
-			);
-		}
-		
-		echo '<br /><br />';
-		
-		echo '<b>Instructor:</b> &nbsp;&nbsp; <select name="instructor">';
-		
-		foreach ($array as $key => $value)
-		{
-			echo '<optgroup label="'. $value['course'] .'">';
-			
-			foreach ($value['instructors'] as $a => $b)
-			{
-				echo '<option value="'. $b['id'] .'">'. $b['name'] .'</option>';
-			}
-			
-			echo '</optgroup>';
-		}
-		
-		echo '</select>';
-		
-		echo '<br /><br />';
-		
-		echo '<input type="submit" name="submit" value="Submit" />';
-		
-		echo '</form>';
+		?>
+		<form class="form-horizontal" method="post" action="index.php?option=ifs&amp;task=academy&amp;action=reassign&amp;lib=move">
+			<div class="form-group">
+				<label for="character" class="col-sm-2 control-label">Student:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
+                	<select class="form-control" name="character" id="character">
+						<?php
+                        foreach ($array as $key => $value)
+                        {
+                            echo '<optgroup label="'. $value['course'] .'">';
+                            
+                            foreach ($value['students'] as $a => $b)
+                            {
+                                echo '<option value="'. $b['cid'] .','. $key .'">'. $b['name'] .'</option>';
+                            }
+                            
+                            echo '</optgroup>';
+                        }
+						?>
+					</select>
+                </div>
+            </div>
+			<?php
+            $qry = "SELECT a.*, b.* FROM {$spre}acad_instructors AS a, {$spre}characters AS b WHERE a.active = 1 AND a.cid = b.id";
+            $result = $database->openConnectionWithReturn($qry);
+            
+            while ($fetch = mysql_fetch_array($result)) {
+                extract($fetch, EXTR_OVERWRITE);
+                
+                $array[$course]['instructors'][] = array(
+                    'id' => $fetch[0],
+                    'name' => $fetch[6]
+                );
+            }
+            ?>
+			<div class="form-group">
+				<label for="instructor" class="col-sm-2 control-label">Instructor:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
+                	<select class="form-control" name="instructor" id="instructor">
+						<?php
+                        foreach ($array as $key => $value)
+                        {
+                            echo '<optgroup label="'. $value['course'] .'">';
+                            
+                            foreach ($value['instructors'] as $a => $b)
+                            {
+                                echo '<option value="'. $b['id'] .'">'. $b['name'] .'</option>';
+                            }
+                            
+                            echo '</optgroup>';
+                        }
+						?>		
+					</select>
+                </div>
+            </div>
+			<div class="form-group">
+            	<div class="col-sm-10 col-sm-offset-2">
+                	<input class="btn btn-default" type="submit" name="submit" value="Submit">
+                </div>
+			</div>
+		</form>
+    <?php
     }
     else if ($lib == "move")
     {
@@ -141,7 +147,8 @@ else
 			$result = $database->openConnectionWithReturn($qry);
 			//$rows = mysql_affected_rows($result);
 			
-			echo 'Student instructor was successfully updated! <a href="index.php?option=ifs&task=academy&action=reassign">Click here</a> to reassign another student.';
+			echo '<h3 class="text-success">Student instructor was successfully updated!</h3>';
+			echo '<p class="lead"><a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&task=academy&action=reassign">Click here</a> to reassign another student.</p>';
 		}
     }
 }
