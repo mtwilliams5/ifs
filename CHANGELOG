@@ -1,73 +1,17 @@
-1.17 PATCH - June 2017
-
-install.php
-- Updated to be PHP5.5 compliant.
-- Added function to convert backslashes for Windows installs
-- Updated generated configuration.php file to more closely match that provided for the manual install
-
-error.php
-- Updated to switch behaviour if on a later version of PHP
-
-mainmenu.php
-- Updated to use HTML <nav> element
-- Removed <br> tags in favour of using CSS to define display arrangement
-
-pathway.php
-- Updated to swap deprecated eregi() to preg_match()
-
-registration.php
-- Updated to include some basic anti-spam measures
-
-rightComponent.php
-- Updated cookie name from obsidian to session
-
-SessionCookie.php
-- Updated userip function to use the modern superglobal on compatible installs
-
-shipdb.php
-- Updated to remove reliance on tables, and to conform better to HTML5 standards, allowing for more responsive styling
-
-usermenu.php
-- Updated to allow links to be protocol-agnostic (allowing use over HTTPS connections)
-
-userpage.php
-- Updated styles to better resemble HTML5 standards (with Bootstrap-compatible classnames)
-- Updated to include deleted characters, placed beneath active characters.
-- Corrected deleted ship ID number
-
-administrator/*
-- All files updated to be PHP5.5 compliant.
-
-app/*
-- Updated application views to remove reliance on tables, and make them more HTML5-compliant
-- Updated error messages to allow easier adding of styles (with Bootstrap-compatible classnames)
-- Added some anti-spam checks
-
-classes/database.php
-- Set the collation of the database connection to utf8, rather than allow it to default
-
-classes/html/*
-- Updated to remove reliance on tables and enable more responsive layouts
-
-doc/INSTALL.txt & doc/README.txt
-- Updated to direct support queries to the GitHub issues page for this version of IFS.
-
-includes/footer.php
-- Updated to remove reliance on tables and utilise HTML5 markup
-- Updated Obisidan Fleet logo to a transparent image to enable better compatability across themes
-- Updated link to obtain software to direct to current GitHub repo
-
-includes/header.php
-- Updated to include PHP5 methods
+1.17 PATCH - August 2017
+- Updated all code to be PHP5.5 compliant.
+- Significant bug fixes
+- Removed reliance on nested tables, using div tags instead
+- Including Bootstrap to enable some minimal responsive layouts
+- Basic anti-spam measures included in registration script and application forms
+- Updated to include more HTML5-compliant coding practices, and added HTTPS support to internal links
+- Replaced hard-coded references to the fleet name and admin ship IDs to pull from the config file instead
+- Database connections set to utf8 by default
 - Implicitly pulled in $_GET and $_POST content, which was assumed previously (and must have broken in a subsequent PHP update)
-
-includes/obsidian.php
-- Removed reliance on tables
-
-themes/default.css
-- Added style rules to force navigation links onto a new line
-
-+addslash.php
+- Multiple style Updates
+- New scripts for OPM - Deleted Characters list, character audit (for players with more than the max allowed) and Lost Souls
+- Added more OPM options for searching for characters
+- Added audit function into userlevels management
 
 1.16n PATCH - March 2014
 
