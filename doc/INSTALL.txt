@@ -1,7 +1,7 @@
 OBSIDIAN FLEET INTEGRATED FLEET SYSTEM
 
 VERSION 1.17
-RELEASE June 2017
+RELEASE August 2017
 
 INSTALLATION INSTRUCTIONS
 ---
@@ -51,7 +51,7 @@ Should Option 1 not work for you, give Option 2 a try. If both do not succeed fo
 Good Luck,
 Nolan
 
-Addendum, June 2017
+Addendum, August 2017
 
 I don't believe the forum mentoned by Frank and Nolan above is still in use any longer.
 For any support requests or requests for help, please refer to the GitHub repo for this

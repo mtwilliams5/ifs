@@ -19,7 +19,7 @@
   * Patch 1.14n:  March 2010
   * Patch 1.15n:  April 2010
   * Patch 1.16n:  March 2014
-  * Patch 1.17: June 2017
+  * Patch 1.17: August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
