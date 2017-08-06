@@ -86,8 +86,7 @@ body
 }
 
 strong, .bold {
-        font: bold 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
-        color: #FFFFFF;
+        font-weight: bold;
 }
 
 .button {

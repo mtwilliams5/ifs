@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	12/22/03
   * Comments: JAG banlist admin
  ***/
 
@@ -42,11 +45,11 @@ else
             }
 
 			if ($email == "" && $banip == "")
-            	echo "We need at least the email address <i>or</i> IP address!";
+            	echo '<h3 class="text-warning">We need at least the email address <em>or</em> IP address!</h3>';
             elseif ($alreadyemail)
-            	echo "This email is already banned...";
+            	echo '<h3 class="text-info">This email is already banned...</h3>';
             elseif ($alreadyip)
-            	echo "This IP is already banned...";
+            	echo '<h3 class="text-info">This IP is already banned...</h3>';
             else
             {
             	$expire = time() + ($length * 60 * 60 * 24);
@@ -54,16 +57,16 @@ else
 				$database->openConnectionNoReturn($qry);
                 ?>
 
-                <h1>Banlist Admin</h1><br /><br />
-                The following user has been <b>BANNED</b>:<br />
-                Email: <?php echo $email ?><br />
-                IP: <?php echo $banip ?><br /><br />
+                <h2 class="text-center">Banlist Admin</h2>
+                <h4>The following user has been <strong class="text-uppercase">banned</strong>:</h4>
+                <strong>Email:</strong> <?php echo $email ?><br />
+                <strong>IP:</strong> <?php echo $banip ?><br /><br />
                 (<?php echo date("F j, Y", $bandate) ?>, by <?php echo $auth ?>)<br />
                 <?php echo stripslashes($reason) ?>
-                <br /><br />
-                <i>All future applications matching this record will be denied.<br />
+                <br />
+                <p class="help-block">All future applications matching this record will be denied.<br />
                 Please note that this does not affect any current characters this person
-                may have; these need to be removed by the CO/TFCO/FCops/Triad/etc</i>
+                may have; these need to be removed by the CO/TFCO/FCops/Admin/etc</p>
 
                 <?php
             }
@@ -81,42 +84,59 @@ else
             else
 				$length = round(($expire - time()) / (60*60*24));
    	    	?>
-			Ban ID: <?php echo $mid ?><br />
-            Date of Original Ban: <?php echo date("F j, Y", $mdate) ?><br />
-            Authorized By: <?php echo $mauth ?><br /><br />
+            <h2 class="text-center">Banlist Admin</h2>
+			<strong>Ban ID:</strong> <?php echo $mid ?><br />
+            <strong>Date of Original Ban:</strong> <?php echo date("F j, Y", $mdate) ?><br />
+            <strong>Authorized By:</strong> <?php echo $mauth ?><br /><br />
 
             <?php
             if ($active == "1")
-            	echo "<b>THIS BAN IS ACTIVE</b><br /><br />\n";
+            	echo '<h3>THIS BAN IS ACTIVE</h3>';
             else
-            	echo "<b>THIS BAN IS INACTIVE</b><br /><br />\n";
+            	echo '<h3>THIS BAN IS INACTIVE</h3>';
             ?>
-
-            <form action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=save" method="post">
-	            Ban expires in <input type="text" name="length" size="5" value="<?php echo $length ?>" /> days
-                <?php
-                if ($expire == "0")
-                	echo "(that's a permanent ban)<br />\n";
-                else
-                	echo "(on " . date("F d, Y", $expire) . ")<br />\n";
-                ?>
-	            <br />
-
-	            Bantype:<br />
-	            <select name="level">
-    	           	<option value="all"<?php if ($level == "all") echo " selected\"selected\"" ?>>Full Ban</option>
-        	        <option value="command"<?php if ($level == "command") echo " selected=\"selected\"" ?>>Ban from Command</option>
-            	</select>
-	            <br />
-
-            Reason:<br />
-	    	    <textarea name="reason" rows="5" cols="30"><?php echo $reason ?></textarea><br />
-                <input type="hidden" name="bid" value="<?php echo $mid ?>" />
-            	<input type="submit" value="Update" />
+			<br />
+            <form class="form-horizontal" action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=save" method="post">
+	            <div class="form-group">
+                	<label for="length" class="col-sm-2 control-label">Ban expires in:</label>
+                    <div class="col-sm-3">
+                    	<div class="input-group">
+                        	<input type="text" class="form-control text-right" name="length" id="length" size="5" value="<?php echo $length ?>">
+                            <span class="input-group-addon">days</span>
+                        </div>
+						<?php
+                        if ($expire == "0")
+                            echo '<span class="help-block">(that\'s a permanent ban)</span>';
+                        else
+                            echo '<span class="help-block">(on ' . date("F d, Y", $expire) . ')</span>';
+                        ?>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label for="level" class="col-sm-2 control-label">Ban type:</label>
+                    <div class="col-sm-10 col-md-6 col-lg-4">
+                        <select class="form-control" name="level" id="level">
+                            <option value="all"<?php if ($level == "all") echo ' selected="selected"' ?>>Full Ban</option>
+                            <option value="command"<?php if ($level == "command") echo ' selected="selected"' ?>>Ban from Command</option>
+                        </select>
+                    </div>
+	            </div>
+				<div class="form-group">
+            		<label for="reason" class="col-sm-2 control-label">Reason:</label>
+                    <div class="col-sm-10 col-md-8 col-lg-6">
+	    	    		<textarea class="form-control" name="reason" id="reason" rows="5" cols="30"><?php echo $reason ?></textarea>
+                	</div>
+                </div>
+                <input type="hidden" name="bid" value="<?php echo $mid ?>">
+            	<div class="form-group">
+                	<div class="col-sm-10 col-sm-offset-2">
+                		<input class="btn btn-default" type="submit" value="Update">
+                	</div>
+                </div>
             </form>
-            <br />
 
-            <u>Email Addresses:</u><br />
+            <h3>Email Addresses:</h3>
+            <ul class="list-group">
             <?php
             $qry = "SELECT email, date, auth FROM {$spre}banlist
             		WHERE alias='$bid' OR id='$bid' ORDER BY date";
@@ -124,23 +144,40 @@ else
             while (list ($email, $date, $auth) = mysql_fetch_array($result))
                	if ($email != "")
                 {
-                   	echo $email . "<br />\n";
-                    echo "(" . date("F j, Y", $date) . ", by " . $auth . ")<br /><br />\n";
+				?>
+                	<li class="list-group-item">
+                   		<h4 class="list-group-item-heading"><?php echo $email ?></h4>
+                    	<p class="list-group-item-text">Added on <?php echo date("F j, Y", $date) ?></p>
+                        <p class="list-group-item-text">by <?php echo $auth ?></p>
+                	</li>
+				<?php
                 }
+				else
+				{
+					echo '<h4>No email addresses listed.</h4>';
+				}
     	    $auth = get_usertype($database, $mpre, $spre, $cid, $uflag);
             ?>
+            </ul>
 
-            <form action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=semail" method="post">
-            	Add: <input type="text" name="email" size="30" /><br />
-                Authorized by: <?php echo $auth ?><br />
-            	<input type="hidden" name="auth" value="<?php echo $auth ?>" />
-                Date: <?php echo date("F j, Y", time()) ?><br />
-	    	    <input type="hidden" name="bandate" value="<?php echo time() ?>" />
-	    	    <input type="hidden" name="bid" value="<?php echo $bid ?>" />
-                <input type="submit" value="Add Alias" />
-            </form><br /><br />
+            <form class="form-inline" action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=semail" method="post">
+            	<div class="form-group">
+                	<label for="email">Add:</label> <input type="text" class="form-control" name="email" id="email" size="30">
+                </div><br />
+                <div class="form-group">
+                	<label for="auth">Authorized by:</label> <p class="form-control-static" id="auth"><?php echo $auth ?></p>
+            		<input type="hidden" name="auth" value="<?php echo $auth ?>">
+                </div><br />
+                <div class="form-group">
+                	<label for="bandate">Date:</label> <p class="form-control-static" id="bandate"><?php echo date("F j, Y", time()) ?></p>
+	    	    	<input type="hidden" name="bandate" value="<?php echo time() ?>">
+                </div><br />
+	    	    <input type="hidden" name="bid" value="<?php echo $bid ?>">
+                <input class="btn btn-default" type="submit" value="Add Alias">
+            </form>
 
-			<u>IP Addresses:</u><br />
+			<h3>IP Addresses:</h3>
+            <ul class="list-group">
             <?php
             $qry = "SELECT ip, date, auth FROM {$spre}banlist
             		WHERE alias='$bid' OR id='$bid' ORDER BY date";
@@ -148,21 +185,37 @@ else
             while (list ($banip, $date, $auth) = mysql_fetch_array($result))
                	if ($banip != "")
                 {
-                   	echo $banip . "<br />\n";
-                    echo "(" . date("F j, Y", $date) . ", by " . $auth . ")<br /><br />\n";
+				?>
+                	<li class="list-group-item">
+                   		<h4 class="list-group-item-heading"><?php echo $banip ?></h4>
+                    	<p class="list-group-item-text">Added on <?php echo date("F j, Y", $date) ?></p>
+                        <p class="list-group-item-text">by <?php echo $auth ?></p>
+                	</li>
+				<?php
                 }
+				else
+				{
+					echo '<h4>No IP addresses listed.</h4>';
+				}
     	    $auth = get_usertype($database, $mpre, $spre, $cid, $uflag);
             ?>
+            </ul>
 
-            <form action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=sip" method="post">
-            	Add: <input type="text" name="banip" size="15" maxlength="15" /><br />
-                Authorized by: <?php echo $auth ?><br />
-            	<input type="hidden" name="auth" value="<?php echo $auth ?>" />
-                Date: <?php echo date("F j, Y", time()) ?><br />
-	    	    <input type="hidden" name="bandate" value="<?php echo time() ?>" />
-	    	    <input type="hidden" name="bid" value="<?php echo $bid ?>" />
-                <input type="submit" value="Add Alias" />
-            </form><br /><br />
+            <form class="form-inline" action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=sip" method="post">
+            	<div class="form-group">
+                	<label for="banip">Add:</label> <input type="text" class="form-control" name="banip" id="banip" size="15" maxlength="15">
+               	</div><br />
+                <div class="form-group">
+                	<label for="auth">Authorized by:</label> <p class="form-control-static" id="auth"><?php echo $auth ?></p>
+            		<input type="hidden" name="auth" value="<?php echo $auth ?>">
+                </div><br />
+                <div class="form-group">
+                	<label for="bandate">Date:</label> <p class="form-control-static" id="bandate"><?php echo date("F j, Y", time()) ?></p>
+	    	    	<input type="hidden" name="bandate" value="<?php echo time() ?>">
+                </div><br />
+	    	    <input type="hidden" name="bid" value="<?php echo $bid ?>">
+                <input class="btn btn-default" type="submit" value="Add Alias">
+            </form>
             <?php
         	break;
 
@@ -170,8 +223,8 @@ else
         case "bdel":
         	$qry = "UPDATE {$spre}banlist SET active='0' WHERE id='$bid' OR alias='$bid'";
             $database->openConnectionNoReturn($qry);
-			echo "<h1>Banlist Admin</h1><br /><br />\n";
-            echo "The user has been <b>UNBANNED</b>.<br /><br />\n";
+			echo '<h1 class="text-center">Banlist Admin</h1>';
+            echo '<h4 class="text-success">The user has been <strong class="text-uppercase">unbanned</strong>.</h4>';
 
 			$lib = "";
             include("tf/jag/banlist.php");
@@ -189,8 +242,8 @@ else
         	$qry = "UPDATE {$spre}banlist SET active='1', expire='$expire'
             		WHERE id='$bid' OR alias='$bid'";
             $database->openConnectionNoReturn($qry);
-			echo "<h1>Banlist Admin</h1><br /><br />\n";
-            echo "The user has been <b>BANNED</b>.<br /><br />\n";
+			echo '<h1 class="text-center">Banlist Admin</h1>';
+            echo '<h4 class="text-success">The user has been <strong class="text-uppercase">banned</strong>.</h4>';
 
 			$lib = "";
             include("tf/jag/banlist.php");
@@ -201,7 +254,7 @@ else
         	$qry = "SELECT id FROM {$spre}banlist WHERE email='$email'";
             $result = $database->openConnectionWithReturn($qry);
             if (mysql_num_rows($result))
-              	echo "This email is already banned...";
+              	echo '<h4 class="text-info">This email is already banned...</h4>';
             else
             {
 	        	$qry = "INSERT INTO {$spre}banlist
@@ -217,7 +270,7 @@ else
         	$qry = "SELECT id FROM {$spre}banlist WHERE ip='$banip'";
             $result = $database->openConnectionWithReturn($qry);
             if (mysql_num_rows($result))
-              	echo "This IP is already banned...";
+              	echo '<h4 class="text-info">This IP is already banned...</h4>';
             else
             {
 	        	$qry = "INSERT INTO {$spre}banlist
