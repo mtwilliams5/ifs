@@ -39,6 +39,12 @@ else
     	    case 'pending':
 	        	include("tf/opm/pending.php");
         	    break;
+    	    case 'check':
+	        	include("tf/opm/check.php");
+        	    break;
+    	    case 'lost':
+	        	include("tf/opm/lost.php");
+        	    break;
     	    default:
 	          	include("tf/opm/tools.php");
         	    break;
