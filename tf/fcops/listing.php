@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	1/28/04
   * Comments: FCOps Ship Listing
   *
  ***/
@@ -24,114 +27,143 @@ if (!defined("IFS"))
 else
 {
 	?>
-	<br /><center>
-	Welcome to the FCOps Ship Listing<BR>
-	Please note that your login will time out after about 10 minutes of inactivity.
-	<br /><br />
+	<h2 class="text-center">Welcome to the FCOps Ship Listing</h2>
+	<p class="text-center">Please note that your login will time out after about 10 minutes of inactivity.</p>
 
-	<center>Sort by:
-	<?php
-    if ($sort != "")
-		if ($show)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=$show\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing\">";
-    else
-    	echo "<a>";
-    echo "name</a> |\n";
+    <div class="row sort-options">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+        <p><strong>Sort by:</strong></p>
+            <div class="btn-group" role="group" aria-label="...">
+                <?php 
+                if ($sort != "")
+                {
+                    if ($show)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=' . $show . '">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing">';
+                    echo 'Name</a>';
+                }
+                else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">Name</a>';
 
-	if ($sort != "class")
-		if ($show)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=$show&amp;sort=class\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=class\">";
-	else
-    	echo "<a>";
-    echo "class</a> |\n";
+               if ($sort != "class")
+               {
+                    if ($show)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=' . $show . '&amp;sort=class">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=class">';
+                    echo 'Class</a>';
+               }
+               else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">Class</a>';
 
-	if ($sort != "tf")
-		if ($show)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=$show&amp;sort=tf\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=tf\">";
-	else
-    	echo "<a>";
-    echo "TF</a> |\n";
+               if ($sort != "tf")
+               {
+                    if ($show)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=' . $show . '&amp;sort=tf">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=tf">';
+                    echo 'TF</a>';
+               }
+               else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">TF</a>';
 
-	if ($sort != "crew")
-		if ($show)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=$show&amp;sort=crew\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=crew\">";
-	else
-    	echo "<a>";
-    echo "crew</a>\n";
-    echo "</center><br />\n";
+               if ($sort != "crew")
+               {
+                    if ($show)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=' . $show . '&amp;sort=crew">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=crew">';
+                    echo 'Crew</a>';
+               }
+               else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">Crew</a>';
+                ?>
+            </div>
+        </div>
+    </div><!-- End of sort-options row -->
+	<br />
+    <div class="row show-options">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+        <p><strong>Show:</strong></p>
+            <div class="btn-group" role="group" aria-label="...">
+                <?php 
+                if ($show != "")
+                {
+                    if ($sort)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=' . $sort . '">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing">';
+                    echo 'All</a>';
+                }
+                else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">All</a>';
 
-	echo "<center>Show:\n";
-	if ($show != "")
-		if ($sort)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=$sort\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing\">";
-	else
-    	echo "<a>";
-    echo "all</a> |\n";
+               if ($show != "active")
+               {
+                    if ($sort)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=' . $sort . '&amp;show=active">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=active">';
+                    echo 'Active</a>';
+               }
+               else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">Active</a>';
 
-	if ($show != "active")
-		if ($sort)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=$sort&amp;show=active\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=active\">";
-	else
-    	echo "<a>";
-    echo "active</a> |\n";
+               if ($show != "inactive")
+               {
+                    if ($sort)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=' . $sort . '&amp;show=inactive">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=inactive">';
+                    echo 'Inactive</a>';
+               }
+               else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">Inactive</a>';
 
-	if ($show != "inactive")
-		if ($sort)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=$sort&amp;show=inactive\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=inactive\">";
-	else
-    	echo "<a>";
-    echo "inactive</a> |\n";
+               if ($show != "open")
+               {
+                    if ($sort)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=' . $sort . '&amp;show=open">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=open">';
+                    echo 'Open</a>';
+               }
+               else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">Open</a>';
 
-	if ($show != "open")
-		if ($sort)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=$sort&amp;show=open\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=open\">";
-	else
-    	echo "<a>";
-    echo "Open</a> |\n";
-
-	if ($show != "queue")
-		if ($sort)
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=$sort&amp;show=queue\">";
-		else
-			echo "<a href=\"index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=queue\">";
-	else
-    	echo "<a>";
-    echo "Queue & Mothball</a>\n";
-	echo "</center><br />\n";
-    ?>
-
-	<table border="1" width="100%">
+               if ($show != "queue")
+               {
+                    if ($sort)
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;sort=' . $sort . '&amp;show=queue">';
+                    else
+                        echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=fcops&amp;action=listing&amp;show=queue">';
+                    echo 'Queue &amp; Mothball</a>';
+               }
+               else
+                    echo '<a role="button" class="btn btn-default btn-sm active" href="">Queue &amp; Mothball</a>';
+                ?>
+            </div>
+        </div>
+    </div><!-- End of show-options row -->
+	<br />
+    
+	<table class="table fcops-listing">
+      <thead>
 		<tr>
-			<td><b>Ship Name</b></td>
-			<td><b>Class</b></td>
-			<td><b>Status</b></td>
-			<td><b>TF / TG</b></td>
+			<th>Ship Name</th>
+			<th>Class</th>
+			<th>Status</th>
+			<th>TF / TG</th>
 		</tr>
         <tr>
-        	<td></td>
-			<td><b>CO Name</b></td>
-            <td><b>CO Email</b></td>
-			<td><b>Crew</b></td>
+        	<th></th>
+			<th>CO Name</th>
+            <th>CO Email</th>
+			<th>Crew</th>
         </tr>
-        <tr>
-        	<td colspan="4">&nbsp;</td>
-        </tr>
+      </thead>
+      <tbody>
 		<?php
 		switch ($sort)
         {
@@ -153,7 +185,7 @@ else
 	    $result = $database->openConnectionWithReturn($qry);
 
 
-		while (	list($sid,$crew,$sname,$sclass,$coid,$tfid,$tgid,$status,$format)=mysql_fetch_array($result) )
+		while (	list($sid,$crew,$sname,$sclass,$coid,$tfid,$tgid,$status,$format,$site)=mysql_fetch_array($result) )
         {
 			if ($coid)
             {
@@ -171,7 +203,7 @@ else
 			}
             else
             {
-				$coname = "None<br />&nbsp;";
+				$coname = "None";
 				$rank = "";
 				$email = "&nbsp;";
 			}
@@ -184,7 +216,7 @@ else
 				$noshow = '1';
 			elseif (($show == "active") && ($status != "Operational"))
 				$noshow = '1';
-			elseif (($show == "open") && ($coid != "0"))
+			elseif (($show == "open") && (($coid != "0") || ($status != "Waiting for CO")))
 				$noshow = '1';
 			elseif (($show == "queue") && (($tfid != '99') || ($tgid == '3')))
 				$noshow = '1';
@@ -196,20 +228,28 @@ else
 				?>
 				<tr>
 					<td>
-						<?php echo "($sid)<br />$sname" ?><br />
+						<strong><?php echo $sname ?></strong><br />
+                        (<?php echo $sid ?>)
 					</td>
 					<td>
-						<?php echo $sclass ?> class
+						<?php
+                        if (!$sclass)
+							echo 'Undefined class';
+						else
+							echo '<em>' . $sclass . '</em> class';
+						?>
 					</td>
 					<td>
 						<?php echo $status ?>
 					</td>
 					<td>
-						<?php echo "$tfid / $tg" ?>
+						<strong>TF<?php echo $tfid ?> / <?php echo $tg ?></strong>
 					</td>
 				</tr>
                 <tr>
-                	<td>&nbsp;</td>
+                	<td>
+						<a href="<?php echo $site; ?>" target="_blank">View Website</a><br />
+						<a href="index.php?option=ifs&amp;task=opm&amp;action=common&amp;lib=sview&amp;sid=<?php echo $sid ?>">View Manifest</a></td>
 					<td>
 						<?php echo $rank . " " . $coname; ?>
                     </td>
@@ -227,15 +267,15 @@ else
                 </tr>
                 <tr>
                 	<td colspan="4">
-                    	&nbsp;
+                    	<hr />
                     </td>
                 </tr>
 				<?php
 			}
 		}
 		?>
-		</tr>
-	</table><br />
+	  </tbody>
+	</table>
 	<?php
 }
 ?>

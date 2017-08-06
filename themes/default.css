@@ -331,3 +331,13 @@ SIM LISTING STYLES
 .sim-details .form-control-static {
 	min-height: 15px;
 }
+
+/*
+--------------------
+FCOPS STYLES
+--------------------
+*/
+.tf-mgmt .row {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
