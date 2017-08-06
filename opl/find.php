@@ -169,13 +169,13 @@ function showpos ()
 	global $database, $sid, $name, $reg, $class, $site, $co, $xo, $tf, $tg, $status, $image, $desc, $position, $relpath, $mpre, $spre,$missiontitle,$missionurl,$genre,$pipgenre;
 	?>
 	<div class="row openpos-header">
-		<div class="col-xs-12"><h3>Open Positions:</h3></div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><h3>Open Positions:</h3></div>
     </div>
     <div class="row openpos-list">
     <?php
 	if ($co == '0')
     {
-		echo '<div class="col-xs-12 col-sm-6 col-md-4"><span class="pos">Commanding Officer</span></div>';
+		echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4"><span class="pos">Commanding Officer</span></div>';
 		echo '</div>';
 		echo '<form action="index.php?option=app&task=co" method="post">';
 	}
@@ -203,7 +203,7 @@ function showpos ()
 
 				if (!mysql_num_rows($result3))
                 {
-					echo '<div class="col-xs-12 col-sm-6 col-md-4"><span class="pos">' . $contents[$counter] . '</span></div>';
+					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4"><span class="pos">' . $contents[$counter] . '</span></div>';
 					$count = $count + 1;
 				}
 			}
@@ -221,7 +221,7 @@ function showpos ()
 
             if (!mysql_num_rows($result3))
             {
-	            echo '<div class="col-xs-12 col-sm-6 col-md-4"><span class="pos">' . stripcslashes($pos) . '</span></div>';
+	            echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4"><span class="pos">' . stripcslashes($pos) . '</span></div>';
 	            $count = $count + 1;
             }
 		}

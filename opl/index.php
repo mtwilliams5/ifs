@@ -52,11 +52,11 @@ switch ($task)
 	    ?>
 
 	    <h5 class="text-center">Search by:</h5>
-        <div class="text-center">
-        <a href="#class">Class</a>
-        <a href="#format">Format</a>
-        <a href="#name">Name</a>
-        <a href="#pos">Position</a>
+        <div class="btn-group btn-group-justified">
+        <a role="button" class="btn btn-default btn-sm" href="#class">Class</a>
+        <a role="button" class="btn btn-default btn-sm" href="#format">Format</a>
+        <a role="button" class="btn btn-default btn-sm" href="#name">Name</a>
+        <a role="button" class="btn btn-default btn-sm" href="#pos">Position</a>
         </div>
         <br />
 
