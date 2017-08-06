@@ -283,6 +283,9 @@ a.list-group-item:hover, a.list-group-item:active {
     border-color: #3F3F3F;
     border-bottom-color: #333333;
 }
+a.list-group-item, a.list-group-item:hover {
+    color: #ffffff;
+}
 a.list-group-item .list-group-item-heading {
     color: #C0C0C0;
 }
