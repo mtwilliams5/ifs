@@ -550,6 +550,7 @@ else
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'OPM Tools', 'index.php?option=ifs~task=opm~action=tools', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Ship Listing', 'index.php?option=ifs~task=opm~action=listing', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Pending Characters', 'index.php?option=ifs~task=opm~action=pending', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Deleted Characters', 'index.php?option=ifs~task=opm~action=deleted', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Character Audit', 'index.php?option=ifs~task=opm~action=check', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Lost Souls', 'index.php?option=ifs~task=opm~action=lost', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Fleet Chief Ops', 'Ship Listing', 'index.php?option=ifs~task=fcops~action=listing', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);

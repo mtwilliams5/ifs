@@ -1375,7 +1375,7 @@ function crew_lookup_race ($database, $mpre, $spre, $charrace, $uflag)
 {
    	echo '<h3>Searching for ' . $charrace . ' characters...</h3>';
 
-	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.race LIKE '%$charrace%' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.race LIKE '%$charrace%' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC";
 	$result = $database->openConnectionWithReturn($qry);
 	
 	$num = mysql_num_rows($result);
@@ -1490,7 +1490,7 @@ function crew_lookup_gender ($database, $mpre, $spre, $chargender, $uflag)
 {
    	echo '<h3>Searching for ' . $chargender . ' characters...</h3>';
 
-	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.gender = '$chargender' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.gender = '$chargender' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC";
 	$result = $database->openConnectionWithReturn($qry);
 	
 	$num = mysql_num_rows($result);
@@ -1608,7 +1608,7 @@ function crew_lookup_rank ($database, $mpre, $spre, $charrank, $uflag)
 	list($rid,$rname)=mysql_fetch_array($result);
    	echo '<h3>Searching for ' . $rname . 's...</h3>';
 
-	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.rank = '$charrank' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.rank = '$charrank' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC";
 	$result = $database->openConnectionWithReturn($qry);
 	
 	$num = mysql_num_rows($result);
@@ -1722,7 +1722,7 @@ function crew_lookup_pos ($database, $mpre, $spre, $charpos, $uflag)
 {	
    	echo '<h3>Searching for ' . $charpos . ' characters...</h3>';
 
-	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.pos = '$charpos' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC, c.color ASC";
+	$qry = "SELECT c.id, c.name, c.rank, c.ship, c.pos, c.gender, c.race, r.level FROM {$spre}characters AS c, {$spre}rank AS r WHERE c.pos = '$charpos' AND r.rankid = c.rank ORDER BY r.level DESC, c.rank DESC";
 	$result = $database->openConnectionWithReturn($qry);
 	
 	$num = mysql_num_rows($result);
