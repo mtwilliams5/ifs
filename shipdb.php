@@ -7,8 +7,12 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -17,7 +21,6 @@
   * This file based on code from Ship Database
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   *
-  * Date:	5/01/04
   * Comments: Ship Database
  ***/
 
@@ -43,14 +46,14 @@ if ($techsearch)
     if (!mysql_num_rows($result))
     	echo '<h4 class="text-warning">No results.</h4>';
 
-	echo '<ul>';
+	echo '<div class="list-group specs-list-tech">';
     while (list($did, $dname) = mysql_fetch_array($result))
     	if (!defined("IFS"))
-	    	echo '<li><a href="shipdb.php?detail=' . $did . '">' . $dname . '</a></li>';
+	    	echo '<a class="list-group-item" href="shipdb.php?detail=' . $did . '">' . $dname . '</a>';
         else
-	    	echo '<li><a href="index.php?option=shipdb&amp;detail=' . $did . '">' . $dname . '</a></li>';
+	    	echo '<a class="list-group-item" href="index.php?option=shipdb&amp;detail=' . $did . '">' . $dname . '</a>';
 	
-	echo '</ul>';
+	echo '</div>';
 }
 
 // Details about a specific weapon or feature/addon
@@ -89,7 +92,7 @@ elseif ($detail)
 	if ($pop != "y")
     {
 		echo '<h6 class="text-muted">Found on:</h6>';
-		echo '<ul>';
+		echo '<div class="list-group specs-list">';
     	$qry = "SELECT c.id, c.name, d.name
         		FROM {$sdb}classes c, {$sdb}equip e, {$sdb}category d, {$sdb}weapons w
                 WHERE w.name='$dname' AND e.equipment=w.id AND e.type='w'
@@ -97,11 +100,11 @@ elseif ($detail)
 		$result = $database->openShipsWithReturn($qry);
 	    while (list($cid, $cname, $catname,) = mysql_fetch_array($result)) {
 			if (!defined("IFS"))
-				echo '<li><a href="shipdb.php?sclass=' . $cid . '">' . $cname . ' Class ' . $catname . '</a></li>';
+				echo '<a class="list-group-item" href="shipdb.php?sclass=' . $cid . '">' . $cname . ' Class ' . $catname . '</a>';
 			else
-    			echo '<li><a href="index.php?option=shipdb&sclass=' . $cid . '">' . $cname . " Class " . $catname . '</a></li>';
+    			echo '<a class="list-group-item" href="index.php?option=shipdb&sclass=' . $cid . '">' . $cname . " Class " . $catname . '</a>';
 		}
-	    echo '</ul>';
+	    echo '</div>';
     }
 
 }
@@ -206,18 +209,18 @@ elseif ($sclass)
         {
         	if ($oldtype != $type)
             {
-				if ($oldtype!='') echo '</ul></li></div>';
+				if ($oldtype!='') echo '</div></li></div>';
 				echo '<div class="row specs-detail-sub-row">';
             	echo '<li><h6><strong>' . $type . 's</strong></h6>';
-				echo '<ul class="specs-detail-sub">';
+				echo '<div class="list-group specs-detail-sub col-xs-8 col-sm-6 col-md-4">';
                 $oldtype = $type;
             }
 			if (!defined("IFS"))
-	    		echo '<a href="shipdb.php?sclass=' . $cid . '">' . $cname . ' ' . $catname . ': <span class="badge">' . $enum . '</span></a>';
+	    		echo '<a class="list-group-item" href="shipdb.php?sclass=' . $cid . '">' . $cname . ' ' . $catname . ': <span class="badge">' . $enum . '</span></a>';
 			else
-	    		echo '<a href="index.php?option=shipdb&amp;sclass=' . $cid . '">' . $cname . ' ' . $catname . ': <span class="badge">' . $enum . '</span></a>';
+	    		echo '<a class="list-group-item" href="index.php?option=shipdb&amp;sclass=' . $cid . '">' . $cname . ' ' . $catname . ': <span class="badge">' . $enum . '</span></a>';
 	    }
-	    echo '</ul></li></div></ul>';
+	    if ($oldtype) echo '</div></li></div></ul>';
     }
 	
 	$qry = "SELECT e.number, w.id, w.name, t.type
@@ -240,22 +243,22 @@ elseif ($sclass)
 			if ($oldwtype!='') echo '</div></li></div>';
 			echo '<div class="row specs-detail-sub-row">';
         	echo '<li><h6><strong>' . $type . 's</strong></h6>';
-			echo '<ul class="specs-detail-sub">';
+			echo '<div class="list-group specs-detail-sub col-xs-8 col-sm-6 col-md-4">';
             $oldwtype = $type;
         }
     	if ($wnum == "1")
         	if (!defined("IFS")) { ?>
-		    	<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?></a>
+		    	<a class="list-group item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?></a>
             <?php
 			} else { ?>
-		    	<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?></a>
+		    	<a class="list-group-item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?></a>
         	<?php }
         elseif ($wnum != "0")
         	if (!defined("IFS")) { ?>
-	    		<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
+	    		<a class="list-group-item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
             <?php
             } else { ?>
-	    		<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
+	    		<a class="list-group-item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')"><?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
 			<?php }
 
 		$qry2 = "SELECT e.number, w.id, w.name, t.type
@@ -264,26 +267,24 @@ elseif ($sclass)
                 	AND w.sub='$wid' AND w.type=t.id
     	        ORDER BY e.sort";
 	    $result2 = $database->openShipsWithReturn($qry2);
-	    
-		while (list($wnum, $wid, $wname) = mysql_fetch_array($result2))
-		{
+	    while (list($wnum, $wid, $wname) = mysql_fetch_array($result2)) {
         	if ($wnum == "1")
             	if (!defined("IFS")) { ?>
-			    	<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?></a>
+			    	<a class="list-group-item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?></a>
                 <?php
                 } else { ?>
-			    	<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?></a>
+			    	<a class="list-group-item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?></a>
                 <?php }
             elseif ($wnum != "0")
             	if (!defined("IFS")) { ?>
-			    	<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
+			    	<a class="list-group-item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
                 <?php
                 } else { ?>
-			    	<a href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
+			    	<a class="list-group-item" href="javascript: var t=window.open('shipdb.php?detail=<?php echo $wid ?>&amp;pop=y','setPop','width=400,height=350,scrollbars=yes')">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $wname ?>: <span class="badge"><?php echo $wnum ?></span></a>
                 <?php }
 		}
     }
-    echo '</ul></li></div></ul>';
+    if ($oldwtype) echo '</div></li></div></ul>';
 	echo '<p class="text-muted"><em>' . $notes . '</em></p>';
 
 	if ($desc)
@@ -333,9 +334,9 @@ elseif ($sclass)
 		$result = $database->openShipsWithReturn($qry);
 	    while (list($cid, $cname, $catname,) = mysql_fetch_array($result)) {
 			if (!defined("IFS"))
-				echo '<a href="shipdb.php?sclass=' . $cid . '">' . $cname . ' Class ' . $catname . '</a>';
+				echo '<a class="list-group-item" href="shipdb.php?sclass=' . $cid . '">' . $cname . ' Class ' . $catname . '</a>';
 			else
-    			echo '<a href="index.php?option=shipdb&sclass=' . $cid . '">' . $cname . " Class " . $catname . '</a>';
+    			echo '<a class="list-group-item" href="index.php?option=shipdb&sclass=' . $cid . '">' . $cname . " Class " . $catname . '</a>';
 		}
 	    echo '</div>';
     }

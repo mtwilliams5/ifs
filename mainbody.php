@@ -33,28 +33,28 @@ switch ($option)
 	case "articles":
 		include("articles.php");
 		break;
-    case "app":
+  case "app":
 		include("apps/index.php");
 		break;
-    case "birthdays":
-    	$bdetails = "1";
-    	include("birthday.php");
-        break;
+  case "birthdays":
+    $bdetails = "1";
+    include("birthday.php");
+    break;
 	case "contact":
 		include("contact.php");
 		break;
 	case "displaypage":
 		include("displaypage.php");
 		break;
-    case "error":
-    	include("error.php");
-    	break;
+	case "error":
+		include("error.php");
+		break;
 	case "faq":
 		include("faq.php");
 		break;
 	case "ifs":
-    	include("ifs.php");
-        break;
+		include("ifs.php");
+		break;
 	case "news":
 		include("news.php");
 		break;
@@ -62,32 +62,32 @@ switch ($option)
 		$ondetails = "1";
 		include("whosOnline.php");
 		break;
-    case "opl":
-        include("opl/index.php");
-        break;
+	case "opl":
+		include("opl/index.php");
+		break;
 	case "registration":
 		include("registration.php");
 		break;
-    case "search":
+  case "search":
 		include("search.php");
 		break;
 	case "shipdb":
-    	include("shipdb.php");
-        break;
-    case "ships":
-        include("tf/ships.php");
-        break;
+    include("shipdb.php");
+    break;
+  case "ships":
+    include("tf/ships.php");
+    break;
 	case "spotlight":
 		$needspot = "1";
 		include("spotlight.php");
-        break;
+    break;
 	case "surveyresult":
 		include("pollBooth.php");
 		break;
 	case "user":
 		include("userpage.php");
 		break;
-    case "weblinks":
+  case "weblinks":
 		include("weblinks.php");
 		break;
 	default:
