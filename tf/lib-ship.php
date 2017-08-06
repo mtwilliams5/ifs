@@ -695,12 +695,12 @@ function ship_reports_list ($database, $mpre, $spre, $sid)
 function ship_reports_view ($database, $mpre, $spre, $rid, $sid)
 {
 	$qry = "SELECT date, ship, co, url, status, crew, crewlist,
-    			newcrew, removedcrew, promotions, mission, missdesc, posts, awards, comments, potm
+    			newcrew, removedcrew, promotions, mission, missdesc, posts, awards, comments
             FROM {$spre}reports WHERE id='$rid'";
     $result = $database->openConnectionWithReturn($qry);
 	list($date, $ship, $co, $site, $status, $crewcount, $crewlisting, $newcrew,
     	 $removedcrew, $promotions, $mission, $missdesc, $posts,
-         $awards, $comments, $potm)
+         $awards, $comments)
          = mysql_fetch_array($result);
 
 	$qry = "SELECT name FROM {$spre}ships WHERE id='$ship'";
@@ -730,7 +730,6 @@ function ship_reports_view ($database, $mpre, $spre, $rid, $sid)
 	$missdesc = stripslashes($missdesc);
 	$posts = stripslashes($posts);
 	$awards = stripslashes($awards);
-	$potm = stripslashes($potm);
 	$comments = stripslashes($comments);
 
     ?>
@@ -790,8 +789,6 @@ function ship_reports_view ($database, $mpre, $spre, $rid, $sid)
         	<dd><?php echo $posts ?></dd>
         <dt>Sim/Website Awards and Awards Given Crew:</dt>
         	<dd><?php echo $awards ?></dd>
-        <dt>Post of the Month Nomiation:</dt>
-        	<dd><?php echo $potm ?></dd>
     </dl>
 
 	<h3>Misc Information:</h3>

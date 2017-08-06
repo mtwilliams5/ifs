@@ -103,10 +103,12 @@ class HTML_user
 						echo '</span></div>';
 					}
                     ?>
-	            </div>
-                <div class="col-sm-2 col-md-3 col-lg-4 text-right">
-                	<img src="images/6977transparent.gif" name="imagelib" class="img-responsive img-thumbnail">
-                </div>
+				</div>
+				<?php if ($Imagename!="") { ?>
+					<div class="col-sm-2 col-md-3 col-lg-4 text-right">
+						<img src="images/<?php echo $Imagename ?>" name="imagelib" class="img-responsive img-thumbnail">
+					</div>
+				<?php } ?>
 	        </div>
 	        <div class="form-group">
 	        	<label for="arttitle" class="col-sm-2 control-label">Title:</label>
