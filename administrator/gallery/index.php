@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -29,8 +29,7 @@
 <HTML>
 <HEAD>
 <link rel="stylesheet" href="../../css/ie5.css" type="text/css">
-<?
-
+<?php
 if (isset($option)){
 	if (!isset($directory)){
 		$directory = "";
@@ -56,16 +55,18 @@ $i++;
 ?>
 </head>
 <body bgcolor="#FFFFFF">
-<?
+<?php
 }else{
 ?>
-<TITLE><? print $title[$gal] ?></TITLE>
+<TITLE><?php
+print $title[$gal] ?></TITLE>
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
 <center>
-<br><h1><? print $title[$gal] ?></h1>
+<br><h1><?php
+print $title[$gal] ?></h1>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<?
+<?php
 if (!isset($pg)){
 	$pg=0;
 	}

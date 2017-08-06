@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	5/02/04
   * Comments: Displays various TF statistics
  ***/
 
@@ -68,8 +71,7 @@ else
 	$charperplay = round(($actcharcount / $pnum),2);
 
 	?>
-	<br />
-	<center><font size="+2"><b><u>Task Force <?php echo $tfid ?> Statistics</u></b></font></center><br />
+	<h1 class="text-center">Task Force <?php echo $tfid; ?> Statistics</h1>
 	<br />
 	<b>Total Ships: </b><?php echo $ships ?><br />
 	&nbsp;&nbsp;&nbsp;<b>CO'ed Ships: </b><?php echo $coships ?><br />
@@ -88,72 +90,78 @@ else
 	<b>Average Characters per Player:</b> <?php echo $charperplay ?><br />
 
 	<br /><br />
-	<u><b>Task Group Listings</b></u><br /><br />
-	<?php
+    <?php
 	$qry = "SELECT tg, name FROM {$spre}taskforces WHERE tg!='0' AND tf='$tfid' ORDER BY tg";
 	$result = $database->openConnectionWithReturn($qry);
-	while ( list ($tgid,$tgname) = mysql_fetch_array($result) )
-    {
-		$qry2 = "SELECT id FROM {$spre}ships WHERE tf='$tfid' AND tg='$tgid'";
-		$result2=$database->openConnectionWithReturn($qry2);
-		$ships = mysql_num_rows($result2);
-
-		$qry3 = "SELECT id FROM {$spre}ships
-        		 WHERE (status='Operational' OR status='Docked at Starbase')
-	                 AND tf='$tfid' AND tg='$tgid'";
-		$result3=$database->openConnectionWithReturn($qry3);
-		$actships = mysql_num_rows($result3);
-
-		$qry3 = "SELECT id FROM {$spre}ships WHERE tf='$tfid' AND tg='$tgid' AND co='0'";
-		$result3=$database->openConnectionWithReturn($qry3);
-		$openships = mysql_num_rows($result3);
-
-		$inships = $ships - $actships - $openships;
-		$coships = $ships - $openships;
-
-	    $qry2 = "SELECT COUNT(*) FROM {$spre}ships s, {$spre}characters c
-        		 WHERE s.tf='$tfid' AND s.tg='$tgid' AND s.id = c.ship";
-		$result2 = $database->openConnectionWithReturn($qry2);
-        list($charcount) = mysql_fetch_array($result2);
-
-	    $qry2 = "SELECT COUNT(*) FROM {$spre}ships s, {$spre}characters c
-        		 WHERE s.tf='$tfid' AND s.tg='$tgid' AND s.id = c.ship
-                 	AND (s.status='Operational' OR s.status='Docked at Starbase')";
-		$result2 = $database->openConnectionWithReturn($qry2);
-        list($actcharcount) = mysql_fetch_array($result2);
-
-		if ($coships != 0)
-			$avgchar = round(($charcount / $coships),2);
-		else
-			$avgchar = 0;
-		$actavgchar = round(($actcharcount / $actships),2);
-
-		?>
-		<b>Task Group <?php echo $tgid; ?> -- <?php echo $tgname; ?></b><br />
-		<b>Total Ships: </b><?php echo $ships; ?><br />
-		&nbsp;&nbsp;&nbsp;<b>CO'ed Ships: </b><?php echo $coships; ?><br />
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Active Ships: </b><?php echo $actships; ?><br />
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Inactive Ships: </b><?php echo $inships; ?><br />
-		&nbsp;&nbsp;&nbsp;<b>Open Ships: </b><?php echo $openships; ?><br />
-		<b>Total Characters:</b> <?php echo $charcount; ?><br />
-		<b>Active Characters:</b> <?php echo $actcharcount; ?><br />
-		<b>Average Characters per CO'ed Ship:</b> <?php echo $avgchar; ?><br />
-		<b>Average Characters per active ship:</b> <?php echo $actavgchar; ?><br />
-		<br />
-		<?php
+	
+	if (mysql_num_rows($result)>1){ ?>
+        <h3>Task Group Listings</h3>
+        <?php
+        while ( list ($tgid,$tgname) = mysql_fetch_array($result) )
+        {
+            $qry2 = "SELECT id FROM {$spre}ships WHERE tf='$tfid' AND tg='$tgid'";
+            $result2=$database->openConnectionWithReturn($qry2);
+            $ships = mysql_num_rows($result2);
+    
+            $qry3 = "SELECT id FROM {$spre}ships
+                     WHERE (status='Operational' OR status='Docked at Starbase')
+                         AND tf='$tfid' AND tg='$tgid'";
+            $result3=$database->openConnectionWithReturn($qry3);
+            $actships = mysql_num_rows($result3);
+    
+            $qry3 = "SELECT id FROM {$spre}ships WHERE tf='$tfid' AND tg='$tgid' AND co='0'";
+            $result3=$database->openConnectionWithReturn($qry3);
+            $openships = mysql_num_rows($result3);
+    
+            $inships = $ships - $actships - $openships;
+            $coships = $ships - $openships;
+    
+            $qry2 = "SELECT COUNT(*) FROM {$spre}ships s, {$spre}characters c
+                     WHERE s.tf='$tfid' AND s.tg='$tgid' AND s.id = c.ship";
+            $result2 = $database->openConnectionWithReturn($qry2);
+            list($charcount) = mysql_fetch_array($result2);
+    
+            $qry2 = "SELECT COUNT(*) FROM {$spre}ships s, {$spre}characters c
+                     WHERE s.tf='$tfid' AND s.tg='$tgid' AND s.id = c.ship
+                        AND (s.status='Operational' OR s.status='Docked at Starbase')";
+            $result2 = $database->openConnectionWithReturn($qry2);
+            list($actcharcount) = mysql_fetch_array($result2);
+    
+            if ($coships != 0)
+                $avgchar = round(($charcount / $coships),2);
+            else
+                $avgchar = 0;
+            $actavgchar = round(($actcharcount / $actships),2);
+    
+            ?>
+            <b>Task Group <?php echo $tgid; ?> -- <?php echo $tgname; ?></b><br />
+            <b>Total Ships: </b><?php echo $ships; ?><br />
+            &nbsp;&nbsp;&nbsp;<b>CO'ed Ships: </b><?php echo $coships; ?><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Active Ships: </b><?php echo $actships; ?><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Inactive Ships: </b><?php echo $inships; ?><br />
+            &nbsp;&nbsp;&nbsp;<b>Open Ships: </b><?php echo $openships; ?><br />
+            <b>Total Characters:</b> <?php echo $charcount; ?><br />
+            <b>Active Characters:</b> <?php echo $actcharcount; ?><br />
+            <b>Average Characters per CO'ed Ship:</b> <?php echo $avgchar; ?><br />
+            <b>Average Characters per active ship:</b> <?php echo $actavgchar; ?><br />
+            <br />
+            <?php
+        }
 	}
 	?>
 
-	<br /><br />
-	<u><b>Ship Statistics</b></u><br /><br />
+	<h3 class="heading">Ship Statistics</h3>
 
-	<table width="50%" align="left" border="1" cellpadding="4" cellspacing="0">
+	<table class="table table-bordered">
+      <thead>
 		<tr>
-        	<td><u>Class</u></td>
-			<td><u>Operational</u></td>
-			<td><u>Inactive</u></td>
-			<td><u>Open</u></td>
+        	<th>Class</th>
+			<th>Operational</th>
+			<th>Inactive</th>
+			<th>Open</th>
         </tr>
+      </thead>
+      <tbody>
 
 		<?php
 		$qry = "SELECT c.name
@@ -163,29 +171,38 @@ else
 		$result = $database->openShipsWithReturn($qry);
 		while ( list ($cname) = mysql_fetch_array($result) )
         {
-			echo "<tr><td>$cname</td>\n";
-
-			$qry2 = "SELECT id FROM {$spre}ships
-            		 WHERE class='$cname' AND tf='$tfid'
-                     	AND (status='Operational' OR status='Docked at Starbase')";
-			$result2 = $database->openConnectionWithReturn($qry2);
-			$oper = mysql_num_rows($result2);
-			echo "<td>$oper</td>\n";
-
-			$qry2 = "SELECT id FROM {$spre}ships
-            		 WHERE class='$cname' AND tf='$tfid'
-                     	AND (status='Waiting for Command Academy completion' OR status='Waiting for Crew')";
-			$result2 = $database->openConnectionWithReturn($qry2);
-			$inac = mysql_num_rows($result2);
-			echo "<td>$inac</td>\n";
-
-			$qry2 = "SELECT id FROM {$spre}ships
-            		 WHERE class='$cname' AND tf='$tfid' AND status='Waiting for CO'";
-			$result2 = $database->openConnectionWithReturn($qry2);
-			$open = mysql_num_rows($result2);
-			echo "<td>$open</td>\n";
+			?>
+            <tr>
+            	<td><?php echo $cname ?></td>
+				<?php
+				$qry2 = "SELECT id FROM {$spre}ships
+						 WHERE class='$cname' AND tf='$tfid'
+							AND (status='Operational' OR status='Docked at Starbase')";
+				$result2 = $database->openConnectionWithReturn($qry2);
+				$oper = mysql_num_rows($result2);
+				?>
+				<td<?php if($oper>0) echo ' class="text-success"'?>><?php echo $oper ?></td>
+				<?php
+				$qry2 = "SELECT id FROM {$spre}ships
+						 WHERE class='$cname' AND tf='$tfid'
+							AND (status='Waiting for Command Academy completion' OR status='Waiting for Crew')";
+				$result2 = $database->openConnectionWithReturn($qry2);
+				$inac = mysql_num_rows($result2);
+				?>
+				<td<?php if($inac>0) echo ' class="text-danger"'?>><?php echo $inac ?></td>
+				<?php
+				$qry2 = "SELECT id FROM {$spre}ships
+						 WHERE class='$cname' AND tf='$tfid' AND status='Waiting for CO'";
+				$result2 = $database->openConnectionWithReturn($qry2);
+				$open = mysql_num_rows($result2);
+				?>
+				<td<?php if($open>0) echo ' class="text-info"'?>><?php echo $open ?></td>
+            </tr>
+            <?php
 		}
-
-    echo "</table>\n";
+		?>
+	  </tbody>
+    </table>
+    <?php
 }
 ?>

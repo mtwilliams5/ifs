@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	1/23/03
   * Comments: Displays various Fleet statistics
  ***/
 
@@ -59,7 +62,7 @@ else
 
 	// Total characters (chars assigned to any ship other than Deleted Characters)
 	$totalchar = 0;
-	$qry = "SELECT COUNT(*) FROM {$spre}characters c, {$spre}ships s WHERE s.id<>'74' AND c.ship = s.id";
+	$qry = "SELECT COUNT(*) FROM {$spre}characters c, {$spre}ships s WHERE s.id<>'". DELETED_SHIP ."' AND c.ship = s.id";
     $result = $database->openConnectionWithReturn($qry);
 	list ($totalchar) = mysql_fetch_array($result);
 
@@ -70,7 +73,7 @@ else
 	list ($actcharcount) = mysql_fetch_array($result);
 
 	// total players (users with at least one character)
-	$qry = "SELECT player FROM {$spre}characters WHERE ship<>'74' GROUP BY player";
+	$qry = "SELECT player FROM {$spre}characters WHERE ship<>'". DELETED_SHIP ."' GROUP BY player";
 	$result = $database->openConnectionWithReturn($qry);
 	$pnum = mysql_num_rows($result);
 
@@ -81,8 +84,7 @@ else
 	$charperplay = round(($totalchar / $pnum),1);
 
 	?>
-	<br />
-	<center><font size="+2"><b><u>Obsidian Fleet Statistics</u></b></font></center><br />
+	<h1 class="text-center"><?php echo $fleetname ?> Statistics</h1>
 	<br />
 	<b>Total Ships: </b><?php echo $ships ?> (does not include Queue and Mothball)<br />
 	&nbsp;&nbsp;&nbsp;<b>CO'ed Ships: </b><?php echo $coships ?><br />
@@ -93,7 +95,7 @@ else
     <b>Total Characters:</b> <?php echo $totalchar ?><br />
 	&nbsp;&nbsp;&nbsp;<b>Active Characters:</b> <?php echo $actcharcount ?><br />
 	&nbsp;&nbsp;&nbsp;<b>Inactive Characters:</b> <?php echo $sleepchar ?><br />
-	&nbsp;&nbsp;&nbsp;<b>Other Characters (pending, R10):</b> <?php echo $otherchar ?><br /><br />
+	&nbsp;&nbsp;&nbsp;<b>Other Characters (pending, staff characters, unassigned):</b> <?php echo $otherchar ?><br /><br />
 
 	<b>Average Characters per CO'ed Ship:</b> <?php echo $avgchar ?><br />
 	<b>Average characters per active ship:</b> <?php echo $actavgchar ?><br /><br />
@@ -106,7 +108,7 @@ else
 	Mothballed Ships: <?php echo $mothball ?><br />
 
 	<br /><br />
-	<u><b>Task Force Listings</b></u><br /><br />
+	<h3>Task Force Listings</h3>
 	<?php
 	$qry = "SELECT tf, name FROM {$spre}taskforces WHERE tg='0' AND tf<>'99' ORDER BY tf";
 	$result = $database->openConnectionWithReturn($qry);
@@ -132,11 +134,11 @@ else
 		$result2 = $database->openConnectionWithReturn($qry2);
         list($charcount) = mysql_fetch_array($result2);
 
-	    $qry = "SELECT COUNT(*) FROM {$spre}characters c, {$spre}ships s
+	    $qry4 = "SELECT COUNT(*) FROM {$spre}characters c, {$spre}ships s
         			WHERE (s.status='Operational' OR s.status='Docked at Starbase')
                     AND c.ship = s.id AND s.tf='$tfid'";
-	    $result = $database->openConnectionWithReturn($qry);
-	    list ($actcharcount) = mysql_fetch_array($result);
+	    $result4 = $database->openConnectionWithReturn($qry4);
+	    list ($actcharcount) = mysql_fetch_array($result4);
 
 		if ($coships != 0)
 			$avgchar = round(($charcount / $coships),1);
@@ -145,7 +147,7 @@ else
 		$actavgchar = round(($actcharcount / $actships),1);
 
 		?>
-		<b>Task Force: </b>Task Force <?php echo $tfid; ?> -- <?php echo $tfname; ?><br />
+		<h5>Task Force <?php echo $tfid . ' -- ' . $tfname; ?></h5>
 		<b>Total Ships: </b><?php echo $ships; ?><br />
 		&nbsp;&nbsp;&nbsp;<b>CO'ed Ships: </b><?php echo $coships; ?><br />
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Active Ships: </b><?php echo $actships; ?><br />

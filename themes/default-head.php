@@ -10,9 +10,13 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.13n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *   matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -29,37 +33,35 @@
 //		PHP command
 echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<!--
-  * INTEGRATED FLEET MANAGEMENT SYSTEM
-  * OBSIDIAN FLEET
-  * http://www.obsidianfleet.net - http://www.obsidianfleet.net/ifs/
-  *
-  * Developer:	Frank Anon
-  * 	    	fanon@obsidianfleet.net
-  *
-  * Version:	1.14n
-  * Release Date: June 3, 2004
-  *
-  * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
-  * Distributed under the terms of the GNU General Public License
-  * See doc/LICENSE for details
-  *
-  -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags required for Bootstrap. They must be first in the head. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<head>
-<title><?php echo fleetname ?></title>
-<link rel="stylesheet" href="<?php echo $relpath ?>themes/default.css" type="text/css" />
-</head>
+    <meta charset="utf-8">
+    <title><?php echo fleetname ?></title>
+    <!-- Import Bootstrap files -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <!-- /Bootstrap -->
+    <link rel="stylesheet" href="<?php echo $relpath ?>themes/default.css" type="text/css" />
+  </head>
 
-<body>
-<?php
-$newstop = "";
-$logintop = "";
-$searchtop = "";
+  <body>
+    <?php
+    $newstop = "";
+    $logintop = "";
+    $searchtop = "";
 
-if ($pop != "y")
-	echo "<center><img src=\"". $fleetbanner . "\" alt=\"".$fleetname."\"></center><br /><br />\n";
-?>
+    if (defined("IFS")){
+    ?>
+      <header id="head">
+        <div class="container text-center">
+          <img src="<?php echo $fleetbanner ?>" alt="<?php echo $fleetname ?>" class="img-responsive center-block">
+        </div>
+      </header><br />
+    <?php } ?>

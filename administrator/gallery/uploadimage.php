@@ -80,8 +80,8 @@
     </TR>
     <TR>
       <TD>
-        <INPUT TYPE="hidden" NAME="directory" VALUE="<?echo $directory;?>">
-        <INPUT TYPE="hidden" NAME="Itemid" VALUE="<?echo $Itemid;?>">
+        <INPUT TYPE="hidden" NAME="directory" VALUE="<?php echo $directory;?>">
+        <INPUT TYPE="hidden" NAME="Itemid" VALUE="<?php echo $Itemid;?>">
       </TD>
     </TR>
   </TABLE>

@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 	if (!session_is_registered("session_id")) {
 		print "<script> document.location.href='../index.php'</script>";
@@ -49,7 +49,7 @@ if ($install == "Install Modules"){
       <table width="350" border="0" cellspacing="0" cellpadding="3" bgcolor="#FFFFFF">
         <tr>
           <td colspan=2>
-            <?
+            <?php
 mysql_connect($host, $user, $password) or die ("Could not connect");
 mysql_select_db($db) or die ("Could not select database");
 $query = "SELECT title, module FROM components WHERE module LIKE 'mod_%' ORDER BY module";
@@ -69,18 +69,20 @@ $num_of_rows = mysql_num_rows($result);
           <TD class="bold">Page Module File</TD>
         </tr>
         <tr colspan=2>
-          <?
-	$j=0;
+          <?php
+$j=0;
 	if ($num_of_rows=="0") {
 		print ("<TD><span class=bold>No custom modules installed</span></TD>");
 		} else {
 		while ($row = mysql_fetch_array($result)) {
 			$list[$j]=$row[module]; ?>
-      			<TD><span class="small"><? print ("$row[title]"); ?></span></TD>
-          		<TD><span class="small"><? print ("$row[module]"); ?></span></TD>
+      			<TD><span class="small"><?php
+print ("$row[title]"); ?></span></TD>
+          		<TD><span class="small"><?php
+print ("$row[module]"); ?></span></TD>
         		</TR>
-        		<?
-			$j++;
+        		<?php
+$j++;
 			}
 		}
 
@@ -98,7 +100,7 @@ if ($handle=opendir("../modules/")) {
           <tr>
             <td colspan=2 height="26" class="articlehead">Available modules:</td>
           </tr>
-            <?
+            <?php
 $no_available = 1;
 $k=0;
 while ($available[$k]) {
@@ -123,12 +125,12 @@ if ($no_available) print "<tr><td colspan=2><span class='bold'>No custom modules
           </tr>
           <tr>
             <td colspan=2 height="32" align="right">
-              <?
+              <?php
 print "<INPUT class='button' TYPE='submit' NAME='install' VALUE='Install Modules'>";
 ?>
             </td>
         </FORM>
-<?
+<?php
 function in_array_key($key, $array) {
 	$i=0;
 	while ($array[$i]) {

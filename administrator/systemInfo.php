@@ -1,5 +1,5 @@
-<?
-	require ("classes/html/HTML_systemInfo.php");
+<?php
+require ("classes/html/HTML_systemInfo.php");
 	$systemInfohtml = new HTML_systemInfo();
 
 	switch ($task){

@@ -74,7 +74,8 @@ else {
 
 <BODY bgcolor="#fffff5" leftmargin="0" rightmargin="0" topmargin="0">
 
-<? if (($task != "edit") && ($task != "new") && ($task != "AddStep2") && ($task != "AddStep3") && ($task !="reply")) { ?>
+<?php
+if (($task != "edit") && ($task != "new") && ($task != "AddStep2") && ($task != "AddStep3") && ($task !="reply")) { ?>
 
 <script type='text/javascript'>
 
@@ -89,7 +90,8 @@ function Go(){return}
 <script type='text/javascript' src='js/menu_com.js'></script>
 <noscript>Your browser does not support script</noscript>
 
-<?}
+<?php
+}
 
 include("menubar.php");
 include ("../configuration.php");
@@ -121,8 +123,7 @@ elseif (preg_match("/Mozilla/i", "$browse")){
 <TABLE CELLSPACING="0" CELLPADDING="4" BORDER="1" BGCOLOR=#e2e2e2 bordercolor=#000000 WIDTH="98%" ALIGN=CENTER>
 <TR>
     <TD bgcolor=#fffff5>
-	<?
-
+	<?php
 /* Show list of items to edit or delete or create new */
 switch ($option){
 	case "Components":

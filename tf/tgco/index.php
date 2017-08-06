@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated by: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	5/03/04
   * Comments: Main ship admin page for TGCOs
   *
  ***/
@@ -29,11 +32,10 @@ else
 		if (!$adminship && !$sid)
         {
 			?>
-			<br /><br />
-			<center>Hey, you're an admin!  That makes you special!<br />
-            Choose which TG you want to modify.<br />
-			<form action="index.php?option=ifs&amp;task=tgco&amp;action=<? echo $action ?>" method="post">
-				<select name="adminship">
+			<p class="text-center">Hey, you're an admin!  That makes you special!<br />
+            Choose which TG you want to modify.</p>
+			<form class="form-inline text-center" action="index.php?option=ifs&amp;task=tgco&amp;action=<?php echo $action ?>" method="post">
+				<select class="form-control" name="adminship">
 					<?php
                     if ($uflag['t'] == 1)
                     {
@@ -54,8 +56,8 @@ else
 						echo "<option value=\"{$tfid}-{$tgid}\">$tfid - $tgid $tgname</option>\n";
 					?>
 				</select>
-				<input type="submit" value="Submit" />
-            </form></center>
+				<input class="btn btn-default btn-small" type="submit" value="Submit">
+            </form>
 			<?php
 	        $tfid = "selecting";
 		}
@@ -81,8 +83,8 @@ else
 	if ($uflag['g'] > 0)
     {
 		if (!$tfid)
-			echo "<br /><br /><center>You have a TGCO User Level, but you are not listed as the CO of a TG!<br />" .
-            	 "Sorry, can't let you in!</center><br /><br /><br />\n";
+			echo '<h4 class="text-center text-warning text-center">You have a TGCO User Level, but you are not listed as the CO of a TG!<br />' .
+            	 'Sorry, can\'t let you in!</h4>';
 		elseif ($tfid != 'selecting')
         {
 			switch ($action)
@@ -106,6 +108,6 @@ else
 	    }
 	}
     else
-		echo "You do not have access to this area!";
+		echo '<h3 class="text-danger text-center">You do not have access to this area!</h4>';
 }
 ?>

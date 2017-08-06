@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -29,19 +29,23 @@
 	/* Is browser Internet Explorer and is it windows based */
 	if ((preg_match("/MSIE/i", "$browse")) && (preg_match("/windows/i", "$browse"))){?>
 			<DIV ID="menubar" STYLE="position:relative; HEIGHT:65px; TOP:0px; LEFT:0px; WIDTH:100%; z-index:0" >
-<?		}
+<?php
+}
 	/* Is browser Netscape and is it window based */
 	elseif ((preg_match("/Mozilla/i", "$browse")) && (preg_match("/windows/i", "$browse"))){?>
 			<LAYER ID="menubar" HEIGHT="65" TOP="0" LEFT="0" z-index="0" VISIBILITY="show" WIDTH="100%">
-<?		}
+<?php
+}
 /* Is browser Internet Explorer and is it MAC based */
 	elseif ((preg_match("/MSIE/i", "$browse")) && (preg_match("/mac/i", "$browse"))){?>
 			<DIV ID="menubar" STYLE="position:relative; WIDTH:100%;HEIGHT:65px;TOP:0px;LEFT:0px;">
-<?		}
+<?php
+}
 /* Is browser Netscape and is it MAC based */
 	else {?>
 			<LAYER ID="menubar" HEIGHT="5" TOP="0" LEFT="0" WIDTH="100%" z-index="0">
-<?		}
+<?php
+}
 	
 	/* Display correct menu bar for chosen menu item */
 	switch ($option){
@@ -132,18 +136,19 @@
 	
 	
 	
-	<?if (preg_match("/MSIE/i", "$browse")){?>
+	<?php if (preg_match("/MSIE/i", "$browse")){?>
 		</DIV>
-		<?
-		}
+		<?php
+}
 	elseif (preg_match("/Mozilla/i", "$browse")){?>
 		</LAYER>
-		<?}?>
+		<?php
+}?>
 		
-	<?if (preg_match("/MSIE/i", "$browse")){?>
+	<?php if (preg_match("/MSIE/i", "$browse")){?>
 		<BR>
-		<?
-		}
+		<?php
+}
 	elseif (preg_match("/Mozilla/i", "$browse")){?>
 		<BR><BR><BR><BR><BR>
-		<?}?>
+		<?php } ?>

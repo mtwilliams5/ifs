@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This file contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	6/03/04
   * Comments: List Academy students
   *
   * See CHANGELOG for patch details
@@ -66,7 +69,7 @@ else
 	        }
         }
 
-        echo "<b>Course has been set inactive.</b><br /><br />\n";
+        echo '<h3 class="text-success">Course has been set to inactive.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
     }
@@ -76,7 +79,7 @@ else
         		WHERE course='$cid' AND section='$sid'";
         $database->openConnectionNoReturn($qry);
 
-        echo "<b>Section has been set inactive.</b><br /><br />\n";
+        echo '<h3 class="text-success">Section has been set to inactive.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
 	}
@@ -104,7 +107,7 @@ else
 	        $database->openConnectionNoReturn($qry);
         }
 
-        echo "<b>Instructor has been set inactive.</b><br /><br />\n";
+        echo '<h3 class="text-success">Instructor has been set inactive.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
 	}
@@ -114,7 +117,11 @@ else
         		WHERE course='$cid' AND section='0'";
         $result = $database->openConnectionWithReturn($qry);
         list ($oldCoord) = mysql_fetch_array($result);
-
+		
+		//Let's sanitise the inputs
+		$cname = mysql_real_escape_string($cname);
+		$desc = mysql_real_escape_string($desc);
+		
     	$qry = "UPDATE {$spre}acad_courses
         		SET name='$cname', pass='$pass', coord='$coord', descrip='$desc'
                 WHERE course='$cid' AND section='0'";
@@ -161,17 +168,21 @@ else
             }
         }
 
-        echo "<b>Course has been updated.</b><br /><br />\n";
+        echo '<h3 class="text-success">Course has been updated.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
 	}
     else if ($lib == "sedit")
     {
+		//Let's sanitise the inputs
+		$sname = mysql_real_escape_string($sname);
+		$desc = mysql_real_escape_string($desc);
+		
     	$qry = "UPDATE {$spre}acad_courses SET name='$sname', descrip='$desc'
         		WHERE course='$cid' AND section='$sid'";
         $database->openConnectionNoReturn($qry);
 
-        echo "<b>Section has been updated.</b><br /><br />\n";
+        echo '<h3 class="text-success">Section has been updated.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
 	}
@@ -183,7 +194,11 @@ else
         	$qry = "SELECT course FROM {$spre}acad_courses WHERE course='$cid'";
             $result = $database->openConnectionWithReturn($qry);
         } while (mysql_num_rows($result));
-
+		
+		//Let's sanitise the inputs 
+		$cname = mysql_real_escape_string($cname);
+		$desc = mysql_real_escape_string($desc);
+		
     	$qry = "INSERT INTO {$spre}acad_courses
         		SET name='$cname', pass='$pass', descrip='$desc',
                 course='$cid', section='0', active='1'";
@@ -195,7 +210,7 @@ else
                     "section)', course='$cid', section='1', active='1'";
     	$database->openConnectionNoReturn($qry);
 
-        echo "<b>Course has been added.</b><br /><br />\n";
+        echo '<h3 class="text-success">Course has been added.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
     }
@@ -206,12 +221,17 @@ else
         $database->openConnectionNoReturn($qry);
 
 		$order++;
+		
+		// Let's sanitise the inputs
+		$sname = mysql_real_escape_string($sname);
+		$desc = mysql_real_escape_string($desc);
+		
         $qry = "INSERT INTO {$spre}acad_courses
         		SET name='$sname', descrip='$desc', course='$cid',
                 	section='$order', active='1'";
         $database->openConnectionNoReturn($qry);
 
-        echo "<b>Section has been added.</b><br /><br />\n";
+        echo '<h3 class="text-success">Section has been added.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
 	}
@@ -241,7 +261,7 @@ else
             $database->openConnectionNoReturn($qry);
         }
 
-        echo "<b>Instructor has been added.</b><br /><br />\n";
+        echo '<h3 class="text-success">Instructor has been added.</h3>';
         $lib = "";
         include("tf/academy/admin.php");
     }
@@ -283,7 +303,7 @@ else
                 $result = $database->openConnectionWithReturn($qry);
 
             	if (!$mark[$stuid])
-                	echo "Enter the mark for the section! Record not updated...<br />\n";
+                	echo '<h4 class="text-warning">Enter the mark for the section! Record not updated...</h4>';
                 else if (!mysql_num_rows($result))	   // Completed last section
                 {
                 	// Graduation!
@@ -298,34 +318,39 @@ else
                     $database->openConnectionNoReturn($qry);
 
                     // Notify the person's CO (either ship or TFCO/TGCO)
-                    $qry = "SELECT s.cid, c.id, u.email
+                    $qry = "SELECT s.cid, c.id, u.email, h.id
                     		FROM {$spre}acad_students s, {$mpre}users u,
                             	{$spre}characters c, {$spre}ships h,
                                 {$spre}characters a
                             WHERE s.cid=a.id AND a.ship=h.id AND h.co=c.id
                             	AND c.player=u.id AND s.id='$stuid'";
                     $result = $database->openConnectionWithReturn($qry);
-                    list ($cid, $coid, $coemail) = mysql_fetch_array($result);
+                    list ($cid, $coid, $coemail, $shid) = mysql_fetch_array($result);
 
 	                if ($cid == $coid)
 	                {
-	                    $qry = "SELECT u1.email, u2.email
-	                            FROM {$spre}characters c1, {$spre}characters c2,
-	                				{$mpre}users u1, {$mpre}users u2,
-                                    {$spre}ships s, {$spre}taskforces t1,
-                                    {$spre}taskforces t2
-	                             WHERE s.co='$coid' AND s.tf=t1.tf AND t1.tg='0'
-	                                AND s.tf=t2.tf AND s.tg=t2.tg
-                                    AND t1.co=c1.id AND t2.co=c2.id
-                                    AND c1.player=u1.id AND c2.player=u2.id";
-	                    $result = $database->openConnectionWithReturn($qry);
-	                    list ($tfcoemail, $tgcoemail)
-	                        = mysql_fetch_array($result);
+						$qrytf = "SELECT u.email, t.tf
+								FROM {$spre} characters c, {$mpre}users u, {$spre}ships s, {$spre}taskforces t
+								WHERE s.co='$coid' AND s.tf=t.tf AND t.tg='0'
+									AND t.co=c.id AND c.player=u.id";
+						$resulttf = $database->openConnectionWithReturn($qry);
+						list ($tfcoemail, $tfid) = mysql_fetch_array($resulttf);
+	                    
+						$qrytg = "SELECT u.email t.tg
+	                            FROM {$spre}characters c, {$mpre}users u1, {$spre}ships s, {$spre}taskforces t
+	                             WHERE s.co='$coid' AND s.tf=t.tf AND s.tg=t.tg
+                                    AND t.co=c.id AND c.player=u.id";
+	                    $resulttg = $database->openConnectionWithReturn($qrytg);
+	                    list ($tgcoemail, $tgid) = mysql_fetch_array($resulttg);
 
                     	$coemail = $tfcoemail . ", " . $tgcoemail;
                     }
+					else if ($shid<=4)
+					{
+						$coemail = $fleetopsemail;
+					}
 
-                    $qry = "SELECT name
+                    $qry = "SELECT c.name
                     		FROM {$spre}acad_courses c, {$spre}acad_students s
                             WHERE s.course=c.course AND s.id='$stuid'";
                     $result = $database->openConnectionWithReturn($qry);
@@ -342,15 +367,16 @@ else
                     list ($instemail) = mysql_fetch_array($result);
 			        $name = get_usertype($database, $mpre, $spre, 0, $uflag);
 
-			require_once "includes/mail/academy_graduation_co.mail.php";
+					require_once "includes/mail/academy_graduation_co.mail.php";
 
                     // Service record entry
-                    $name = addslashes($name);
+                    $name = mysql_real_escape_string($name);
+					$body = mysql_real_escape_string($body);
 					$qry = "INSERT INTO {$spre}record
 				    		SET pid='$player', cid='$cid',
                             	level='Out-of-Character', date='$now',
 				            	entry='Academy Completion: $coursename',
-                                details='$body', name='Obsidian Fleet IFS'";
+                                details='$body', name='$fleetname IFS'";
                     $database->openConnectionNoReturn($qry);
                 }
                 else
@@ -362,6 +388,8 @@ else
 	                        	AND c.section='$secid' AND active='1'";
 	                $result = $database->openConnectionWithReturn($qry);
 					list ($secname) = mysql_fetch_array($result);
+					
+					$secname = mysql_real_escape_string($secname,$dbcon);
 
 			        $name = get_usertype($database, $mpre, $spre, 0, $uflag);
                 	$qry = "INSERT INTO {$spre}acad_marks
@@ -370,7 +398,7 @@ else
                                 grade='" . $mark[$stuid] . "', name='$name'";
                     $database->openConnectionNoReturn($qry);
 
-					echo "<b>Marks updated!</b><br />\n";
+					echo '<h4 class="text-success">Marks updated!</h4>';
 				}
             }
 
@@ -378,7 +406,7 @@ else
             else if ($action == "3")
             {
               	if (!$mark[$stuid])
-                	echo "Enter the (failing) mark for the course! Record not updated...<br />\n";
+                	echo '<h4 class="text-warning">Enter the (failing) mark for the course! Record not updated...</h4>';
                 else
                 {
 		          	$now = time();
@@ -387,34 +415,39 @@ else
 	                $database->openConnectionNoReturn($qry);
 
                       // Notify the person's CO (either ship or TFCO/TGCO)
-                    $qry = "SELECT s.cid, c.id, u.email
+                    $qry = "SELECT s.cid, c.id, u.email, h.id
                     		FROM {$spre}acad_students s, {$mpre}users u,
                             	{$spre}characters c, {$spre}ships h,
                                 {$spre}characters a
                             WHERE s.cid=a.id AND a.ship=h.id AND h.co=c.id
                             	AND c.player=u.id AND s.id='$stuid'";
                     $result = $database->openConnectionWithReturn($qry);
-                    list ($cid, $coid, $coemail) = mysql_fetch_array($result);
+                    list ($cid, $coid, $coemail, $shid) = mysql_fetch_array($result);
 
 	                if ($cid == $coid)
 	                {
-	                    $qry = "SELECT u1.email, u2.email
-	                            FROM {$spre}characters c1, {$spre}characters c2,
-	                				{$mpre}users u1, {$mpre}users u2,
-                                    {$spre}ships s, {$spre}taskforces t1,
-                                    {$spre}taskforces t2
-	                             WHERE s.co='$coid' AND s.tf=t1.tf AND t1.tg='0'
-	                                AND s.tf=t2.tf AND s.tg=t2.tg
-                                    AND t1.co=c1.id AND t2.co=c2.id
-                                    AND c1.player=u1.id AND c2.player=u2.id";
-	                    $result = $database->openConnectionWithReturn($qry);
-	                    list ($tfcoemail, $tgcoemail)
-	                        = mysql_fetch_array($result2);
+						$qrytf = "SELECT u.email, t.tf
+								FROM {$spre} characters c, {$mpre}users u, {$spre}ships s, {$spre}taskforces t
+								WHERE s.co='$coid' AND s.tf=t.tf AND t.tg='0'
+									AND t.co=c.id AND c.player=u.id";
+						$resulttf = $database->openConnectionWithReturn($qry);
+						list ($tfcoemail, $tfid) = mysql_fetch_array($resulttf);
+	                    
+						$qrytg = "SELECT u.email t.tg
+	                            FROM {$spre}characters c, {$mpre}users u1, {$spre}ships s, {$spre}taskforces t
+	                             WHERE s.co='$coid' AND s.tf=t.tf AND s.tg=t.tg
+                                    AND t.co=c.id AND c.player=u.id";
+	                    $resulttg = $database->openConnectionWithReturn($qrytg);
+	                    list ($tgcoemail, $tgid) = mysql_fetch_array($resulttg);
 
                     	$coemail = $tfcoemail . ", " . $tgcoemail;
                     }
+					else if ($shid<=4)
+					{
+						$coemail = $fleetopsemail;
+					}
 
-                    $qry = "SELECT name
+                    $qry = "SELECT c.name
                     		FROM {$spre}acad_courses c, {$spre}acad_students s
                             WHERE s.course=c.course AND s.id='$stuid'";
                     $result = $database->openConnectionWithReturn($qry);
@@ -427,19 +460,20 @@ else
                 	list ($rank, $charname, $player, $ship) = mysql_fetch_array($result);
 
                     $qry = "SELECT email FROM {$mpre}users WHERE id='" . UID . "'";
-                    $result = $database->openConnnectionWithReturn($qry);
+                    $result = $database->openConnectionWithReturn($qry);
                     list ($instemail) = mysql_fetch_array($result);
 			        $name = get_usertype($database, $mpre, $spre, 0, $uflag);
 
-			require_once "includes/mail/acdademy_failure_co.mail.php";
+			require_once "includes/mail/academy_failure_co.mail.php";
 
                     // Service record entry
-                    $name = addslashes($name);
+                    $name = mysql_real_escape_string($name);
+					$body = mysql_real_escape_string($body);
 					$qry = "INSERT INTO {$spre}record
 				    		SET pid='$player', cid='$cid',
                             	level='Out-of-Character', date='$now',
 				            	entry='Failed Academy Course: $coursename',
-                                details='$body', name='Obsidian Fleet IFS'";
+                                details='$body', name='$fleetname IFS'";
                     $database->openConnectionNoReturn($qry);
                 }
             }
@@ -453,32 +487,37 @@ else
                 $database->openConnectionNoReturn($qry);
 
                   // Notify the person's CO (either ship or TFCO/TGCO)
-                $qry = "SELECT s.cid, c.id, u.email
+                $qry = "SELECT s.cid, c.id, u.email, h.id
                         FROM {$spre}acad_students s, {$mpre}users u,
                             {$spre}characters c, {$spre}ships h,
                             {$spre}characters a
                         WHERE s.cid=a.id AND a.ship=h.id AND h.co=c.id
                             AND c.player=u.id AND s.id='$stuid'";
                 $result = $database->openConnectionWithReturn($qry);
-                list ($cid, $coid, $coemail) = mysql_fetch_array($result);
+                list ($cid, $coid, $coemail, $shid) = mysql_fetch_array($result);
 
                 if ($cid == $coid)
                 {
-                    $qry = "SELECT u1.email, u2.email
-                            FROM {$spre}characters c1, {$spre}characters c2,
-                                {$mpre}users u1, {$mpre}users u2,
-                                {$spre}ships s, {$spre}taskforces t1,
-                                {$spre}taskforces t2
-                             WHERE s.co='$coid' AND s.tf=t1.tf AND t1.tg='0'
-                                AND s.tf=t2.tf AND s.tg=t2.tg
-                                AND t1.co=c1.id AND t2.co=c2.id
-                                AND c1.player=u1.id AND c2.player=u2.id";
-                    $result = $database->openConnectionWithReturn($qry);
-                    list ($tfcoemail, $tgcoemail)
-                        = mysql_fetch_array($result2);
+					$qrytf = "SELECT u.email, t.tf
+							FROM {$spre} characters c, {$mpre}users u, {$spre}ships s, {$spre}taskforces t
+							WHERE s.co='$coid' AND s.tf=t.tf AND t.tg='0'
+								AND t.co=c.id AND c.player=u.id";
+					$resulttf = $database->openConnectionWithReturn($qry);
+					list ($tfcoemail, $tfid) = mysql_fetch_array($resulttf);
+					
+					$qrytg = "SELECT u.email t.tg
+							FROM {$spre}characters c, {$mpre}users u1, {$spre}ships s, {$spre}taskforces t
+							 WHERE s.co='$coid' AND s.tf=t.tf AND s.tg=t.tg
+								AND t.co=c.id AND c.player=u.id";
+					$resulttg = $database->openConnectionWithReturn($qrytg);
+					list ($tgcoemail, $tgid) = mysql_fetch_array($resulttg);
 
-                    $coemail = $tfcoemail . ", " . $tgcoemail;
+                   	$coemail = $tfcoemail . ", " . $tgcoemail;
                 }
+				else if ($shid<=4)
+				{
+					$coemail = $fleetopsemail;
+				}
 
                 $qry = "SELECT name
                         FROM {$spre}acad_courses c, {$spre}acad_students s
@@ -500,12 +539,13 @@ else
                 require_once "includes/mail/academy_dropout_co.mail.php";
 
                 // Service record entry
-                $name = addslashes($name);
+                $name = mysql_real_escape_string($name);
+				$body = mysql_real_escape_string($body);
                 $qry = "INSERT INTO {$spre}record
                         SET pid='$player', cid='$cid',
                             level='Out-of-Character', date='$now',
                             entry='Incomplete Academy Course: $coursename',
-                            details='$body', name='Obsidian Fleet IFS'";
+                            details='$body', name='$fleetname IFS'";
                 $database->openConnectionNoReturn($qry);
             }
         }

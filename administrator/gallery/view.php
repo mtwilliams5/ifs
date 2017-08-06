@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -22,7 +22,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <HTML>
 <HEAD>
-<?
+<?php
 include "conf.php";
 print "<TITLE>$title[$gal]</TITLE></HEAD>";
 print "<BODY BACKGROUND=\"\" BGCOLOR=\"#ffffff\" TEXT=\"#000000\" LINK=\"#0000ff\" VLINK=\"#800080\" ALINK=\"#ff0000\">";

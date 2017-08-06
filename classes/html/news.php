@@ -7,8 +7,12 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -17,7 +21,6 @@
   * This file based on code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  *	Date: 12/13/03
   *	Comments: List all categories that belong to the news section,
   *			  and list news stories once a category has been selected.
  ***/
@@ -28,41 +31,23 @@ class news
     {
     	?>
 
-		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#000000" width="100%">
-        <tr>
-            <td class="articlehead" width="90%"><?php echo $title ?></td>
-        </tr>
-
-        <tr>
-            <td class="small"><?php echo $time ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $topic ?></td>
-        </tr>
-
-
-		<tr bgcolor="#000000">
-			<td width="100%">
+		<div id="news-story">
+            <h2 class="articlehead"><?php echo $title ?></h2>
+            <span class="small"><?php echo $time ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $topic ?></span>
+            <div>
                 <?php
                 if ($image!="")
                     echo "<img src=\"images/stories/{$image}\" align=\"{$imageposition}\" alt=\"{$title}\" />\n";
-                echo $introtext;
+                echo '<p>' . $introtext . '</p>';
 
-                echo "\n<p>\n";
-				echo $fultext . "</p>\n";
+                echo '<p>' . $fultext . '</p>';
                 ?>
-            </td>
-        </tr>
-
-		<tr bgcolor="#000000">
-			<td width="100%" align="center">
-            	<a href="javascript:window.history.go(-1);">[Back to list]</a>
-            </td>
-        </tr>
-
-		<tr>
-			<td align="right">
+            </div>
+            <a href="javascript:window.history.go(-1);">[Back to list]</a>
+			<div class="text-right">
 	            <?php echo $count ?>
-            </td>
-		</tr>
-    	</table>
+            </div>
+		</div>
 
         <?php
     }
@@ -116,7 +101,7 @@ class news
 
                             <tr bgcolor="<?php echo $color[$k] ?>">
 	                            <td width="32" height="20" align="center">
-                                	<img src="images/FP_images/document.gif" width="32" height="16" align="absbottom" vspace="3" hspace="3" />
+                                	<img src="images/document.gif" align="absbottom" vspace="3" hspace="3" />
                                 </td>
 	                            <td width="70%" height="20">
                                 	<a href="index.php?option=news&task=viewarticle&sid=<?php echo $sid["$topictext[$id]"][$i] ?>">

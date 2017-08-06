@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -87,14 +87,16 @@
 		<body bgcolor="#FFFFFF">
 		<TABLE ALIGN="center" WIDTH="90%" CELLSPACING="2" CELLPADDING="2" BORDER="0" HEIGHT="100%">
 		<TR>
-	    	<TD CLASS="componentHeading" COLSPAN="2"><?echo $title;?></TD>
+	    	<TD CLASS="componentHeading" COLSPAN="2"><?php echo $title;?></TD>
 		</TR>
 		<TR>
-			<?if ($image !=""){?>
-				<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"> <IMG SRC="../../images/stories/<?echo $image;?>" VSPACE=5 ALIGN="<?echo $position;?>"><?echo "$introtext $fultext";?></TD>
-			<?}else {?>
-				<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"><?echo "$introtext $fultext";?></TD>
-			<?}?>
+			<?php if ($image !=""){?>
+				<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"> <IMG SRC="../../images/stories/<?php echo $image;?>" VSPACE=5 ALIGN="<?php echo $position;?>"><?php echo "$introtext $fultext";?></TD>
+			<?php
+}else {?>
+				<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"><?php echo "$introtext $fultext";?></TD>
+			<?php
+}?>
 		</TR>
 		<TR>
 		    <TD ALIGN='right'><A HREF="#" onClick="window.close()">Close</A></TD>
@@ -102,7 +104,8 @@
 		</TR>
 		</TABLE>
 			
-	<?}else{
+	<?php
+}else{
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
@@ -154,11 +157,13 @@
 		
 	</TR>
 	<TR>
-	<?if ($image !=""){?>
-		<SCRIPT>document.write(" <TD VALIGN='top' HEIGHT='90%' COLSPAN='2'> <IMG SRC='" + image +"' VSPACE=5 ALIGN='<?echo $position;?>'>" + introtext + " " + fultext + "</TD>");</SCRIPT>
-	<?}else {?>
+	<?php if ($image !=""){?>
+		<SCRIPT>document.write(" <TD VALIGN='top' HEIGHT='90%' COLSPAN='2'> <IMG SRC='" + image +"' VSPACE=5 ALIGN='<?php echo $position;?>'>" + introtext + " " + fultext + "</TD>");</SCRIPT>
+	<?php
+}else {?>
 		<SCRIPT>document.write("<TD VALIGN='top' HEIGHT='90%' COLSPAN='2'>" + introtext + " " + fultext + "</TD>");</SCRIPT>
-	<?}?>
+	<?php
+}?>
 	
 	
 	</TR>
@@ -167,7 +172,8 @@
 		<TD ALIGN="left"><A HREF="javascript:;" onClick="window.print(); return false">Print</A></TD>
 	</TR>
 	</TABLE>
-<?}?>
+<?php
+}?>
 
 
 </body>

@@ -7,20 +7,23 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	12/19/03
   * Comments: Functions for viewing & manipulating service records
   *
  ***/
 
 // Add details to service record
-function record_add_details ($database, $spre, $mpre, $cid, $level, $date, $entry, $name, $radmin, $uflag)
+function record_add_details ($database, $spre, $mpre, $cid, $level, $date, $entry, $name, $radmin, $uflag, $multiship)
 {
     $qry = "SELECT name FROM {$spre}characters WHERE id='$cid'";
     $result = $database->openConnectionWithReturn($qry);
@@ -28,47 +31,68 @@ function record_add_details ($database, $spre, $mpre, $cid, $level, $date, $entr
 
     $entry = stripslashes($entry);
 	?>
-	<br />
-	<center><h2>Service Record for <?php echo $cname ?></h2></center>
+	<h2 class="text-center">Service Record for <?php echo $cname ?></h2>
 
-	<form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&action=common&lib=rsave" method="post">
-
-	<b>Type:</b> <?php echo $level ?>
-    <input type="hidden" name="level" value="<?php echo $level ?>" />
-    <?php
-    if ($radmin == "on")
-    	echo "<br /><b>Admin-level</b>\n";
-    ?>
-    <input type="hidden" name="radmin" value="<?php echo $radmin ?>" />
-    <br /><br />
-
-	<b>Date:</b> <?php echo date("F j, Y", $date) ?>
-   	<input type="hidden" name="date" value="<?php echo $date ?>" />
-    <br /><br />
-
-	<b>Entry:</b> <?php echo $entry ?>
-   	<input type="hidden" name="entry" value="<?php echo $entry ?>" />
-    <br /><br />
-
-	<b>By:</b> <?php echo $name ?>
-   	<input type="hidden" name="pname" value="<?php echo $name ?>" />
-    <br /><br />
-
-    <b>Details:</b><br />
-   	<textarea name="details" rows="5" cols="50">Enter details</textarea>
-    <br />
-    Please use &lt;br /&gt; to indicate new lines.
-    <br /><br />
-
-	<input type="hidden" name="cid" value="<?php echo $cid ?>" />
-	<input type="hidden" name="sid" value="na" />
-    <input type="Submit" value="Submit" /></form>
+	<form class="form-horizontal" action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&action=common&lib=rsave" method="post">
+        <div class="form-group">
+            <label for="level" class="col-sm-2 control-label">Type:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="level"><?php echo $level ?>
+                <input type="hidden" name="level" value="<?php echo $level ?>">
+                <?php
+                if ($radmin == "on")
+                    echo '<span class="help-block">Admin-level</span>';
+                ?></p>
+                <input type="hidden" name="radmin" value="<?php echo $radmin ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="date" class="col-sm-2 control-label">Date:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="date"><?php echo date("F j, Y", $date) ?></p>
+                <input type="hidden" name="date" value="<?php echo $date ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="entry" class="col-sm-2 control-label">Entry:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="entry"><?php echo $entry ?></p>
+                <input type="hidden" name="entry" value="<?php echo $entry ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pname" class="col-sm-2 control-label">By:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="pname"><?php echo $name ?></p>
+                <input type="hidden" name="pname" value="<?php echo $name ?>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="details" class="col-sm-2 control-label">Details:</label>
+            <div class="col-sm-10 col-md-8 col-lg-6">
+                <textarea class="form-control" name="details" id="details" rows="5" cols="50">Enter details</textarea>
+                <span class="help-block">Please use &lt;br /&gt; to indicate new lines, or &lt;p&gt; and &lt;/p&gt; to indicate paragraphs.</span>
+            </div>
+        </div>
+    
+        <input type="hidden" name="cid" value="<?php echo $cid ?>">
+        <input type="hidden" name="sid" value="na">
+        <?php
+        if ($multiship)
+            echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+        ?>
+        <div class="form-group">
+        	<div class="col-sm-10 col-sm-offset-2">
+        		<input class="btn btn-default" type="Submit" value="Submit">
+    		</div>
+        </div>
+    </form>
 
 	<?php
 }
 
 // Save new service record entry
-function record_add_save ($database, $spre, $mpre, $cid, $level, $date, $entry, $name, $details, $radmin, $uflag)
+function record_add_save ($database, $spre, $mpre, $cid, $level, $date, $entry, $name, $details, $radmin, $uflag, $multiship)
 {
 	$qry = "SELECT player FROM {$spre}characters WHERE id='$cid'";
     $result = $database->openConnectionWithReturn($qry);
@@ -78,6 +102,10 @@ function record_add_save ($database, $spre, $mpre, $cid, $level, $date, $entry, 
     	$radmin = "y";
     else
     	$radmin = "";
+	
+	$name = mysql_real_escape_string($name);
+	$entry = mysql_real_escape_string($entry);
+	$details = mysql_real_escape_string($details);
 
 	$qry = "INSERT INTO {$spre}record
     		SET pid='$pid', cid='$cid', level='$level',
@@ -90,29 +118,44 @@ function record_add_save ($database, $spre, $mpre, $cid, $level, $date, $entry, 
     $name = stripslashes($name);
 	?>
 
-    <font size="+1"><b>Entry Made</b></font>
-   	<br /><br />
-
-  	<b>Level:</b> <?php echo $level ?>
-    <?php
-    if ($radmin == "y")
-    	echo "<br /><b>Admin-level</b>\n";
-    ?>
-   	<br /><br />
-
-	<b>Date:</b> <?php echo date("F j, Y", $date) ?>
-   	<br /><br />
-
-	<b>Entry:</b> <?php echo $entry ?>
-    <br /><br />
-
-    <b>Details:</b><br />
-    <?php echo $details ?>
-    <br /><br />
-
-	<b>By:</b> <?php echo $name ?>
-    <br /><br />
-
+    <h3>Entry Made</h3>
+	<div class="form-horizontal">
+        <div class="form-group">
+            <label for="level" class="col-sm-2 control-label">Level:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="level"><?php echo $level ?>
+                    <?php
+                    if ($radmin == "y")
+                        echo '<span class="help-block">Admin-level</span>';
+                    ?>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="date" class="col-sm-2 control-label">Date:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="date"><?php echo date("F j, Y", $date) ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="entry" class="col-sm-2 control-label">Entry:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="entry"><?php echo $entry ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="details" class="col-sm-2 control-label">Details:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="details"><?php echo $details ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pname" class="col-sm-2 control-label">By:</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" id="pname"><?php echo $name ?></p>
+            </div>
+        </div>
+	</div>
     <?php
 }
 
@@ -129,81 +172,68 @@ function record_details ($database, $spre, $mpre, $rid, $op, $uflag)
     list ($cname) = mysql_fetch_array($result);
 	?>
 
-  	<center>
-	<h2>Service Record for <?php echo $cname ?></h2>
- 	<br /><font size="+1">
+	<h2 class="text-center">Service Record for <?php echo stripslashes($cname) ?></h2>
 
-	<table border="1" cellpadding="10" cellspacing="1" width="70%">
+	<table class="table service-record record-details">
     	<tr>
-        	<td width="100">
-            	<b>Type:</b>
-            </td>
-        	<td width="500">
+        	<th>
+            	Type:
+            </th>
+        	<td>
             	<?php
                 echo $level;
                 if ($radmin == "y")
-                	echo "<br /><b>Admin-level</b>";
+                	echo '<span class="help-block">Admin-level</span>';
                 ?>
             </td>
         </tr>
 
         <tr>
-        	<td width="100">
-            	<b>Date:</b>
-            </td>
-            <td width="500">
+        	<th>
+            	Date:
+            </th>
+            <td>
             	<?php echo date("F j, Y", $date) ?>
             </td>
         </tr>
 
         <tr>
-        	<td width="100">
-            	<b>Entry:</b>
-            </td>
-            <td width="500">
-            	<?php echo $entry ?>
+        	<th>
+            	Entry:
+            </th>
+            <td>
+            	<?php echo stripslashes($entry) ?>
             </td>
         </tr>
 
         <tr>
-        	<td width="100">
-                <b>Details:</b>
-            </td>
-            <td width="500">
-            	<?php echo $details ?>
+        	<th>
+                Details:
+            </th>
+            <td>
+            	<?php echo stripslashes($details) ?>
             </td>
         </tr>
 
 		<tr>
-        	<td width="100">
-				<b>By:</b>
-            </td>
-            <td width="500">
-            	<?php echo $name ?>
+        	<th>
+				By:
+            </th>
+            <td>
+            	<?php echo stripslashes($name) ?>
             </td>
         </tr>
 	</table>
 
 	<?php
     if ($op == "RecordDetails")
-		echo "<a href=\"index.php?option=user&amp;op=ServiceRecord&amp;cid=" . $cid . "\">Back to Service Record</a>";
+		echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=user&amp;op=ServiceRecord&amp;cid=' . $cid . '">Back to Service Record</a>';
     else
-	    echo "<a href=\"index.php?option=" . option . "&amp;task=" . task . "&amp;action=common&amp;lib=rview&amp;cid=" . $cid . "\">Back to Service Record</a>";
-	?>
-    <br /><br />
-
-    </font>
-    Y'know, this is all thanks to Obsidian Fleet, since they released
-    the IFS software which you're using right now.  Why not take a look -
-    they're at http://www.obsidianfleet.net<br /><br />
-
-    </center>
-
-    <?php
+	    echo '<a role="button" class="btn btn-default btn-sm" href="index.php?option=' . option . '&amp;task=' . task . '&amp;action=common&amp;lib=rview&amp;cid=' . $cid . '">Back to Service Record</a>';
 }
 
 // View service record
-function record_view ($database, $spre, $mpre, $cid, $op, $uflag)
+function record_view ($database, $spre, $mpre, $cid, $op, $uflag, $multiship)
 {
 	$qry = "SELECT flag FROM {$spre}flags WHERE admin='1'";
     $result = $database->openConnectionWithReturn($qry);
@@ -222,10 +252,10 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag)
     else
     {
 		?>
-		<br />
-		<center><h2>Service Record for <?php echo $cname ?></h2></center>
+		<h2 class="text-center">Service Record for <?php echo stripslashes($cname) ?></h2>
 
-		<table border="1" cellpadding="3" cellspacing="1" align="center">
+		<table class="table table-bordered service-record">
+          <thead>
 			<tr>
 	    	    <th>Date</th>
     			<th>Type</th>
@@ -233,118 +263,195 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag)
     		    <th>Entered By</th>
         		<th>Details</th>
 		    </tr>
+          </thead>
+          <tbody>
 
 			<?php
     	    $qry = "SELECT id, level, date, entry, name, admin
             		FROM {$spre}record WHERE cid='$cid'
                     	AND level='In-Character' ORDER BY level,date";
     		$result = $database->openConnectionWithReturn($qry);
-
-   			echo "<tr><td colspan=\"5\"><center>" .
-            	 "<font size=\"+1\">In-Character Records</font>" .
-                 "</center></td></tr>\n";
-
-		    while ( list($rid, $lvl, $date, $record, $name, $radmin) = mysql_fetch_array($result) )
-            {
-            	if ($radmin == "n" || $radmin == "" || ($isadmin == 1 && $radmin == "y"))
-                {
-					echo "<tr><td>";
-    	    		echo date("F j, Y", $date);
-	    	    	echo "</td>\n<td>";
-	    		    echo $lvl;
-                	if ($radmin == "y")
-    	            	echo "<br /><b>Admin-level</b>";
-	    	    	echo "</td>\n<td>";
-					echo $record;
-    		    	echo "</td>\n<td>";
-	        		echo $name;
-		        	echo "</td>\n<td>";
-	        	    if ($op == "ServiceRecord")
-    	    		    echo "<form action=\"index.php?option=user&amp;op=RecordDetails\" method=\"post\"\n>";
-					else
-		    		    echo "<form action=\"index.php?option=" . option . "&amp;task=" . task . "&amp;action=common&amp;lib=rdetails\" method=\"post\">\n";
-	            	echo "<input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" />\n";
-    	        	echo "<input type=\"hidden\" name=\"sid\" value=\"na\" />\n";
-	    	    	echo "<input type=\"SUBMIT\" value=\"Details\" /></form>\n";
-					echo "</tr>\n";
-                }
+			?>
+   			<tr>
+            	<td colspan="5">
+            	 	<h3 class="text-center">In-Character Records</h3>
+                </td>
+            </tr>
+			<?php
+			if (mysql_num_rows($result)<1)
+			{ ?>
+            	<tr>
+                	<td colspan="5">
+                    	<h4 class="text-center text-info">No In-Character Records Found</h4>
+                    </td>
+                </tr>
+			<?php	
+			} else {
+				while ( list($rid, $lvl, $date, $record, $name, $radmin) = mysql_fetch_array($result) )
+				{
+					if ($radmin == "n" || $radmin == "" || ($isadmin == 1 && $radmin == "y"))
+					{
+					?>
+						<tr>
+                        	<td>
+								<?php echo date("F j, Y", $date) ?>
+							</td>
+                            <td>
+							<?php
+								echo $lvl;
+								if ($radmin == "y")
+									echo '<span class="help-block">Admin-level</span>';
+							?>
+							</td>
+                            <td>
+								<?php echo stripslashes($record) ?>
+							</td>
+                            <td>
+								<?php echo stripslashes($name) ?>
+							</td>
+                            <td class="text-center">
+							<?php
+                                if ($op == "ServiceRecord")
+									echo '<form action="index.php?option=user&amp;op=RecordDetails" method="post">';
+								else
+									echo '<form action="index.php?option=' . option . '&amp;task=' . task . '&amp;action=common&amp;lib=rdetails" method="post">';
+							?>
+									<input type="hidden" name="rid" value="<?php echo $rid ?>">
+									<input type="hidden" name="sid" value="na">
+									<input class="btn btn-default" type="submit" value="Details">
+                                </form>
+                            </td>
+						</tr>
+                    <?php
+					}
+				}
 			}
-
-	        echo "<tr><td colspan=\"5\">&nbsp;</td></tr>\n";
 
 	        $qry = "SELECT id, level, date, entry, name, admin
             		FROM {$spre}record
                     WHERE cid='$cid' AND level='Out-of-Character'
                     ORDER BY level,date";
     		$result = $database->openConnectionWithReturn($qry);
-
-   			echo "<tr><td colspan=\"5\"><center>" .
-            	 "<font size=\"+1\">Out-of-Character Records</font>" .
-                 "</center></td></tr>\n";
-
-		    while ( list($rid, $lvl, $date, $record, $name, $radmin) = mysql_fetch_array($result) )
-            {
-            	if ($radmin == "n" || $radmin == "" || ($isadmin == 1 && $radmin == "y"))
-                {
-					echo "<tr><td>";
-    	    		echo date("F j, Y", $date);
-	    	    	echo "</td>\n<td>";
-	    		    echo $lvl;
-                	if ($radmin == "y")
-    	            	echo "<br /><b>Admin-level</b>";
-	    	    	echo "</td>\n<td>";
-					echo $record;
-    		    	echo "</td>\n<td>";
-	        		echo $name;
-		        	echo "</td>\n<td>";
-	        	    if ($op == "ServiceRecord")
-    	    		    echo "<form action=\"index.php?option=user&amp;op=RecordDetails\" method=\"post\">\n";
-					else
-		    		    echo "<form action=\"index.php?option=" . option . "&amp;task=" . task . "&amp;action=common&amp;lib=rdetails\" method=\"post\">\n";
-	            	echo "<input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" />\n";
-    	        	echo "<input type=\"hidden\" name=\"sid\" value=\"na\" />\n";
-	    	    	echo "<input type=\"SUBMIT\" value=\"Details\" /></form>\n";
-					echo "</tr>\n";
-                }
+			?>
+   			<tr>
+            	<td colspan="5">
+            		<h3 class="text-center">Out-of-Character Records</h3>
+                </td>
+            </tr>
+			<?php
+			if (mysql_num_rows($result)<1)
+			{ ?>
+            	<tr>
+                	<td colspan="5">
+                    	<h4 class="text-center text-info">No Out-of-Character Records Found</h4>
+                    </td>
+                </tr>
+			<?php	
+			} else {
+				while ( list($rid, $lvl, $date, $record, $name, $radmin) = mysql_fetch_array($result) )
+				{
+					if ($radmin == "n" || $radmin == "" || ($isadmin == 1 && $radmin == "y"))
+					{
+					?>
+						<tr>
+                        	<td>
+								<?php echo date("F j, Y", $date) ?>
+							</td>
+                        	<td>
+							<?php
+                            	echo $lvl;
+								if ($radmin == "y")
+									echo '<span class="help-block">Admin-level</span>';
+							?>
+							</td>
+                            <td>
+								<?php echo stripslashes($record) ?>
+							</td>
+                            <td>
+								<?php echo stripslashes($name) ?>
+							</td>
+                            <td class="text-center">
+                            <?php
+								if ($op == "ServiceRecord")
+									echo '<form action="index.php?option=user&amp;op=RecordDetails" method="post">';
+								else
+									echo '<form action="index.php?option=' . option . '&amp;task=' . task . '&amp;action=common&amp;lib=rdetails" method="post">';
+							?>
+									<input type="hidden" name="rid" value="<?php echo $rid ?>">
+									<input type="hidden" name="sid" value="na">
+									<input class="btn btn-default" type="submit" value="Details">
+                                </form>
+                            </td>
+						</tr>
+                    <?php
+					}
+				}
 			}
-
-	        echo "<tr><td colspan=5>&nbsp;</td></tr>\n";
 
 	        $qry = "SELECT id, level, date, entry, name, admin FROM {$spre}record WHERE pid='$pid' AND level='Player' ORDER BY level,date";
     		$result = $database->openConnectionWithReturn($qry);
-
-   			echo "<tr><td colspan=\"5\"><center>" .
-            	 "<font size=\"+1\">Player Records</font>" .
-                 "</center></td></tr>\n";
-
-		    while ( list($rid, $lvl, $date, $record, $name, $radmin) = mysql_fetch_array($result) )
-            {
-            	if ($radmin == "n" || $radmin == "" || ($isadmin == 1 && $radmin == "y"))
-                {
-					echo "<tr><td>";
-    	    		echo date("F j, Y", $date);
-	    	    	echo "</td>\n<td>";
-	    		    echo $lvl;
-                	if ($radmin == "y")
-    	            	echo "<br /><b>Admin-level</b>";
-	    	    	echo "</td>\n<td>";
-					echo $record;
-    		    	echo "</td>\n<td>";
-	        		echo $name;
-		        	echo "</td>\n<td>";
-	        	    if ($op == "ServiceRecord")
-    	    		    echo "<form action=\"index.php?option=user&amp;op=RecordDetails\" method=\"post\">\n";
-					else
-		    		    echo "<form action=\"index.php?option=" . option . "&amp;task=" . task . "&amp;action=common&amp;lib=rdetails\" method=\"post\">\n";
-	            	echo "<input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" />\n";
-    	        	echo "<input type=\"hidden\" name=\"sid\" value=\"na\" />\n";
-	    	    	echo "<input type=\"SUBMIT\" value=\"Details\" /></form>";
-					echo "</tr>";
-                }
+			?>
+   			<tr>
+            	<td colspan="5">
+            		<h3 class="text-center">Player Records</h3>
+                </td>
+            </tr>
+			<?php
+			if (mysql_num_rows($result)<1)
+			{ ?>
+            	<tr>
+                	<td colspan="5">
+                    	<h4 class="text-center text-info">No Player Records Found</h4>
+                    </td>
+                </tr>
+			<?php	
+			} else {
+				while ( list($rid, $lvl, $date, $record, $name, $radmin) = mysql_fetch_array($result) )
+				{
+					if ($radmin == "n" || $radmin == "" || ($isadmin == 1 && $radmin == "y"))
+					{
+					?>
+						<tr>
+                        	<td>
+                            	<?php echo date("F j, Y", $date) ?>
+                            </td>
+                            <td>
+                            <?php
+                            	echo $lvl;
+                            	if ($radmin == "y")
+                            	    echo '<span class="help-block">Admin-level</span>';
+                            ?>
+							</td>
+                            <td>
+                            	<?php echo stripslashes($record) ?>
+                            </td>
+                            <td>
+                            	<?php echo stripslashes($name) ?>
+                            </td>
+                            <td class="text-center">
+                            <?php
+                                if ($op == "ServiceRecord")
+                                    echo '<form action="index.php?option=user&amp;op=RecordDetails" method="post">';
+                                else
+                                    echo '<form action="index.php?option=' . option . '&amp;task=' . task . '&amp;action=common&amp;lib=rdetails" method="post">';
+                            ?>
+									<input type="hidden" name="rid" value="<?php echo $rid ?>">
+                                    <input type="hidden" name="sid" value="na">
+                                    <input class="btn btn-default" type="submit" value="Details">
+                                </form>
+							</td>
+                        </tr>
+                    <?php
+					}
+				}
 			}
-
-	        echo "<tr><td colspan=5>&nbsp;</td></tr>\n";
-
+			?>
+   			<tr>
+            	<td colspan="5">
+            		<h3 class="text-center">Add New Record</h3>
+                </td>
+            </tr>
+			<?php
 			if ((($isadmin == 1) || ((task == "co") && (get_usertype($database, $mpre, $spre, $cid, $uflag)))) && $op != "ServiceRecord")
             {
        	       	$uname = get_usertype($database, $mpre, $spre, $cid, $uflag);
@@ -353,30 +460,51 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag)
 					?>
 					<form action="index.php?option=<?php echo option ?>&amp;task=<?php echo task ?>&amp;action=common&amp;lib=radd" method="post">
 					    <tr>
-						    <td><input type="hidden" name="date" value="<?php echo time() ?>" /><?php echo date("F j, Y") ?></td>
-							<td>
-						    	<select name="level">
-									<option value="In-Character">In-Character</option>
-				    	    	    <option value="Out-of-Character">Out-of-Character</option>
-                                    <option value="Player">Player</option>
-						        </select><br />
+						    <td class="vcenter"><input type="hidden" name="date" value="<?php echo time() ?>"><?php echo date("F j, Y") ?></td>
+							<td class="vcenter">
+                            	<div class="form-group">
+                                	<label for="level" class="sr-only">Select Record Level:</label>
+                                    <select class="form-control" name="level" id="level">
+                                        <option value="In-Character">In-Character</option>
+                                        <option value="Out-of-Character">Out-of-Character</option>
+                                        <option value="Player">Player</option>
+                                    </select>
+                                </div>
                                 <?php
                                 if ($isadmin == 1)
-	                                echo "<input type=\"checkbox\" name=\"radmin\" /> Admin-level";
-                                ?>
+								{
+								?>
+                                	<div class="checkbox">
+                                    	<label>
+	                                		<input type="checkbox" name="radmin" id="radmin">
+                                    		Admin-level
+                                        </label>
+                                    </div>
+                                <?php
+								}
+								?>
 					    	</td>
 
-						    <td><input type="text" name="entry" /></td>
+						    <td class="vcenter">
+                            	<div class="form-group">
+                                	<label for="entry" class="sr-only">Entry title:</label>
+                                    <input type="text" class="form-control" name="entry" id="entry">
+                                </div>
+                            </td>
 
-				            <td>
+				            <td class="vcenter">
 			    	        	<?php
-			           			echo "<input type=\"hidden\" name=\"pname\" value=\"" . $uname . "\" />" . $uname;
+			           			echo '<input type="hidden" name="pname" value="' . $uname . '">' . stripslashes($uname);
 			    	    		?>
 				             </td>
-						    <td>
-			    				<input type="hidden" name="cid" value="<?php echo $cid ?>" />
-				                <input type="hidden" name="sid" value="na" />
-			    				<input type="SUBMIT" value="Add"></form>
+						    <td class="text-center vcenter">
+			    				<input type="hidden" name="cid" value="<?php echo $cid ?>">
+				                <input type="hidden" name="sid" value="na">
+                                <?php
+    							if ($multiship)
+        							echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
+								?>
+			    				<input class="btn btn-success" type="submit" value="Add">
 							</td>
 						</tr>
                     </form>
@@ -384,15 +512,19 @@ function record_view ($database, $spre, $mpre, $cid, $op, $uflag)
 				}
                 else
                 {
-					echo "<tr><td colspan=\"5\" align=center>\n";
-					echo "Error!  L1 - Cannot get user\n";
-                  	echo "</td></tr>\n";
+				?>
+					<tr>
+                    	<td colspan="5">
+							<h4 class="text-danger text-center">Error!  L1 - Cannot get user</h4>
+                  		</td>
+                    </tr>
+                <?php 
                 }
 			}
-		echo "</table>\n";
-	    echo "<p>Y'know, that's all thanks to Obsidian Fleet, since they released ";
-	    echo "the IFS software which you're using right now.  Why not take a look - ";
-	    echo "they're at http://www.obsidianfleet.net<br /><br /></p>";
+			?>
+		  </tbody>
+        </table>
+        <?php
 	}
 }
 ?>

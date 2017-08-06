@@ -1,5 +1,5 @@
-<?
-	include ("../../configuration.php");
+<?php
+include ("../../configuration.php");
 	if ($delete == "Delete Files"){
 		for ($i = 0; $i < count($deletepdf); $i++){
 			unlink($pdf_path.$deletepdf[$i]);
@@ -15,7 +15,8 @@
 	<SCRIPT>
 	<!--
 		function pdfcode(pdf){
-			top.window.imagecode.document.codeimage.imagecode.value = '<A HREF=\"<? echo $live_site; ?>pdf/' + pdf + '\" TARGET=\"new\">Place text here</A>';
+			top.window.imagecode.document.codeimage.imagecode.value = '<A HREF=\"<?php
+echo $live_site; ?>pdf/' + pdf + '\" TARGET=\"new\">Place text here</A>';
 			}
 	//-->
 	</SCRIPT>
@@ -24,8 +25,8 @@
 
 <body bgcolor="#FFFFFF">
 
-<?
-	$handle=opendir($pdf_path);
+<?php
+$handle=opendir($pdf_path);
 	$i=0;
 	while ($file = readdir($handle)) {
 		if ($file <> "." && $file <> "..")

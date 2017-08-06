@@ -7,8 +7,12 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -17,19 +21,18 @@
   * This file based on code from Open Positions List
   * Copyright (C) 2002, 2003 Frank Anon
   *
-  * Date:	12/22/03
   * Comments: Position editing for OPL
  ***/
 
 if (!defined("IFS"))
 	echo "Hacking attempt!";
 else
-{
+{	
 	if ($pos_act == "remove")
     {
 		for ($i=0;$i<sizeof($check);$i++)
         {
-			$pos = $check[$i];
+			$pos = mysql_real_escape_string($check[$i]);
 
 			$qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='rem' AND pos='$pos'";
 			$result = $database->openConnectionWithReturn($qry);
@@ -47,9 +50,9 @@ else
 			}
 		}
 		if ($adminship)
-        	redirect("&amp;action=positions&amp;adminship={$adminship}");
+        	redirect("&action=positions&adminship={$adminship}");
         else
-			redirect("&amp;action=positions");
+			redirect("&action=positions");
 	}
     elseif ($pos_act == "add")
     {
@@ -73,7 +76,7 @@ else
 
 		for ($i=0;$i<sizeof($check);$i++)
         {
-			$pos = $check[$i];
+			$pos = mysql_real_escape_string($check[$i]);
 
 			$qry = "SELECT pos FROM {$spre}positions WHERE ship='$sid' AND action='rem' AND pos='$pos'";
 			$result = $database->openConnectionWithReturn($qry);
@@ -86,9 +89,9 @@ else
 		}
 
 		if ($adminship)
-			redirect("&amp;action=positions&amp;adminship={$adminship}");
+			redirect("&action=positions&adminship={$adminship}");
 		else
-			redirect("&amp;action=positions");
+			redirect("&action=positions");
 	}
 }
 

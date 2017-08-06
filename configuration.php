@@ -1,35 +1,39 @@
 <?php
 /***
-  * INTEGRATED FLEET MANAGEMENT SYSTEM
-  * OBSIDIAN FLEET
-  * http://www.obsidianfleet.net/ifs/
-  *
-  * Developer:	Frank Anon
-  * 	    	fanon@obsidianfleet.net
-  *
-  * Updated By: Nolan
-  *		john.pbem@gmail.com
-  *
-  * Version:	1.16n (Nolan Ed.)
-  * Release Date: June 3, 2004
-  * Patch 1.13n:  December 2009
-  * Patch 1.16n:  March 2014
-  *
-  * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
-  * Distributed under the terms of the GNU General Public License
-  * See doc/LICENSE for details
-  *
-  * This file contains code from Mambo Site Server 4.0.12
-  * Copyright (C) 2000 - 2002 Miro International Pty Ltd
-  *
-  * Date:	6/03/04
-  * Comments: Configuration variables
-  *
-  * 25/03/2014 Added variable checks to remove some basic warnings
-  *
-  * See CHANGELOG for patch details
-  *
- ***/
+* INTEGRATED FLEET MANAGEMENT SYSTEM
+* OBSIDIAN FLEET
+* http://www.obsidianfleet.net/ifs/
+*
+* Developer:	Frank Anon
+* 	    	fanon@obsidianfleet.net
+*
+* Updated By: Nolan
+*		john.pbem@gmail.com
+*
+* Updated By: Matt Williams
+*       matt@mtwilliams.uk
+*
+* Version:	1.17
+* Release Date: June 3, 2004
+* Patch 1.13n:  December 2009
+* Patch 1.16n:  March 2014
+* Patch 1.17:   August 2017
+*
+* Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
+* Distributed under the terms of the GNU General Public License
+* See doc/LICENSE for details
+*
+* This file contains code from Mambo Site Server 4.0.12
+* Copyright (C) 2000 - 2002 Miro International Pty Ltd
+*
+* Date:	6/03/04
+* Comments: Configuration variables
+*
+* 25/03/2014 Added variable checks to remove some basic warnings
+*
+* See CHANGELOG for patch details
+*
+***/
 
 /********************
  * mySQL settings	*
@@ -53,6 +57,12 @@ $db = 'ifs';						// mySQL database
 $emailfrom = "IFS Mail <user@domain.com>";
 // The webmaster's email address
 $webmasteremail = "user@domain.com";
+// Email address for all personnel-related emails. Leave empty if you want the system to generate it based on access roles
+$personnelemail = "";
+// Email address for all fleetops-related emails. Leave empty if you want the system to generate it based on access roles
+$fleetopsemail = "";
+// Email address for all academy-related emails. Leave empty if you want the system to generate it based on access roles
+$academail = "";
 
 /********************
  * Misc Settings	*

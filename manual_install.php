@@ -199,10 +199,10 @@ else
 	  `ordering` tinyint(4) NOT NULL default '0'
 	);
 
-    INSERT INTO `{$spre}flags` VALUES ('a', 'Triad', 1, 9);
+    INSERT INTO `{$spre}flags` VALUES ('a', 'Admin', 1, 9);
     INSERT INTO `{$spre}flags` VALUES ('c', 'Commanding Officer', 0, 1);
 	INSERT INTO `{$spre}flags` VALUES ('o', 'Fleet Chief Ops', 1, 3);
-	INSERT INTO `{$spre}flags` VALUES ('p', 'Office of Personnel Management', 1, 5);
+	INSERT INTO `{$spre}flags` VALUES ('p', 'Personnel Management', 1, 5);
 	INSERT INTO `{$spre}flags` VALUES ('t', 'Task Force CO', 1, 2);
 	INSERT INTO `{$spre}flags` VALUES ('j', 'Judge Advocate General', 1, 6);
 	INSERT INTO `{$spre}flags` VALUES ('r', 'R & D', 1, 8);
@@ -254,10 +254,14 @@ else
 	  `status` text NOT NULL,
 	  `crew` tinyint(4) NOT NULL default '0',
 	  `crewlist` text NOT NULL,
-	  `mission` tinytext NOT NULL,
-	  `missdesc` tinytext NOT NULL,
-	  `improvement` tinytext NOT NULL,
-	  `comments` tinytext NOT NULL,
+		`newcrew` text NOT NULL default '',
+		`removedcrew` text NOT NULL default '',
+		`promotions` text NOT NULL default '',
+	  `mission` text NOT NULL default '',
+	  `missdesc` text NOT NULL default '',
+		`posts` tinytext NOT NULL default '',
+		`awards` text NOT NULL default '',
+	  `comments` text NOT NULL default '',
 	  PRIMARY KEY  (`id`)
 	);
 
@@ -283,7 +287,7 @@ else
     INSERT INTO `{$spre}ships` VALUES (1, 'Unassigned Characters', '', '', '', 0, 0, 99, 3, '', '', 1, '', '', '');
 	INSERT INTO `{$spre}ships` VALUES (2, 'Transferred Characters', '', '', '', 0, 0, 99, 3, '', '', 0, '', '', '');
 	INSERT INTO `{$spre}ships` VALUES (3, 'Deleted Characters', '', '', '', 0, 0, 99, 3, '', '', 0, '', '', '');
-	INSERT INTO `{$spre}ships` VALUES (4, 'FSS Rule 10 Characters', '', '', '', 0, 0, 99, 3, '', '', 0, '', '', '');
+	INSERT INTO `{$spre}ships` VALUES (4, 'Staff Characters', '', '', '', 0, 0, 99, 3, '', '', 0, '', '', '');
 
 	CREATE TABLE `{$spre}taskforces` (
 	  `tf` int(2) NOT NULL default '0',
@@ -313,7 +317,7 @@ else
 	  `promotions` text NOT NULL,
 	  `newco` text NOT NULL,
 	  `resigned` text NOT NULL,
-	  `webupdates` text NOT NULL,
+	  `improvements` text NOT NULL,
 	  `notes` text NOT NULL,
 	  KEY `id` (`id`)
 	);
@@ -519,50 +523,53 @@ else
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Articles', 'index.php?option=articles', 'mambo', 1, 0, 0, 5, 0, '00:00:00', NULL, 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Web Links', 'index.php?option=weblinks', 'mambo', 1, 0, 0, 10, 0, '00:00:00', NULL, 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'FAQ', 'index.php?option=faq', 'mambo', 1, 0, 0, 6, 0, '00:00:00', NULL, 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Join', 'index.php?option=app', 'mambo', 1, 0, 0, 4, 0, '00:00:00', NULL, 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Open Positions List', 'index.php?option=opl', 'web', 1, 0, 0, 3, 0, '00:00:00', NULL, 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Awards', 'index.php?option=ifs~task=common~action=common~lib=alist', 'mambo', 1, 0, 0, 8, 0, '00:00:00', NULL, 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Ship Database', 'index.php?option=shipdb', 'web', 1, 0, 0, 9, NULL, NULL, NULL, 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Home', 'index.php', 'web', 1, 0, 0, 1, 0, '00:00:00', NULL, 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Ship Listing', 'index.php?option=ships', 'web', 1, 0, 0, 2, 0, '00:00:00', NULL, 0, 1);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'usermenu', 'Your Details', 'index.php?option=user~op=UserDetails', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'usermenu', 'Submit Article', 'index.php?option=user~op=UserArticle', '', 0, 0, 0, 3, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'usermenu', 'Logout', 'index.php?option=logout', '', 0, 0, 0, 6, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'usermenu', 'Submit FAQ', 'index.php?option=user~op=UserFAQ', '', 0, 0, 0, 4, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'usermenu', 'Submit Link', 'index.php?option=user~op=UserLink', '', 0, 0, 0, 5, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'usermenu', 'Submit News', 'index.php?option=user~op=UserNews', '', 0, 0, 0, 2, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Join', 'index.php?option=app', 'mambo', 1, 0, 0, 4, 0, '00:00:00', NULL, 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Triad', 'Mambo Admin', 'administrator/', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Admin', 'Mambo Admin', 'administrator/', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Admin', 'Userlevels', 'index.php?option=ifs~task=admin~action=ulev', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Update Manifest', 'index.php?option=ifs~task=co~action=view', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Edit Positions', 'index.php?option=ifs~task=co~action=positions', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Monthly Report', 'index.php?option=ifs~task=co~action=report', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Crew Awards', 'index.php?option=ifs~task=co~action=award', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Academy', 'index.php?option=ifs~task=co~action=acad', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'Ship Listings', 'index.php?option=ifs~task=tfco~action=listing', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Office of Personnel Management', 'OPM Tools', 'index.php?option=ifs~task=opm~action=tools', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'TFCO Tools', 'index.php?option=ifs~task=tfco~action=tools', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'Monthly Report', 'index.php?option=ifs~task=tfco~action=report', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'TF Stats', 'index.php?option=ifs~task=tfco~action=stats', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'Academy', 'index.php?option=ifs~task=tfco~action=acad', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'OPM Tools', 'index.php?option=ifs~task=opm~action=tools', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Ship Listing', 'index.php?option=ifs~task=opm~action=listing', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Pending Characters', 'index.php?option=ifs~task=opm~action=pending', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Deleted Characters', 'index.php?option=ifs~task=opm~action=deleted', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Character Audit', 'index.php?option=ifs~task=opm~action=check', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Personnel Management', 'Lost Souls', 'index.php?option=ifs~task=opm~action=lost', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Fleet Chief Ops', 'Ship Listing', 'index.php?option=ifs~task=fcops~action=listing', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Fleet Chief Ops', 'FCOps Tools', 'index.php?option=ifs~task=fcops~action=tools', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Office of Personnel Management', 'Ship Listing', 'index.php?option=ifs~task=opm~action=listing', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Open Positions List', 'index.php?option=opl', 'web', 1, 0, 0, 3, 0, '00:00:00', NULL, 0, 1);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Edit Positions', 'index.php?option=ifs~task=co~action=positions', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Judge Advocate General', 'JAG Tools', 'index.php?option=ifs~task=jag', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Monthly Report', 'index.php?option=ifs~task=co~action=report', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Fleet Chief Ops', 'Fleet Stats', 'index.php?option=ifs~task=fcops~action=stats', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Office of Personnel Management', 'Pending Characters', 'index.php?option=ifs~task=opm~action=pending', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'TFCO Tools', 'index.php?option=ifs~task=tfco~action=tools', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Judge Advocate General', 'JAG Tools', 'index.php?option=ifs~task=jag', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Judge Advocate General', 'Banlist Admin', 'index.php?option=ifs~task=jag~action=bans', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Triad', 'Userlevels', 'index.php?option=ifs~task=admin~action=ulev', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
-	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'Monthly Report', 'index.php?option=ifs~task=tfco~action=report', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'R & D', 'ShipDB Admin', 'index.php?option=ifs~task=rd', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Awards Director', 'Awards Admin', 'index.php?option=ifs~task=awards~action=edit', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Awards Director', 'Pending Awards', 'index.php?option=ifs~task=awards~action=pending', NULL, 0, NULL, 0, 0, NULL, NULL, NULL, 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Crew Awards', 'index.php?option=ifs~task=co~action=award', '', 0, 0, 0, 1, 0, '00:00:00', '', 0, 1);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'TF Stats', 'index.php?option=ifs~task=tfco~action=stats', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Awards Director', 'Grant an Award', 'index.php?option=ifs~task=awards~action=award', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Group CO', 'Ship Listing', 'index.php?option=ifs~task=tgco~action=listing', NULL, 0, NULL, 0, 0, NULL, NULL, NULL, 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Group CO', 'TF Stats', 'index.php?option=ifs~task=tgco~action=stats', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Academy Admin', 'index.php?option=ifs~task=academy~action=admin', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Reassign Students', 'index.php?option=ifs~task=academy~action=reassign', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Class List', 'index.php?option=ifs~task=academy~action=inst', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Waiting List', 'index.php?option=ifs~task=academy~action=wait', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Master List', 'index.php?option=ifs~task=academy~action=list', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Commanding Officer', 'Academy', 'index.php?option=ifs~task=co~action=acad', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Force CO', 'Academy', 'index.php?option=ifs~task=tfco~action=acad', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Group CO', 'Academy', 'index.php?option=ifs~task=tgco~action=acad', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
-    INSERT INTO `{$mpre}menu` VALUES (NULL, 'mainmenu', 'Awards', 'index.php?option=ifs~task=common~action=common~lib=alist', 'mambo', 1, 0, 0, 8, 0, '00:00:00', NULL, 0, 1);
-	INSERT INTO {$mpre}menu (id, menutype, name, link, contenttype, inuse, componentid, sublevel, ordering, checked_out, checked_out_time, editor, pollid, browserNav) VALUES (NULL, 'mainmenu', 'Ship Database', 'index.php?option=shipdb', 'web', 1, 0, 0, 9, NULL, NULL, NULL, 0, 1);
-	INSERT INTO {$mpre}menu (id, menutype, name, link, contenttype, inuse, componentid, sublevel, ordering, checked_out, checked_out_time, editor, pollid, browserNav) VALUES (NULL, 'mainmenu', 'Home', 'index.php', 'web', 1, 0, 0, 1, 0, '00:00:00', NULL, 0, 1);
-	INSERT INTO {$mpre}menu (id, menutype, name, link, contenttype, inuse, componentid, sublevel, ordering, checked_out, checked_out_time, editor, pollid, browserNav) VALUES (NULL, 'mainmenu', 'Ship Listing', 'index.php?option=ships', 'web', 1, 0, 0, 2, 0, '00:00:00', NULL, 0, 1);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'R & D', 'ShipDB Admin', 'index.php?option=ifs~task=rd', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Awards Director', 'Awards Admin', 'index.php?option=ifs~task=awards~action=edit', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Awards Director', 'Pending Awards', 'index.php?option=ifs~task=awards~action=pending', NULL, 0, NULL, 0, 0, NULL, NULL, NULL, 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Awards Director', 'Grant an Award', 'index.php?option=ifs~task=awards~action=award', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Group CO', 'Ship Listing', 'index.php?option=ifs~task=tgco~action=listing', NULL, 0, NULL, 0, 0, NULL, NULL, NULL, 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Group CO', 'TF Stats', 'index.php?option=ifs~task=tgco~action=stats', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Task Group CO', 'Academy', 'index.php?option=ifs~task=tgco~action=acad', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Academy Admin', 'index.php?option=ifs~task=academy~action=admin', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Reassign Students', 'index.php?option=ifs~task=academy~action=reassign', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Class List', 'index.php?option=ifs~task=academy~action=inst', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Waiting List', 'index.php?option=ifs~task=academy~action=wait', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
+	INSERT INTO `{$mpre}menu` VALUES (NULL, 'Academy', 'Master List', 'index.php?option=ifs~task=academy~action=list', '', 0, 0, 0, 0, 0, '00:00:00', '', 0, 0);
 
 
 
@@ -573,8 +580,6 @@ else
 	  `heading` varchar(100) default NULL,
 	  PRIMARY KEY  (`mcid`)
 	);
-
-    INSERT INTO `{$mpre}menucontent` VALUES (1, 30, 'This is a menu sub-item.', 'Menu Item');
 
 	CREATE TABLE `{$mpre}newsflash` (
 	  `newsflashID` int(11) NOT NULL auto_increment,
@@ -674,7 +679,7 @@ else
 
 INSERT INTO `{$mpre}stories` ( `sid` , `title` , `time` , `introtext` , `fultext` , `counter` , `topic` , `hits` , `archived` , `newsimage` , `published` , `checked_out` , `checked_out_time` , `editor` , `image_position` , `ordering` , `frontpage` , `approved` , `ip` )
 VALUES (
-'', 'Welcome to Intergrated Fleet System', '2009-12-27 00:00:00', 'Congradulations! You have installed IFS. This news story is designed to help you get underway...', 'The good news is, if your looking at this news post, IFS was installed. So what next?<br><br> * Your first task should be to setup your fleet\'s organisational structure. Task Forces and Groups can be added from the Fleet Chief Ops menu under \"FCOps Tools\". Once those are setup, you can go about adding ships through the Task Force CO menu item \"TFCO Tools\". Note here you can also add Co\'s that have not applied through the join form, should you need to add existing Co\'s in your fleet. These created Co\'s can then be transfered to the correct vessel via the Office of Personnel Management menu option \"OPM Tools\" <br><br>* I have included a small list of ship classes to get you started, but sooner or later you will need to add some more. Note that you must have Starship Types (ie Starbase, Starship) in order to create Starship Categories (ie Crusier, Explorer) in order to create actual ship classes in these Categories. <br><br>* At some point you will need to upload a set of ranks into the images folder in order for IFS to use them. I have included support for the Kuro-Chan ranksets by default, so all you should have to do is upload the images into the correct folder (images/ranks) <br><br>* Should you require help, please use the OF Forum here : http://forums.obsidianfleet.net/viewforum.php?f=41 <br><br>This should cover the basic information you require. It may take some time to investigate all options at your disposal. <br><br>Good Luck!<br> ~Nolan', '0', '1', '0', '0', '', '1', '0', NULL , NULL , 'left', '1', '1', '1', ''
+'', 'Welcome to Integrated Fleet System', '2017-08-06 00:00:00', 'Congratulations! You have installed IFS. This news story is designed to help you get underway...', 'The good news is, if you\'re looking at this news post, IFS was installed. So what next?<br><br> * Your first task should be to setup your fleet\'s organisational structure. Task Forces and Groups can be added from the Fleet Chief Ops menu under \"FCOps Tools\". Once those are set up, you can go about adding ships through the Task Force CO menu item \"TFCO Tools\". Note here you can also add Co\'s that have not applied through the join form, should you need to add existing Co\'s in your fleet. These created Co\'s can then be transfered to the correct vessel via the Personnel Management menu option \"OPM Tools\" <br><br>* I have included a small list of ship classes to get you started, but sooner or later you will need to add some more. Note that you must have Starship Types (ie Starbase, Starship) in order to create Starship Categories (ie Crusier, Explorer) in order to create actual ship classes in these Categories. <br><br>* At some point you will need to upload a set of ranks into the images folder in order for IFS to use them. I have included support for the Kuro-Chan ranksets by default, so all you should have to do is upload the images into the correct folder (images/ranks) <br><br>* Should you require help, please use the GitHub issues board here : https://github.com/mtwilliams5/ifs/issues <br><br>This should cover the basic information you require. It may take some time to investigate all options at your disposal. <br><br>Good Luck!<br> ~Nolan (with updates from Matt)', '0', '1', '0', '0', '', '1', '0', NULL , NULL , 'left', '1', '1', '1', ''
 );
 	CREATE TABLE `{$mpre}system` (
 	  `id` int(11) NOT NULL default '0',
@@ -817,18 +822,18 @@ foreach($types AS $type) {
 		$i = 1;
 		if($type != "Marine") {
 			foreach($ranks AS $rankpip => $rankname) {
-				$querym = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', 'ranks/".$type."/".$color."-".$rankpip.".png', '".$colorname."', ".$i.")";
+				$querym = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', '".$type."/".$color."-".$rankpip.".png', '".$colorname."', ".$i.")";
 				mysql_query($querym);
 				$i++;
 			}
 		} else {
 			foreach($ranksm AS $rankpip => $rankname) {
-				$queryn = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', 'ranks/".$type."/".$color."-".$rankpip.".png', 'Marine ".$colorname."', ".$i.")";
+				$queryn = "INSERT INTO `{$spre}rank` VALUES (NULL, '".$rankname."', '".$type."/".$color."-".$rankpip.".png', 'Marine ".$colorname."', ".$i.")";
 				mysql_query($queryn);
 				$i++;
 			}
 		}
-		$queryb = "INSERT INTO `{$spre}rank` VALUES (NULL, 'Blank', 'ranks/".$color."-blank1.png', '".$colorname."', 0)";
+		$queryb = "INSERT INTO `{$spre}rank` VALUES (NULL, 'Blank', '".$color."-blank1.png', '".$colorname."', 0)";
 		mysql_query($queryb);
 	}
 }

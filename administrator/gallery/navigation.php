@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -37,22 +37,22 @@ if (!session_is_registered("session_id"))
 <BR><BR><BR>
 <TABLE CELLSPACING="2" CELLPADDING="2" BORDER="0">
 <TR>
-    <TD><A HREF="index.php?gal=0&image=jpg&directory=<?echo $directory;?>&Itemid=<?echo $Itemid;?>" TARGET="images">View Jpegs</A></TD>
+    <TD><A HREF="index.php?gal=0&image=jpg&directory=<?php echo $directory;?>&Itemid=<?php echo $Itemid;?>" TARGET="images">View Jpegs</A></TD>
 </TR>
 <TR>
-    <TD><A HREF="index.php?gal=0&image=gif&directory=<?echo $directory;?>&Itemid=<?echo $Itemid;?>" TARGET="images">View Gifs</A></TD>
+    <TD><A HREF="index.php?gal=0&image=gif&directory=<?php echo $directory;?>&Itemid=<?php echo $Itemid;?>" TARGET="images">View Gifs</A></TD>
 </TR>	
 <TR>
-    <TD><A HREF="index.php?gal=0&image=png&directory=<?echo $directory;?>&Itemid=<?echo $Itemid;?>" TARGET="images">View PNGs</A></TD>
+    <TD><A HREF="index.php?gal=0&image=png&directory=<?php echo $directory;?>&Itemid=<?php echo $Itemid;?>" TARGET="images">View PNGs</A></TD>
 </TR>
 <TR>
-    <TD><A HREF="index.php?gal=0&image=swf&directory=<?echo $directory;?>&Itemid=<?echo $Itemid;?>" TARGET="images">View swf</A></TD>
+    <TD><A HREF="index.php?gal=0&image=swf&directory=<?php echo $directory;?>&Itemid=<?php echo $Itemid;?>" TARGET="images">View swf</A></TD>
 </TR>
 <TR>
     <TD><A HREF="pdf.php" TARGET="images">List documents</A></TD>
 </TR>
 <TR>
-	<TD><A HREF="uploadimage.php?directory=<?echo $directory;?>&Itemid=<?echo $Itemid;?>" TARGET="images">Upload</A></TD>
+	<TD><A HREF="uploadimage.php?directory=<?php echo $directory;?>&Itemid=<?php echo $Itemid;?>" TARGET="images">Upload</A></TD>
 </TR>
 </TABLE>
 

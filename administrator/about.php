@@ -14,13 +14,13 @@
 <link rel="stylesheet" href="../css/admin.css" type="text/css">
 </head>
 <body bgcolor="#ffffff">
-<? include ("../configuration.php"); ?>
+<?php include ("../configuration.php"); ?>
 <TABLE WIDTH="350" BORDER="0" ALIGN="center" CELLPADDING="0" CELLSPACING="0" >
   <tr> 
     <td bgcolor="#FFFFFF"> 
       <TABLE WIDTH="100%" BORDER="0" ALIGN="center" CELLPADDING="2" CELLSPACING="0" bgcolor="#FFFFFF">
         <TR> 
-          <TD ALIGN="center" colspan="2"> <img src="../images/stories/mambositeserver.gif"><br><span class="smalldark"><? echo $version; ?></span></TD>
+          <TD ALIGN="center" colspan="2"> <img src="../images/stories/mambositeserver.gif"><br><span class="smalldark"><?php echo $version; ?></span></TD>
         </TR>
         <TR align="center"> 
           <TD colspan="2"> <b>Credits</b> 

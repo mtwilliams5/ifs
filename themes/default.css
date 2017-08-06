@@ -9,9 +9,13 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.13n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -20,13 +24,44 @@
   * This file contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	12/23/03
   * Comments: CSS for default theme
   *
   * See CHANGELOG for patch details
   *
  ***/
 
+ /* Body Styles */
+body
+{
+	font: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #ffffff;
+	background-color: #000000;
+}
+
+.backcolor {
+        background-color: #000000;
+         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
+}
+
+.footer {
+        font: 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+}
+
+/* Index Page Styles */
+.fleetstats {
+	font-family: verdana, Geneva, Arial, Helvetica;
+	color: #000000;
+	text-align: center;
+	font-weight: bold;
+	font-size: 10pt;
+}
+.fleetdesc {
+    font: 1.1em Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color: #C0C0C0;
+}
+
+/* Links */
 a {
 	font: normal 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	color: #FFFFFF;
@@ -43,44 +78,18 @@ a:active {
         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
 }
 
-.articlehead {
-        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-        font-size: 13px;
-        font-weight: bold;
-        color: #FFFFFF
+/* Navigation & Left/Right Components */
+nav {
+    clear: left;
 }
 
-.articleheadWhite {
-        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-        font-size: 14px;
-        font-weight: bold;
-        color: #FFFFFF;
+nav a {
+    float: left;
+    clear: left;
 }
 
-.backcolor {
-        background-color: #000000;
-         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
-}
-
-body
-{
-	font: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	color: #ffffff;
-	background-color: #000000;
-}
-
-.bold {
-        font: bold 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
-        color: #FFFFFF;
-}
-
-.button {
-        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 9px;
-        color: #000000;
-        background-color: #FFFFFF;
+nav a:last-child{
+    margin-bottom: 5px;
 }
 
 .componentHeading {
@@ -95,25 +104,61 @@ body
         text-align: right;
 }
 
-.footer {
-        font: 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+.poll {
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #FFFFFF;
+    line-height: 14px
+}
+
+.searchColor {
+    background-color: #000000;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
+}
+
+.menuhead {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+/* Articles */
+.articlehead {
+        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+        font-size: 13px;
+        font-weight: bold;
+        color: #FFFFFF
+}
+
+.articleheadWhite {
+        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
         color: #FFFFFF;
 }
 
+/* Utility Classes */
+strong, .bold {
+        font-weight: bold;
+}
+
 h1 {
-        font: bold 18px Verdana, Geneva, Arial, Helvetica, sans-serif;
+        font: bold 1.7em Verdana, Geneva, Arial, Helvetica, sans-serif;
         color: #FFFFFF;
 }
 
 h2 {
-	font: bold 16px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font: bold 1.5em Verdana, Geneva, Arial, Helvetica, sans-serif;
 	color: #FFFFFF;
 }
 h3 {
-	font: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	font: italic;
+	font: italic 1.3em Verdana, Geneva, Arial, Helvetica, sans-serif;
 	color: #FFFFFF;
+}
+h5, .h5 {
+    font-size: 1.2em;
+}
+h6, .h6 {
+    font-size: 1.1em;
 }
 
 .highlight {
@@ -123,32 +168,10 @@ h3 {
     background-color: #C0C0C0;
 }
 
-.ifsHeading {
-        font: bold 16px Verdana, Geneva, Arial, Helvetica, sans-serif;
-        color: #FFFFFF;
-        text-align: centre;
-}
-
-.fleetstats {
-	font-family: verdana, Geneva, Arial, Helvetica;
-	color: #000000;
-	text-align: center;
-	font-weight: bold;
-	font-size: 10pt;
-}
-.fleetdesc {
-	
-}
-
-input.button {
-    background-color : #FFFFFF;
-    color : #000000;
-    font-size: 11px;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	border-top-width : 1px;
-	border-right-width : 1px;
-	border-bottom-width : 1px;
-	border-left-width : 1px;
+.ifsHeading, .heading {
+    font: bold 1.15em Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+    text-align: centre;
 }
 
 .linklike {
@@ -169,13 +192,6 @@ p {
     color: #FFFFFF;
 }
 
-.poll {
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #FFFFFF;
-    line-height: 14px
-}
-
 .post {
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 11px;
@@ -184,12 +200,7 @@ p {
     color: #FFFFFF;
 }
 
-.searchColor {
-    background-color: #000000;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
-}
-
-.small {
+small, .small {
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 10px;
     color: #FFFFFF;
@@ -210,13 +221,6 @@ p {
     font-weight: normal
 }
 
-strong {
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
-    font-weight: normal;
-}
-
 .subhead {
     font: 13px Verdana, Geneva, Arial, Helvetica, sans-serif;
     color: #000000;
@@ -231,14 +235,161 @@ strong {
 	text-align: left;
 }
 
+.whitetext {
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 11px; color: #000000;
+}
+div.rank {
+    margin: auto;
+}
+
+/* Buttons & Form Input */
+.button {
+        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 9px;
+        color: #000000;
+        background-color: #FFFFFF;
+}
+
+input.button {
+    background-color : #FFFFFF;
+    color : #000000;
+    font-size: 11px;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	border-top-width : 1px;
+	border-right-width : 1px;
+	border-bottom-width : 1px;
+	border-left-width : 1px;
+}
+
+/* Tables */
 td {
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 11px;
     color: #ffffff;
     background-color: #000000;
 }
+.table > thead > tr > th {
+    vertical-align: top;
+    border-bottom: none;
+	font-size: 1.2em;
+}
+.table > thead {
+	border-bottom: 2px solid #999;
+}
+td.vcenter {
+	vertical-align: middle !important;
+}
+.table-bordered > tbody > tr > td, .table-bordered > thead > tr > th {
+	border-color: #999;
+}
 
-.whitetext {
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    font-size: 11px; color: #000000;
+/* Overridden Bootstrap Styles */
+.list-group-item {
+    background-color: #3F3F3F;
+    border-color: #3F3F3F;
+    border-bottom-color: #333333;
+}
+a.list-group-item:visited {
+    background-color: #3F3F3F;
+    border-color: #3F3F3F;
+    border-bottom-color: #333333;
+}
+a.list-group-item:hover, a.list-group-item:active {
+    background-color: #4F4F4F;
+    border-color: #3F3F3F;
+    border-bottom-color: #333333;
+}
+a.list-group-item, a.list-group-item:hover {
+    color: #ffffff;
+}
+a.list-group-item .list-group-item-heading {
+    color: #C0C0C0;
+}
+.input-group-addon a {
+    color: #3C3C3C;
+}
+
+.help-inline {
+  display: inline;
+  color: #737373;
+}
+
+.center-block {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.switch-course .btn {
+	white-space: normal;
+}
+
+/* OPL Styles */
+.pos {
+    color: orangered;
+    font-size: 1.2em;
+}
+.openpos-list {
+    margin-bottom: 10px;
+}
+
+/* Sim Listing Styles*/
+
+.sim-desc {
+	margin-top: 10px;
+}
+.sim-admin {
+	margin-top: 20px;
+}
+
+.sim-name a {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.sim-name {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.sort-options {
+	margin-top: 10px;
+}
+
+.sim-details .form-control-static {
+	min-height: 15px;
+}
+
+/* FCOPs Styles */
+.tf-mgmt .row {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+/* ShipDB Styles */
+.specs-detail-sub {
+	margin-bottom: 0px;
+}
+.specs-detail-sub-row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+/* ulevels Styles */
+.ulevel-search > form {
+	margin-bottom: 10px;
+}
+.ulevels > tbody > tr > td:first-child {
+	border-right: 2px solid #999 !important;
+}
+.ulevels > tbody > tr:nth-child(even) > td {
+	background-color: rgba(0, 0, 0, .1) !important;
+}
+
+/* Service Record Styles */
+@media (min-width: 500px) {
+	.record-details th {
+		min-width: 100px !important;
+	}
 }

@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *     matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	4/12/04
   * Comments: Processes crew applications
   *
  ***/
@@ -36,15 +39,15 @@ if (!defined("IFS"))
 
 /*-------------------------------------------------------*/
 /* Check to make sure all fields are filled out, and	 */
-/* if not, give them an error screen and exit		 */
+/* if not, give them an error screen and exit			 */
 /*-------------------------------------------------------*/
 
 $ip = getenv("REMOTE_ADDR");
 
 if ($reason = check_ban($database, $mpre, $spre, $Email, $ip, 'command'))
 {
-	echo "You have been banned!<br /><br />";
-    echo $reason;
+	echo '<h3 class="text-danger">You have been banned!</h3>';
+    echo '<p>' . $reason . '</p>';
 	$quit = "1";
 }
 
@@ -53,13 +56,13 @@ if (strstr ($Email, '@'))
 	$emaildomain = strstr ($Email, '@');
 	if (!strstr($emaildomain, "."))
     {
-	    echo "Please enter a valid email address.<br /><br />\n";
+	    echo '<h3 class="text-warning">Please enter a valid email address.</h3>';
 	    $quit = "1";
     }
 }
 else
 {
-    echo "Please enter a valid email address.<br /><br />\n";
+    echo '<h3 class="text-warning">Please enter a valid email address.</h3>';
     $quit = "1";
 }
 
@@ -71,7 +74,7 @@ $qry2 = "SELECT a.id FROM {$spre}apps a, {$spre}characters c, {$mpre}users u
 $result2 = $database->openConnectionWithReturn($qry2);
 if (mysql_num_rows($result) || mysql_num_rows($result2))
 {
-	echo "Please wait at least five minutes between submitting applications.<br /><br />";
+	echo '<h3 class="text-warning">Please wait at least five minutes between submitting applications.</h3>';
     $quit = "1";
 }
 
@@ -81,7 +84,7 @@ $qry = "SELECT c.id FROM {$spre}characters c, {$mpre}users u
 $result = $database->openConnectionWithReturn($qry);
 if ( (mysql_num_rows($result) > max-chars) && max-chars > "0" )
 {
-	echo "You may only have a maximum of " . max-chars . " characters.<br /><br />";
+	echo '<h3 class="text-warning">You may only have a maximum of ' . maxchars . ' characters.</h3>';
     $quit = "1";
 }
 
@@ -90,50 +93,51 @@ $qry = "SELECT c.id FROM {$spre}characters c, {$mpre}users u
         c.ship!='" . DELETED_SHIP . "' && c.ship!='" . FSS_SHIP . "' &&
         c.ship!='" . UNASSIGNED_SHIP . "' && c.pos='Commanding Officer'";
 $result = $database->openConnectionWithReturn($qry);
-if (mysql_num_rows($result))
-{
-	echo "You may only command one ship.<br /><br />";
-    $quit = "1";
-}
+//Uncomment the following section if your group does not allow multiple commands
+#if (mysql_num_rows($result))
+#{
+#	echo '<h3 class="text-warning">You may only command one ship.</h3>';
+#    $quit = "1";
+#}
 
 if ($Email == "")
 {
-    echo "Please enter your email address.<br /><br />";
+    echo '<h3 class="text-warning">Please enter your email address.</h3>';
     $quit = "1";
 }
 
 
-if ($Follow_OF_Rules != "")
+if ($rules != "yes")
 {
-    echo "Sorry, but you must agree to follow the rules.<br /><br />";
+    echo '<h3 class="text-warning">Sorry, but you must agree to follow the rules.</h3>';
     $quit = "1";
 }
 
 
 if ($Characters_Name == "")
 {
-    echo "Please select a character name.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a character name.</h3>';
     $quit = "1";
 }
 
 
 if ($Characters_Race == "")
 {
-    echo "Please select a character race.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a character species.</h3>';
     $quit = "1";
 }
 
 
 if ($Characters_Gender == "")
 {
-    echo "Please select a character gender.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a character gender.</h3>';
     $quit = "1";
 }
 
 
 if ($Character_Bio == "")
 {
-    echo "Please enter a brief biography for your character.<br /><br />";
+    echo '<h3 class="text-warning">Please enter a biography for your character.</h3>';
     $quit = "1";
 }
 
@@ -194,7 +198,12 @@ if ($quit != "1")
 	    $details = "UID created: " . $uid . "<br />\n";
 	} else
 	    $details = "UID found: " . $uid . "<br />\n";
-
+$badapp=false;
+if (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender.$q1.$q2.$q3.$q4.$q5.$q6,'http:')>0) $badapp=true;
+elseif (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender.$q1.$q2.$q3.$q4.$q5.$q6,'[link')>0) $badapp=true;
+elseif (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender.$q1.$q2.$q3.$q4.$q5.$q6,'[url')>0) $badapp=true;
+elseif (strpos('x'.$Email.$Name.$Age.$Characters_Name.$Characters_Race.$Characters_Gender.$q1.$q2.$q3.$q4.$q5.$q6,'www')>0) $badapp=true;
+else {
 	// Insert character into db
 	$date = date("F j, Y, g:i a", time());
 	$ptime = time();
@@ -207,7 +216,7 @@ if ($quit != "1")
 	$result=$database->openConnectionWithReturn($qry);
 
 	// Service Record
-	$details .= "Ship: " . $Ship . "<br />\n";
+	$details .= "Sim: " . $Ship . "<br />\n";
 	$details .= "CO App<br />\n";
 	$time = time();
 	$qry = "INSERT INTO {$spre}record
@@ -219,21 +228,25 @@ if ($quit != "1")
 	$qry = "SELECT cid FROM {$spre}record WHERE id=LAST_INSERT_ID();";
 	$result = $database->openConnectionWithReturn($qry);
 	list ($cid) = mysql_fetch_array($result);
-
+}
 
 	$subject = "CO Application";
   	$headers = "From: " . emailfrom . "\nX-Mailer:PHP\nip: $ip";
 
-	$body = "Requested Ship: $ship\n";
+	//Name and contact info
+	$body = "Email Address: $Email\n";
+	$body .= "Real Name: $Name\n";
+	$body .= "Age: $Age\n";
+	$body .= "Instant Messengers: $IM\n\n";
+
+	//Sim info
+	$body .= "Requested Sim: $ship\n";
 	$body .= "Requested Class: $desiredclass\n";
 	$body .= "Alternate Class: $altclass\n\n";
 
-	$body .= "Email Address: $Email\n\n";
-	$body .= "Real Name: $Name\n";
-	$body .= "Age: $Age\n";
-
+	//Character info
 	$body .= "Character Name: $Characters_Name\n";
-	$body .= "Character Race: $Characters_Race\n";
+	$body .= "Character Species: $Characters_Race\n";
 	$body .= "Character Gender: $Characters_Gender\n\n";
 
 	$body .= "Bio:\n";
@@ -242,23 +255,24 @@ if ($quit != "1")
 	$body .= "Sample Post:\n";
 	$body .= "$Sample_Post\n\n";
 
+	//Player Experience
 	$body .= "Experience:\n";
 	$body .= "$RPG_Experience\n";
+	$body .= "CO Experience:\n";
+	$body .= "$CO_Experience\n";
 	$body .= "Simming for $Time_In_Other_RPGs\n\n";
 
+	//Reference
 	$body .= "Reference:\n";
 	$body .= "$Reference\n";
 	$body .= "$Reference_Other\n\n";
 
-	$body .= "AOL IM: $AOLIM\n";
-	$body .= "ICQ: $ICQ\n";
-	$body .= "Yahoo: $Yahoo\n\n";
-
+	//Questionnaire
 	$body .= "Questionnaire:\n";
 	$body .= "~~~~~~~~~~~~~~\n";
-	$body .= "What do you think are the duties of a ship's Commanding Officer, both in-character and out-of-character?\n\n";
+	$body .= "What do you think are the duties of a sim's Commanding Officer, both in-character and out-of-character?\n\n";
 	$body .= "$q1\n\n";
-	$body .= "What role do you think XOs and department heads should play in helping run the ship / simm?\n\n";
+	$body .= "What role do you think XOs and department heads should play in helping run the sim?\n\n";
 	$body .= "$q2\n\n";
 	$body .= "How do you plan to recruit?\n\n";
 	$body .= "$q3\n\n";
@@ -268,24 +282,31 @@ if ($quit != "1")
 	$body .= "$q5\n\n";
 	$body .= "You disagree with a decision made by the Admiralty and other CO's of the fleet. What do you do?\n\n";
 	$body .= "$q6\n\n";
+	
+	//Comments
+	$body .= "Additional Comments:\n";
+	$body .= "~~~~~~~~~~~~~~\n";
+	$body .= "$comments\n\n";
 
-	$body = stripslashes($body);
+	$body = stripcslashes($body);
 
 	// This one goes to the applicant:
 	require_once "includes/mail/coapp_player.mail.php";
 	$allemails = $Email;
-
+if (!$badapp) {
 	// This one goes to the TF Staff:
 	if ($ship != "Any")
     {
-	    $recip = "$tfcoemail, $tgcoemail";
+	    $recip = "$fleetopsemail, $tfcoemail, $tgcoemail, $personnelemail";
 	    mail ($recip, $subject, $body, $headers);
 		$allemails .= ", " . $recip;
 	}
     else
     {
-	    	require_once "includes/mail/coapp_site.mail.php";
-		$allemails .= ", " . webmasteremail;
+	    require_once "includes/mail/coapp_site.mail.php";
+		$allemails .= ", " . $webmasteremail;
+		$allemails .= ", " . $fleetopsemail;
+		$allemails .= ", " . $personnelemail;
 	}
 
 	// Save it in the db
@@ -298,11 +319,13 @@ if ($quit != "1")
 
 	$qry = "UPDATE {$spre}characters SET app=LAST_INSERT_ID() WHERE id='$cid'";
 	$database->openConnectionNoReturn($qry);
+}
 
-
-	// thank-you page
+	/*-------------------------------------------------------*/
+	/* Display a Thank-You page                              */
+	/*-------------------------------------------------------*/
 	?>
-	<font size="+1"><p align="center">Form received.  Thank you! </p></font>
+	<h3 class="text-success">Form received.  Thank you!</h3>
 
 	<?php
 }

@@ -37,101 +37,133 @@
 			<TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0" WIDTH="100%">
 			<TR BGCOLOR="#999999">
 				<TD WIDTH="20">&nbsp;</TD>
-				<TD WIDTH="60%" CLASS="heading">Category Name - <? echo $option; ?></TD>
-				<TD WIDTH="15%" ALIGN="center" CLASS="heading"># of <? echo $option; ?></TD>
+				<TD WIDTH="60%" CLASS="heading">Category Name - <?php
+echo $option; ?></TD>
+				<TD WIDTH="15%" ALIGN="center" CLASS="heading"># of <?php
+echo $option; ?></TD>
 				<TD WIDTH="10%" ALIGN="center" CLASS="heading">Published</TD>
 				<TD WIDTH="15%" ALIGN="center" CLASS="heading">Checked Out</TD>
 			</TR>
-			<? 
-			$color = array("#FFFFFF", "#CCCCCC");
+			<?php
+$color = array("#FFFFFF", "#CCCCCC");
 			$k = 0;
 			for ($i = 0; $i < count($cid); $i++){?>
-			<TR BGCOLOR="<? echo $color[$k]; ?>">
-				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<? echo $cid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
-				<TD WIDTH="60%"><? echo $cname[$i]; ?></TD>
-				<TD WIDTH="15%" ALIGN="center"><? echo $count[$i]; ?></TD>
-			<?	if ($publish[$i] == 1){
+			<TR BGCOLOR="<?php
+echo $color[$k]; ?>">
+				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<?php
+echo $cid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
+				<TD WIDTH="60%"><?php
+echo $cname[$i]; ?></TD>
+				<TD WIDTH="15%" ALIGN="center"><?php
+echo $count[$i]; ?></TD>
+			<?php
+if ($publish[$i] == 1){
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-			<?			}
+			<?php
+}
 					}
 				else {
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-			<?			}
+			<?php
+}
 					}?>
 			
-			<?	if ($checkedout[$i] == 0){?>
+			<?php
+if ($checkedout[$i] == 0){?>
 					<TD WIDTH="15%" ALIGN="center">&nbsp;</TD>
-			<?		}
+			<?php
+}
 				else {?>
-					<TD WIDTH="15%" ALIGN="center"><? echo $editor[$i]; ?></TD>
-			<?		}?>
+					<TD WIDTH="15%" ALIGN="center"><?php
+echo $editor[$i]; ?></TD>
+			<?php
+}?>
 			
-				<? if ($k == 1){
+				<?php
+if ($k == 1){
 						$k = 0;
 						}
 				   else {
 				   		$k++;
 						}?>
-			<?	}?>
+			<?php
+}?>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			<INPUT TYPE="hidden" NAME="chosen" VALUE="">
-			<INPUT TYPE="hidden" NAME="act" VALUE="<? echo $act; ?>">
+			<INPUT TYPE="hidden" NAME="act" VALUE="<?php
+echo $act; ?>">
 			<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
 			</FORM>
 			</TABLE>
-		<?	}
+		<?php
+}
 		
 		function editcategory($option, $cname, $uid, $act){ ?>
 			<FORM ACTON='index2.php' METHOD='POST' NAME="adminForm">
 			<TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0" WIDTH="100%">
 			<TR BGCOLOR="#999999">
-				<TD ALIGN="left" CLASS="heading" COLSPAN="3">Edit Category - <? echo $option; ?></TD>
+				<TD ALIGN="left" CLASS="heading" COLSPAN="3">Edit Category - <?php
+echo $option; ?></TD>
 			</TR>
 			<TR>
 				<TD ALIGN="center" COLSPAN="3">&nbsp;</TD>
 			</TR>
 			<TR>
 				<TD WIDTH='150'>Category Name:</TD>
-				<TD WIDTH='85%'><INPUT TYPE='text' NAME='categoryname' VALUE="<? echo $cname; ?>" SIZE='25'></TD>
+				<TD WIDTH='85%'><INPUT TYPE='text' NAME='categoryname' VALUE="<?php
+echo $cname; ?>" SIZE='25'></TD>
 			</TR>
 			</TABLE>
 			
 			
 			<INPUT TYPE='hidden' NAME='task' VALUE="">
-			<INPUT TYPE='hidden' NAME='option' VALUE="<? echo $option; ?>">
-			<INPUT TYPE='hidden' NAME='uid' VALUE='<? echo $uid; ?>'>
-			<INPUT TYPE="hidden" NAME="act" VALUE="<? echo $act; ?>">
-			<INPUT TYPE="hidden" NAME="pname" VALUE="<? echo $cname; ?>">
+			<INPUT TYPE='hidden' NAME='option' VALUE="<?php
+echo $option; ?>">
+			<INPUT TYPE='hidden' NAME='uid' VALUE='<?php
+echo $uid; ?>'>
+			<INPUT TYPE="hidden" NAME="act" VALUE="<?php
+echo $act; ?>">
+			<INPUT TYPE="hidden" NAME="pname" VALUE="<?php
+echo $cname; ?>">
 			</FORM>
-		<?	}
+		<?php
+}
 		
 		function addcategory($option, $act){?>
 			<FORM ACTON='index2.php' METHOD='POST' NAME="adminForm">
 			<TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0" WIDTH="100%">
 			<TR BGCOLOR="#999999">
-				<TD ALIGN="left" CLASS="heading" COLSPAN="3">Add Category - <? echo $option; ?></TD>
+				<TD ALIGN="left" CLASS="heading" COLSPAN="3">Add Category - <?php
+echo $option; ?></TD>
 			</TR>
 			<TR>
 				<TD ALIGN="center" COLSPAN="3">&nbsp;</TD>
 			</TR>
 			<TR>
 				<TD WIDTH='150' VALIGN="top">Category Name:</TD>
-				<TD WIDTH='85%' VALIGN="top"><INPUT TYPE='text' NAME='categoryname' VALUE="<? echo $cname; ?>" SIZE='25'></TD>
+				<TD WIDTH='85%' VALIGN="top"><INPUT TYPE='text' NAME='categoryname' VALUE="<?php
+echo $cname; ?>" SIZE='25'></TD>
 			</TR>
 			</TABLE>
 			
 			<INPUT TYPE='hidden' NAME='task' VALUE="">
-			<INPUT TYPE='hidden' NAME='option' VALUE="<? echo $option; ?>">
-			<INPUT TYPE="hidden" NAME="act" VALUE="<? echo $act; ?>">
+			<INPUT TYPE='hidden' NAME='option' VALUE="<?php
+echo $option; ?>">
+			<INPUT TYPE="hidden" NAME="act" VALUE="<?php
+echo $act; ?>">
 			</FORM>
-		<?	}
+		<?php
+}
 		}
 ?>

@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -23,7 +23,8 @@
 		function menussystemInfo(){ ?>
 			<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" WIDTH="100%">
 			<TR>
-				<TD WIDTH="47%" VALIGN="top"><? include ("menubar/mainmenu.php"); ?></TD>
+				<TD WIDTH="47%" VALIGN="top"><?php
+include ("menubar/mainmenu.php"); ?></TD>
 				<TD VALIGN="top" ROWSPAN="3" WIDTH="32" ALIGN="right"><img name="endcap" src="../images/admin/endcap.gif" width="32" height="63" border="0" VSPACE="0" HSPACE="0"></TD>
 				<TD VALIGN="bottom" BGCOLOR="#999999" WIDTH="51%">
 					<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0" WIDTH="99%" BGCOLOR="#999999">
@@ -39,6 +40,6 @@
 				<TD VALIGN="bottom" ALIGN="left" BGCOLOR="#999999"><img name="shadow" src="../images/admin/shadow.gif" width="100%" height="10" border="0" VSPACE="0" HSPACE="0"></TD>
 			</TR>
 			</TABLE>
-		<?	}
+		<?php	}
 		}
 ?>

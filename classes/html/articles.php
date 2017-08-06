@@ -7,8 +7,12 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -17,7 +21,6 @@
   * This file based on code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  *	Date: 12/13/03
   *	Comments: The function listing retrieves all article categories and titles from the database.
  ***/
 
@@ -63,8 +66,7 @@ class articles
 							echo "&nbsp;&nbsp;&nbsp;&nbsp;";
 
 		                if ($spaces == 0)
-		                    echo "<img src=\"images/FP_images/document.gif\" width=\"32\" " .
-                            	 "height=\"16\" align=\"absbottom\" vspace=\"3\" hspace=\"3\" />\n";
+		                    echo "<img src=\"images/document.gif\" align=\"absmiddle\" vspace=\"3\" hspace=\"3\" />\n";
 						else
 		                    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
 
@@ -99,7 +101,7 @@ class articles
             <td class="articlehead" width="100%"><?php echo $title ?></td>
         </tr>
         <tr>
-            <td valign="top" height="90%"><?echo $content;?></td>
+            <td valign="top" height="90%"><?php echo $content;?></td>
         </tr>
         </table>
         <?php

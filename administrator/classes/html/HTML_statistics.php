@@ -23,11 +23,14 @@
 		function show_browser_stats($percentInt, $count, $ChartLabel, $sum, $task){?>
 			<TABLE CELLSPACING="2" CELLPADDING="2" BORDER="0" WIDTH="100%" ALIGN="center">
 			<TR>
-			<?	if ($task == "browser"){?>
+			<?php
+if ($task == "browser"){?>
 				<TD ALIGN="center" CLASS="articlehead">Browser Statistics</TD>
-			<?  } else {?>
+			<?php
+} else {?>
 				<TD ALIGN="center" CLASS="articlehead">Operating System Statistics</TD>
-			<?	}?>
+			<?php
+}?>
 			</TR>
 			<TR>
 				<TR>
@@ -36,20 +39,30 @@
 					<TR>
 						<TD>
 							<TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0" BGCOLOR="#FFFFFF" >
-				<?	if (count($percentInt) <> 0){
+				<?php
+if (count($percentInt) <> 0){
 						for ($i = 0; $i < count($ChartLabel); $i++){
 							if ($percentInt[$i] <> ""){
 								$percentage = $count[$i]/$sum * 100;
 								$percentage = round($percentage, 2);
 								?>
 								<TR>
-									<TD VALIGN="middle" HEIGHT="40"><IMG SRC="../images/polls/Col<? echo $i+1; ?>M.gif" WIDTH="<? echo $percentInt[$i]/2; ?>" HEIGHT="15" VSPACE="2" HSPACE="0"><IMG SRC="../images/polls/Col<? echo $i+1; ?>R.gif" WIDTH="10" HEIGHT="15" VSPACE="2" HSPACE="0"><BR><? echo "$ChartLabel[$i] - $count[$i] ($percentage%)"; ?></TD>
+									<TD VALIGN="middle" HEIGHT="40"><IMG SRC="../images/polls/Col<?php
+echo $i+1; ?>M.gif" WIDTH="<?php
+echo $percentInt[$i]/2; ?>" HEIGHT="15" VSPACE="2" HSPACE="0"><IMG SRC="../images/polls/Col<?php
+echo $i+1; ?>R.gif" WIDTH="10" HEIGHT="15" VSPACE="2" HSPACE="0"><BR><?php
+echo "$ChartLabel[$i] - $count[$i] ($percentage%)"; ?></TD>
 								</TR>
-						<?	} else {?>
+						<?php
+} else {?>
 								<TR>
-									<TD VALIGN="middle" HEIGHT="40"><IMG SRC="../images/polls/Col<? echo $i+1; ?>M.gif" WIDTH="1" HEIGHT="15" VSPACE="2" HSPACE="0"><IMG SRC="../images/polls/Col<? echo $i+1; ?>R.gif" WIDTH="10" HIGHT="15" VSPACE="2" HSPACE="0"><BR><? echo "$ChartLabel[$i] - $count[$i] (0%)"; ?></TD>
+									<TD VALIGN="middle" HEIGHT="40"><IMG SRC="../images/polls/Col<?php
+echo $i+1; ?>M.gif" WIDTH="1" HEIGHT="15" VSPACE="2" HSPACE="0"><IMG SRC="../images/polls/Col<?php
+echo $i+1; ?>R.gif" WIDTH="10" HIGHT="15" VSPACE="2" HSPACE="0"><BR><?php
+echo "$ChartLabel[$i] - $count[$i] (0%)"; ?></TD>
 								</TR>
-					<? 			}
+					<?php
+}
 							unset($percentage);
 							}
 						}
@@ -57,8 +70,8 @@
 							<TR>
 								<TD VALIGN="bottom">There are no results for this month.</TD>
 							</TR>
-					<?		
-						}?>
+					<?php
+}?>
 							</TABLE>
 						</TD>
 					</TR>
@@ -66,7 +79,7 @@
 				</TD>
 			</TR>
 			</TABLE>
-		<?	}
+		<?php	}
 		}
 ?>
 			

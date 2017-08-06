@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -37,44 +37,56 @@
 			<TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0" WIDTH="100%">
 				<TR>
 					<TD COLSPAN="5" align=right>Select A Forum:&nbsp;&nbsp;
-						<SELECT NAME="forum" onChange="document.location.href='index2.php?act=<?echo $act;?>&option=<?echo $option;?>&forum=' + this.options[selectedIndex].value">
+						<SELECT NAME="forum" onChange="document.location.href='index2.php?act=<?php echo $act;?>&option=<?php echo $option;?>&forum=' + this.options[selectedIndex].value">
 							
-							<?if ($forum=="all"){?>
+							<?php if ($forum=="all"){?>
 								<OPTION VALUE="">Select Forum</OPTION>
 								<OPTION VALUE="all" SELECTED>Select All</OPTION>
 								<OPTION VALUE="new">Select NEW</OPTION>
-							 <?}elseif ($forum == "new"){?>
+							 <?php
+}elseif ($forum == "new"){?>
 							 	<OPTION VALUE="">Select Forum</OPTION>
 								<OPTION VALUE="all">Select All</OPTION>
 								<OPTION VALUE="new" SELECTED>Select NEW</OPTION>
-							 <?}else{?>
+							 <?php
+}else{?>
 							 	<OPTION VALUE="" SELECTED>Select Forum</OPTION>
 								<OPTION VALUE="all" >Select All</OPTION>
 								<OPTION VALUE="new">Select NEW</OPTION>
-							 <?}
+							 <?php
+}
 							   for ($i = 0; $i < count($ForumIdList); $i++){
 									if ($forum == $ForumIdList[$i]){?>
-										<OPTION VALUE="<? echo $ForumIdList[$i]; ?>" SELECTED><? echo $ForumNameList[$i]; ?></OPTION>
-									<?}else {?>
-										<OPTION VALUE="<? echo $ForumIdList[$i]; ?>"><? echo $ForumNameList[$i]; ?></OPTION>
-									<?}
+										<OPTION VALUE="<?php
+echo $ForumIdList[$i]; ?>" SELECTED><?php
+echo $ForumNameList[$i]; ?></OPTION>
+									<?php
+}else {?>
+										<OPTION VALUE="<?php
+echo $ForumIdList[$i]; ?>"><?php
+echo $ForumNameList[$i]; ?></OPTION>
+									<?php
+}
 							   }?>
 						</SELECT>
 					</TD>
 				</TR>
 			
 				<TR BGCOLOR="#999999">
-					<?if (($forum=="all") || ($forum=="new")){?>
+					<?php if (($forum=="all") || ($forum=="new")){?>
 						<TD CLASS="heading" WIDTH="55%">Thread</TD>
 						<TD CLASS="heading" WIDTH="15%">Forum</TD>
-					<?}else{?>
+					<?php
+}else{?>
 						<TD CLASS="heading" WIDTH="70%">Thread</TD>
-					<?}?>
+					<?php
+}?>
 						<TD ALIGN=CENTER WIDTH=10% CLASS="heading">Published</TD>
 						<TD ALIGN=CENTER WIDTH=10% CLASS="heading">Archived</TD>
 						<TD ALIGN="CENTER" WIDTH="10%" CLASS="heading">Checked Out</TD>
 				</TR>
-		<?}
+		<?php
+}
 		
 	function echo_data($topic, $counter, $database, $forum){
 		$checkint = ($counter) / 2;
@@ -121,97 +133,120 @@
 			}
 		}?>
 		
-		<TR bgcolor=<?echo $colourchoice;?>>
-			<?if (($forum=="all")|| ($forum=="new")){
+		<TR bgcolor=<?php echo $colourchoice;?>>
+			<?php if (($forum=="all")|| ($forum=="new")){
 				$query="select forumname from forum where id='$forumid'";
 				$result=$database->openConnectionWithReturn($query);
 				list ($forumname)=mysql_fetch_array($result);
 				if ($newMessage == 1){?>
-					<TD align=left width="70%"><?echo $spaces;?>&nbsp;<A HREF="index2.php?option=Forums&act=threads&task=edit&tid=<?echo $ID;?>&forum=<? echo $forum; ?>"><?echo $subject;?></A>&nbsp;&nbsp;<?echo $images;?></TD>
-				<?}else {?>
-					<TD align=left width="70%"><?echo $spaces;?>&nbsp;<?echo $subject;?>&nbsp;&nbsp;<?echo $images;?></TD>	
-				<?}
+					<TD align=left width="70%"><?php echo $spaces;?>&nbsp;<A HREF="index2.php?option=Forums&act=threads&task=edit&tid=<?php echo $ID;?>&forum=<?php
+echo $forum; ?>"><?php echo $subject;?></A>&nbsp;&nbsp;<?php echo $images;?></TD>
+				<?php
+}else {?>
+					<TD align=left width="70%"><?php echo $spaces;?>&nbsp;<?php echo $subject;?>&nbsp;&nbsp;<?php echo $images;?></TD>	
+				<?php
+}
 				if ($level==0){?> 
-					<TD WIDTH=15%><?echo $forumname;?></TD>
-				<?}else{?>
+					<TD WIDTH=15%><?php echo $forumname;?></TD>
+				<?php
+}else{?>
 					<TD WIDTH=15%>&nbsp;</TD>
-				<?}
+				<?php
+}
 			}else{
 				if ($newMessage == 1){?>
-					<TD align=left width="70%"><?echo $spaces;?>&nbsp;<A HREF="index2.php?option=Forums&act=threads&task=edit&tid=<?echo $ID;?>&forum=<? echo $forum; ?>"><?echo $subject;?></A>&nbsp;&nbsp;<?echo $images;?></TD>
-				<?}else {?>
-					<TD align=left width="70%"><?echo $spaces;?>&nbsp;<?echo $subject;?>&nbsp;&nbsp;<?echo $images;?></TD>	
-				<?}
+					<TD align=left width="70%"><?php echo $spaces;?>&nbsp;<A HREF="index2.php?option=Forums&act=threads&task=edit&tid=<?php echo $ID;?>&forum=<?php
+echo $forum; ?>"><?php echo $subject;?></A>&nbsp;&nbsp;<?php echo $images;?></TD>
+				<?php
+}else {?>
+					<TD align=left width="70%"><?php echo $spaces;?>&nbsp;<?php echo $subject;?>&nbsp;&nbsp;<?php echo $images;?></TD>	
+				<?php
+}
 			}
 			
 			if ($published==1){?>
 				<TD width=10% align=center>
-					<?if ($colourchoice=="#FFFFFF"){?>
+					<?php if ($colourchoice=="#FFFFFF"){?>
 						<IMG SRC="../images/admin/greytic.gif">
-					<?}else{?>
+					<?php
+}else{?>
 						<IMG SRC="../images/admin/whttic.gif">
-					<?}?>
+					<?php
+}?>
 				</TD>
-			<?}else{?>
+			<?php
+}else{?>
 				<TD width=10% align=center>&nbsp;</TD>
-			<?}
+			<?php
+}
 		
 			if ($archived==1){?>
 				<TD width=10% align=center>
-					<?if ($colourchoice=="#FFFFFF"){?>
+					<?php if ($colourchoice=="#FFFFFF"){?>
 						<IMG SRC="../images/admin/greytic.gif">
-					<?}else{?>
+					<?php
+}else{?>
 						<IMG SRC="../images/admin/whttic.gif">
-					<?}?>
+					<?php
+}?>
 				</TD>
-			<?}else{?>
+			<?php
+}else{?>
 				<TD width=10% align=center>&nbsp;</TD>
-			<?}
+			<?php
+}
 			
 			if ($editor!=""){?>
-				<TD width="10%" align=center><?echo $editor;?></TD>
-			<?}else{?>
+				<TD width="10%" align=center><?php echo $editor;?></TD>
+			<?php
+}else{?>
 				<TD width="10%" align=center>&nbsp;</TD>
-			<?}?>
+			<?php
+}?>
 		</TR>
-	<?}
+	<?php
+}
 	
 	function endThreadsList($option, $editor, $act, $forum){?>
-		<INPUT TYPE="hidden" NAME="forum" VALUE="<? echo $forum;?>">
-		<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option;?>">
+		<INPUT TYPE="hidden" NAME="forum" VALUE="<?php
+echo $forum;?>">
+		<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option;?>">
 		<INPUT TYPE="hidden" NAME="task" VALUE="">
 		<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
-		<INPUT TYPE="hidden" NAME="act" VALUE="<? echo $act;?>">
+		<INPUT TYPE="hidden" NAME="act" VALUE="<?php
+echo $act;?>">
 		</FORM>
 		</TABLE>
-	<?}
+	<?php
+}
 	
 			
 		function editThread($forumid, $forumname, $tid, $author, $authorid, $subject, $date, $time, $replytoid, $level, $message, $option, $act, $forum, $replyauthor, $replyauthorid, $replysubject, $replydate, $replytime, $replyreplytoid, $replylevel, $replymessage, $replyforumid, $ForumIdList, $ForumNameList, $text_editor){?>
 			<FORM ACTION="index2.php" METHOD="POST" NAME="adminForm">
 			<TABLE CELLPADDING="5" CELLSPACING="0" BORDER="0" WIDTH="100%">
 			<TR BGCOLOR="#999999">
-				<?if ($replytoid==0){
+				<?php if ($replytoid==0){
 					$type="Thread";
 				}else{
 					$type="Reply";
 				}?>
-				<TD ALIGN="left" CLASS="heading" COLSPAN="2">Edit <?echo $type;?></TD>
+				<TD ALIGN="left" CLASS="heading" COLSPAN="2">Edit <?php echo $type;?></TD>
 			</TR>
 			<TR>
 				<TD ALIGN="center" COLSPAN="2">&nbsp;</TD>
 			</TR>
-			<?if ($replytoid!=0){?>
+			<?php if ($replytoid!=0){?>
 				<TR>
 					<TD colspan=2>
 						<TABLE width=100%>
 							<TR>
-								<TD WIDTH=15%><B>Author:</B><?echo $replyauthor;?><BR>
-											  <B>Date:</B><?echo $replydate;?><BR>
-											  <B>Time:</B><?echo $replytime;?>
+								<TD WIDTH=15%><B>Author:</B><?php echo $replyauthor;?><BR>
+											  <B>Date:</B><?php echo $replydate;?><BR>
+											  <B>Time:</B><?php echo $replytime;?>
 											  </TD>
-								<TD Valign=top><B><?echo $replysubject;?></B><BR>
-												<?echo $replymessage;?></TD>
+								<TD Valign=top><B><?php echo $replysubject;?></B><BR>
+												<?php echo $replymessage;?></TD>
 							</TR>
 							<TR>
 								<TD WIDTH=15%>&nbsp;</TD>
@@ -223,42 +258,48 @@
 				<TR>
 					<TD COLSPAN="2"><HR></TD>
 				</TR>
-			<?}else{?>
+			<?php
+}else{?>
 				<TR>
 					<TD WIDTH='100'>Forum: </TD>
 					<TD><SELECT NAME="forumid">
-							<OPTION VALUE="<?echo $forumid;?>" SELECTED><?echo $forumname;?></OPTION>
-							<?for ($i=0; $i < count($ForumIdList); $i++){
+							<OPTION VALUE="<?php echo $forumid;?>" SELECTED><?php echo $forumname;?></OPTION>
+							<?php for ($i=0; $i < count($ForumIdList); $i++){
 								if ($ForumIdList[$i]!=$forumid){?>
-									<OPTION VALUE="<?echo $ForumIdList[$i];?>"><?echo $ForumNameList[$i];?></OPTION>
-								<?}
+									<OPTION VALUE="<?php echo $ForumIdList[$i];?>"><?php echo $ForumNameList[$i];?></OPTION>
+								<?php
+}
 							}?>
 						</SELECT>
 					</TD>
 				</TR>
-			<?}?>
+			<?php
+}?>
 			<TR>
 				<TD WIDTH="100">Title: </TD>
-				<TD><INPUT TYPE="text" NAME="subject" SIZE="70" VALUE="<? echo $subject; ?>"></TD>
+				<TD><INPUT TYPE="text" NAME="subject" SIZE="70" VALUE="<?php
+echo $subject; ?>"></TD>
 			</TR>
 			<TR>
 				<TD>Author: </TD>
-				<TD><INPUT TYPE="text" NAME="Dispauthor" VALUE="<?echo $author;?>" DISABLED></TD>
+				<TD><INPUT TYPE="text" NAME="Dispauthor" VALUE="<?php echo $author;?>" DISABLED></TD>
 			</TR>
 			<TR>
 				<TD>Submitted: </TD>
-				<TD><?echo "$date $time";?></TD>
+				<TD><?php echo "$date $time";?></TD>
 			</TR>
 			<TR>
 				<TD VALIGN="top">Message:</TD>
-				<TD VALIGN="top"><TEXTAREA COLS="70" ROWS="15" NAME="content"><? echo htmlentities($message); ?></TEXTAREA></TD>
+				<TD VALIGN="top"><TEXTAREA COLS="70" ROWS="15" NAME="content"><?php
+echo htmlentities($message); ?></TEXTAREA></TD>
 			</TR>
-			<?if ($text_editor!=""){?>
+			<?php if ($text_editor!=""){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm', 'win1', 'width=650,height=450,resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?}?>
+			<?php
+}?>
 			<TR>
 				<TD ALIGN="center" COLSPAN="2">&nbsp;</TD>
 			</TR>
@@ -266,18 +307,23 @@
 				<TD ALIGN="left" CLASS="heading" COLSPAN="2">&nbsp;</TD>
 			</TR>
 			</TABLE>
-			<INPUT TYPE="hidden" NAME="author" VALUE="<? echo $author;?>">
-			<INPUT TYPE="hidden" NAME="tid" VALUE="<? echo $tid;?>">
-			<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option;?>">
+			<INPUT TYPE="hidden" NAME="author" VALUE="<?php
+echo $author;?>">
+			<INPUT TYPE="hidden" NAME="tid" VALUE="<?php
+echo $tid;?>">
+			<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option;?>">
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
-			<INPUT TYPE="hidden" NAME="forum" VALUE="<? echo $forum;?>">
-			<INPUT TYPE="hidden" NAME="act" VALUE="<?echo $act;?>">
-			<INPUT TYPE="hidden" NAME="origforumid" VALUE="<?echo $forumid;?>">
-			<INPUT TYPE="hidden" NAME="replytoid" VALUE="<?echo $replytoid;?>">
-			<INPUT TYPE="hidden" NAME="authorid" VALUE="<?echo $authorid;?>">
-			<INPUT TYPE="hidden" NAME="replyauthorid" VALUE="<?echo $replyauthorid;?>">
+			<INPUT TYPE="hidden" NAME="forum" VALUE="<?php
+echo $forum;?>">
+			<INPUT TYPE="hidden" NAME="act" VALUE="<?php echo $act;?>">
+			<INPUT TYPE="hidden" NAME="origforumid" VALUE="<?php echo $forumid;?>">
+			<INPUT TYPE="hidden" NAME="replytoid" VALUE="<?php echo $replytoid;?>">
+			<INPUT TYPE="hidden" NAME="authorid" VALUE="<?php echo $authorid;?>">
+			<INPUT TYPE="hidden" NAME="replyauthorid" VALUE="<?php echo $replyauthorid;?>">
 			</FORM>
-		<?	}
+		<?php
+}
 		
 		function addThread($forumIDList, $forumNameList, $option, $act, $forum, $forumName, $myname, $text_editor){
 		//function addThread($forumIDList, $forumNameList, $option, $act, $forum, $forumName, $myname, $text_editor, $adminid){?>
@@ -293,13 +339,18 @@
 				<TD>Forum:</TD>
 				<TD COLSPAN="3">
 					<SELECT NAME="forumID">
-						<? if (($forum!="") && ($forum!="all")){?>
-								<OPTION VALUE=<?echo $forum;?> SELECTED><?echo $forumName;?></OPTION>
-						   <?}
+						<?php
+if (($forum!="") && ($forum!="all")){?>
+								<OPTION VALUE=<?php echo $forum;?> SELECTED><?php echo $forumName;?></OPTION>
+						   <?php
+}
 						   for ($i = 0; $i < count($forumIDList); $i++){
 						   		if ($forum!=$forumIDList[$i]){?>
-									<OPTION VALUE="<? echo $forumIDList[$i]; ?>"><? echo $forumNameList[$i]; ?></OPTION>
-								<?}
+									<OPTION VALUE="<?php
+echo $forumIDList[$i]; ?>"><?php
+echo $forumNameList[$i]; ?></OPTION>
+								<?php
+}
 							}?>
 					</SELECT>
 				</TD>
@@ -310,18 +361,19 @@
 			</TR>
 			<TR>
 				<TD>Author: </TD>
-				<TD><INPUT TYPE="text" NAME="Dispauthor" VALUE="<?echo $myname;?>" DISABLED></TD>
+				<TD><INPUT TYPE="text" NAME="Dispauthor" VALUE="<?php echo $myname;?>" DISABLED></TD>
 			</TR>
 			<TR>
 				<TD VALIGN="top">Message:</TD>
-				<TD VALIGN="top"><TEXTAREA COLS="70" ROWS="15" NAME="content"><?echo htmlentities($message);?></TEXTAREA></TD>
+				<TD VALIGN="top"><TEXTAREA COLS="70" ROWS="15" NAME="content"><?php echo htmlentities($message);?></TEXTAREA></TD>
 			</TR>
-			<?if ($text_editor!=""){?>
+			<?php if ($text_editor!=""){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm', 'win1', 'width=650,height=450,resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?}?>
+			<?php
+}?>
 			<TR>
 				<TD ALIGN="center" COLSPAN="2">&nbsp;</TD>
 			</TR>
@@ -329,14 +381,15 @@
 				<TD ALIGN="left" CLASS="heading" COLSPAN="2">&nbsp;</TD>
 			</TR>
 			</TABLE>
-			<INPUT TYPE="hidden" NAME="author" VALUE="<?echo $myname;?>">
-			<INPUT TYPE="hidden" NAME="authorid" VALUE="<?echo$adminid;?>">
-			<INPUT TYPE="hidden" NAME="option" VALUE="<?echo $option; ?>">
+			<INPUT TYPE="hidden" NAME="author" VALUE="<?php echo $myname;?>">
+			<INPUT TYPE="hidden" NAME="authorid" VALUE="<?php echo$adminid;?>">
+			<INPUT TYPE="hidden" NAME="option" VALUE="<?php echo $option; ?>">
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
-			<INPUT TYPE="hidden" NAME="forum" VALUE="<?echo $forum; ?>">
-			<INPUT TYPE="hidden" NAME="act" VALUE="<?echo $act; ?>">
+			<INPUT TYPE="hidden" NAME="forum" VALUE="<?php echo $forum; ?>">
+			<INPUT TYPE="hidden" NAME="act" VALUE="<?php echo $act; ?>">
 			</FORM>
-		<?	}
+		<?php
+}
 	
 	function newReply($option, $act, $forum, $myname, $newSubject, $repAuthor, $repSubject, $repDate, $repTime, $repMessage, $repForumID, $repArchive, $repPublished, $repID, $repLevel, $text_editor){
 	//function newReply($option, $act, $forum, $myname, $newSubject, $repAuthor, $repAuthorid, $repSubject, $repDate, $repTime, $repMessage, $repForumID, $repArchive, $repPublished, $repID, $repLevel, $text_editor, $topMessageID){?>
@@ -352,12 +405,12 @@
 				<TD colspan=2>
 					<TABLE width=100%>
 						<TR>
-							<TD WIDTH=15%><B>Author:</B><?echo $repAuthor;?><BR>
-										  <B>Date:</B><?echo $repDate;?><BR>
-										  <B>Time:</B><?echo $repTime;?>
+							<TD WIDTH=15%><B>Author:</B><?php echo $repAuthor;?><BR>
+										  <B>Date:</B><?php echo $repDate;?><BR>
+										  <B>Time:</B><?php echo $repTime;?>
 										  </TD>
-							<TD Valign=top><B><?echo $repSubject;?></B><BR>
-											<?echo $repMessage;?></TD>
+							<TD Valign=top><B><?php echo $repSubject;?></B><BR>
+											<?php echo $repMessage;?></TD>
 						</TR>
 						<TR>
 							<TD WIDTH=15%>&nbsp;</TD>
@@ -371,22 +424,23 @@
 			</TR>
 			<TR>
 				<TD WIDTH="100">Subject: </TD>
-				<TD><INPUT TYPE="text" NAME="subject" SIZE="70" VALUE="<?echo $newSubject; ?>"></TD>
+				<TD><INPUT TYPE="text" NAME="subject" SIZE="70" VALUE="<?php echo $newSubject; ?>"></TD>
 			</TR>
 			<TR>
 				<TD>Author: </TD>
-				<TD><INPUT TYPE="text" NAME="Dispauthor" VALUE="<?echo $myname;?>" DISABLED></TD>
+				<TD><INPUT TYPE="text" NAME="Dispauthor" VALUE="<?php echo $myname;?>" DISABLED></TD>
 			</TR>
 			<TR>
 				<TD VALIGN="top">Message:</TD>
-				<TD VALIGN="top"><TEXTAREA COLS="70" ROWS="15" NAME="content"><?echo htmlentities($message);?></TEXTAREA></TD>
+				<TD VALIGN="top"><TEXTAREA COLS="70" ROWS="15" NAME="content"><?php echo htmlentities($message);?></TEXTAREA></TD>
 			</TR>
-			<?if ($text_editor!=""){?>
+			<?php if ($text_editor!=""){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm', 'win1', 'width=650,height=450,resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?}?>
+			<?php
+}?>
 			<TR>
 				<TD ALIGN="center" COLSPAN="2">&nbsp;</TD>
 			</TR>
@@ -394,17 +448,21 @@
 				<TD ALIGN="left" CLASS="heading" COLSPAN="2">&nbsp;</TD>
 			</TR>
 			</TABLE>
-			<INPUT TYPE="hidden" NAME="author" VALUE="<? echo $myname;?>">
-			<INPUT TYPE="hidden" NAME="authorid" VALUE="<?echo $repAuthorid;?>">
-			<INPUT TYPE="hidden" NAME="option" VALUE="<? echo $option; ?>">
+			<INPUT TYPE="hidden" NAME="author" VALUE="<?php
+echo $myname;?>">
+			<INPUT TYPE="hidden" NAME="authorid" VALUE="<?php echo $repAuthorid;?>">
+			<INPUT TYPE="hidden" NAME="option" VALUE="<?php
+echo $option; ?>">
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
-			<INPUT TYPE="hidden" NAME="forum" VALUE="<? echo $forum; ?>">
-			<INPUT TYPE="hidden" NAME="act" VALUE="<? echo $act; ?>">
-			<INPUT TYPE="hidden" NAME="published" VALUE="<?echo $repPublished;?>">
-			<INPUT TYPE="hidden" NAME="archive" VALUE="<?echo $repArchive;?>">
-			<INPUT TYPE="hidden" NAME="forumID" VALUE="<?echo $repForumID;?>">
-			<INPUT TYPE="hidden" NAME="repLevel" VALUE="<?echo $repLevel;?>">
-			<INPUT TYPE="hidden" NAME="repID" VALUE="<?echo $repID;?>">
+			<INPUT TYPE="hidden" NAME="forum" VALUE="<?php
+echo $forum; ?>">
+			<INPUT TYPE="hidden" NAME="act" VALUE="<?php
+echo $act; ?>">
+			<INPUT TYPE="hidden" NAME="published" VALUE="<?php echo $repPublished;?>">
+			<INPUT TYPE="hidden" NAME="archive" VALUE="<?php echo $repArchive;?>">
+			<INPUT TYPE="hidden" NAME="forumID" VALUE="<?php echo $repForumID;?>">
+			<INPUT TYPE="hidden" NAME="repLevel" VALUE="<?php echo $repLevel;?>">
+			<INPUT TYPE="hidden" NAME="repID" VALUE="<?php echo $repID;?>">
 			</FORM>
-	<?}	
+	<?php	}	
 }?>

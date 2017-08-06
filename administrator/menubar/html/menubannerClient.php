@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -40,7 +40,8 @@
 				<TD VALIGN="bottom" ALIGN="left" BGCOLOR="#999999"><img name="shadow" src="../images/admin/shadow.gif" width="100%" height="10" border="0" VSPACE="0" HSPACE="0"></TD>
 			</TR>
 			</TABLE>
-		<?	}
+		<?php
+}
 		
 		function EDIT_MENU_Banners($comcid, $option){ ?>
 			<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" WIDTH="100%">
@@ -51,7 +52,9 @@
 					<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0" WIDTH="99%" BGCOLOR="#999999">
 					<TR>
     					<td width="50" BGCOLOR="#999999" VALIGN="bottom"><a href="javascript:submitbutton('save', 'bannersclient');" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('save','','../images/admin/save_f2.gif',1);"><img name="save" src="../images/admin/save.gif" width="32" HEIGHT="47" border="0" HSPACE="5" VPSACE="0"></a></td>
-						<TD WIDTH="50" VALIGN='bottom' BGCOLOR="#999999"><A HREF="javascript:document.location.href='menubar/cancel.php?id=<? echo $comcid; ?>&option=<? echo $option; ?>'" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('cancel','','../images/admin/cancel_f2.gif',1);"><IMG SRC="../images/admin/cancel.gif" ALT="Cancel" WIDTH="34" HEIGHT="47" BORDER="0" NAME="cancel" HSPACE="5" VPSACE="0"></A></TD>
+						<TD WIDTH="50" VALIGN='bottom' BGCOLOR="#999999"><A HREF="javascript:document.location.href='menubar/cancel.php?id=<?php
+echo $comcid; ?>&option=<?php
+echo $option; ?>'" onMouseOut="MM_swapImgRestore();"  onMouseOver="MM_swapImage('cancel','','../images/admin/cancel_f2.gif',1);"><IMG SRC="../images/admin/cancel.gif" ALT="Cancel" WIDTH="34" HEIGHT="47" BORDER="0" NAME="cancel" HSPACE="5" VPSACE="0"></A></TD>
 						<TD WIDTH="470">&nbsp;</TD>
 					</TR>
 					</TABLE>
@@ -62,12 +65,14 @@
 				<TD VALIGN="bottom" ALIGN="left" BGCOLOR="#999999"><img name="shadow" src="../images/admin/shadow.gif" width="100%" height="10" border="0" VSPACE="0" HSPACE="0"></TD>
 			</TR>
 			</TABLE>
-		<?	}
+		<?php
+}
 	
 		function DEFAULT_MENU_Banners($act, $option){?>
 			<TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" WIDTH="100%">
 			<TR>
-				<TD WIDTH="47%" VALIGN="top"><? include ("menubar/mainmenu.php"); ?></TD>
+				<TD WIDTH="47%" VALIGN="top"><?php
+include ("menubar/mainmenu.php"); ?></TD>
 				<TD VALIGN="top" ROWSPAN="3" WIDTH="32" ALIGN="right"><img name="endcap" src="../images/admin/endcap.gif" width="32" height="63" border="0" VSPACE="0" HSPACE="0"></TD>
 				<TD VALIGN="bottom" BGCOLOR="#999999" WIDTH="51%">
 					<TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0" WIDTH="99%" BGCOLOR="#999999">
@@ -85,6 +90,6 @@
 				<TD VALIGN="bottom" ALIGN="left" BGCOLOR="#999999"><img name="shadow" src="../images/admin/shadow.gif" width="100%" height="10" border="0" VSPACE="0" HSPACE="0"></TD>
 			</TR>
 			</TABLE>
-		<?	}
+		<?php	}
 }
 ?>

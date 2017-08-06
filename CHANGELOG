@@ -1,3 +1,18 @@
+1.17 PATCH - August 2017
+- Updated all code to be PHP5.5 compliant.
+- Significant bug fixes
+- Removed reliance on nested tables, using div tags instead
+- Including Bootstrap to enable some minimal responsive layouts
+- Basic anti-spam measures included in registration script and application forms
+- Updated to include more HTML5-compliant coding practices, and added HTTPS support to internal links
+- Replaced hard-coded references to the fleet name and admin ship IDs to pull from the config file instead
+- Database connections set to utf8 by default
+- Implicitly pulled in $_GET and $_POST content, which was assumed previously (and must have broken in a subsequent PHP update)
+- Multiple style Updates
+- New scripts for OPM - Deleted Characters list, character audit (for players with more than the max allowed) and Lost Souls
+- Added more OPM options for searching for characters
+- Added audit function into userlevels management
+
 1.16n PATCH - March 2014
 
 ~Individual File Updates

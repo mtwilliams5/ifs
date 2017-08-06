@@ -127,7 +127,7 @@ function checkLogin($op2, $username, $passwd, $database, $usermenuhtml, $option,
                     $headerpath = substr(dirname($_SERVER['PHP_SELF']), 0, -1);
                 else
                     $headerpath = dirname($_SERVER['PHP_SELF']);
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . $headerpath . "/index.php{$option}");
+                header("Location: //" . $_SERVER['HTTP_HOST'] . $headerpath . "/index.php{$option}");
                 exit;
             }
         }
@@ -142,7 +142,7 @@ function showMenu($usermenuhtml, $database, $option, $mpre)
         $headerpath = substr(dirname($_SERVER['PHP_SELF']), 0, -1);
     else
         $headerpath = dirname($_SERVER['PHP_SELF']);
-    header("Location: http://" . $_SERVER['HTTP_HOST'] . $headerpath . "/index.php?option=$option");
+    header("Location: //" . $_SERVER['HTTP_HOST'] . $headerpath . "/index.php?option=$option");
     exit;
 }
 
@@ -163,6 +163,9 @@ function showMenuComponent($usermenuhtml, $database, $uid, $uflag, $option, $mpr
             $link[$i] .= "&option2={$logoutoption}";
         $i++;
     }
+	?>
+    <div class="row">
+    <?php
     $usermenuhtml->showMenuComponent($uName, $uid, "User", $id, $name, $link, $option);
 
     // show all flag'ed menus
@@ -174,7 +177,6 @@ function showMenuComponent($usermenuhtml, $database, $uid, $uflag, $option, $mpr
     {
         if ($uflag[$fid] > 0)
         {
-            echo "<br />\n";
             $qry3="SELECT id, name, link
             	   FROM {$mpre}menu
                    WHERE menutype='$fname' ORDER BY ordering";
@@ -189,6 +191,9 @@ function showMenuComponent($usermenuhtml, $database, $uid, $uflag, $option, $mpr
         }
         list ($fid, $fname) = mysql_fetch_array($result2);
     }
+	?>
+    </div>
+    <?php
 }
 
 function getSessionID()

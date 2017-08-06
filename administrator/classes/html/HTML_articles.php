@@ -27,22 +27,31 @@
 				<TD COLSPAN = "7" align=right>
 					<SELECT NAME="categories" onChange="document.location.href='index2.php?option=Articles&categories=' + document.adminForm.categories.options[selectedIndex].value">
 						<OPTION VALUE="">Select a category</OPTION>
-						<?if ($categories =="all"){?>
+						<?php if ($categories =="all"){?>
 							<OPTION VALUE="all" selected>Select All</OPTION>
 							<OPTION VALUE="new">Select NEW</OPTION>
-						<?}elseif ($categories == "new"){?>
+						<?php
+}elseif ($categories == "new"){?>
 							<OPTION VALUE="all">Select All</OPTION>
 							<OPTION VALUE="new"selected>Select NEW</OPTION>
-						<?}else{?>
+						<?php
+}else{?>
 							<OPTION VALUE="all">Select All</OPTION>
 							<OPTION VALUE="new">Select NEW</OPTION>
-						 <?}
+						 <?php
+}
 						for ($i = 0; $i < count($categoryid); $i++){
 							if ($categories == $categoryid[$i]){?>
-								<OPTION VALUE="<? echo $categoryid[$i]; ?>" SELECTED><? echo $categoryname[$i]; ?></OPTION>
-					<?		} else {?>
-								<OPTION VALUE="<? echo $categoryid[$i]; ?>"><? echo $categoryname[$i]; ?></OPTION>
-					<?			}
+								<OPTION VALUE="<?php
+echo $categoryid[$i]; ?>" SELECTED><?php
+echo $categoryname[$i]; ?></OPTION>
+					<?php
+} else {?>
+								<OPTION VALUE="<?php
+echo $categoryid[$i]; ?>"><?php
+echo $categoryname[$i]; ?></OPTION>
+					<?php
+}
 							}?>
 					</SELECT>
 				</TD>
@@ -55,106 +64,147 @@
 				<TD WIDTH="15%" ALIGN="center" CLASS="heading">Checked Out</TD>
 				<TD WIDTH="5%" ALIGN="center" CLASS="heading">Approved</TD>
 			</TR>
-			<? 
-			$color = array("#FFFFFF", "#CCCCCC");
+			<?php
+$color = array("#FFFFFF", "#CCCCCC");
 			$k = 0;
 			for ($i = 0; $i < count($artid); $i++){?>
-			<TR BGCOLOR="<? echo $color[$k]; ?>">
-				<TD WIDTH=2><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<? echo $artid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
-			<?	if ($approved[$i] == 0){?>
-					<TD WIDTH="60%"><A HREF="index2.php?option=<? echo $option; ?>&task=edit&artid=<? echo $artid[$i]; ?>&categories=<? echo $categories; ?>"><? echo $title[$i]; ?></A></TD>
-			<?	}
+			<TR BGCOLOR="<?php
+echo $color[$k]; ?>">
+				<TD WIDTH=2><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<?php
+echo $artid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
+			<?php
+if ($approved[$i] == 0){?>
+					<TD WIDTH="60%"><A HREF="index2.php?option=<?php
+echo $option; ?>&task=edit&artid=<?php
+echo $artid[$i]; ?>&categories=<?php
+echo $categories; ?>"><?php
+echo $title[$i]; ?></A></TD>
+			<?php
+}
 				else {?>
-					<TD WIDTH="60%"><? echo $title[$i]; ?></A></TD>
-			<?	}?>
+					<TD WIDTH="60%"><?php
+echo $title[$i]; ?></A></TD>
+			<?php
+}?>
 			
-			<?	if ($author[$i] == ""){?>
+			<?php
+if ($author[$i] == ""){?>
 					<TD WIDTH="15%" ALIGN="center">&nbsp;</TD>
-			<?		}
+			<?php
+}
 				else {?>
-					<TD WIDTH="15%" ALIGN="center"><?echo $author[$i];?></TD>
-			<?		}?>
+					<TD WIDTH="15%" ALIGN="center"><?php echo $author[$i];?></TD>
+			<?php
+}?>
 					
-			<? 	if ($published[$i] == 1){
+			<?php
+if ($published[$i] == 1){
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-			<?			}
+			<?php
+}
 					}
 				else {
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?			}
+			<?php
+}
 					}?>
 				
-			<?	if ($archived[$i] == 1){
+			<?php
+if ($archived[$i] == 1){
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-			<?			}
+			<?php
+}
 					}
 				else {
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?			}
+			<?php
+}
 					}?>
 			
-			<?	if ($checkedout[$i] == 1){?>
-					<TD WIDTH="15%" ALIGN="center"><? echo $editor[$i]; ?></TD>
-			<?		}
+			<?php
+if ($checkedout[$i] == 1){?>
+					<TD WIDTH="15%" ALIGN="center"><?php
+echo $editor[$i]; ?></TD>
+			<?php
+}
 				else {?>
 					<TD WIDTH="15%" ALIGN="center">&nbsp;</TD>
-			<?		}?>
+			<?php
+}?>
 				
-				<?if ($approved[$i]==1){
+				<?php if ($approved[$i]==1){
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-			<?			}
+			<?php
+}
 				}else {
 					if ($color[$k] == "#FFFFFF"){?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?		} else {?>
+			<?php
+} else {?>
 						<TD WIDTH="5%" ALIGN="center">&nbsp;</TD>
-			<?			}
+			<?php
+}
 				}?>
 				
-				<? if ($k == 1){
+				<?php
+if ($k == 1){
 						$k = 0;
 						}
 				   else {
 				   		$k++;
 						}?>
-				<?
-				}?>
+				<?php
+}?>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
-			<INPUT TYPE="hidden" NAME="cat" VALUE="<? echo $categories; ?>">
+			<INPUT TYPE="hidden" NAME="cat" VALUE="<?php
+echo $categories; ?>">
 			<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 			
 		function editarticle($secid, $artid, $title, $content, $secname, $secsecid, $sectionsecid, $sectionname, $sectionimage, $option, $task, $ordering, $maxnum, $categorycid, $categorytitle, $orderingarticles, $categories, $author, $text_editor){?>
 			<SCRIPT LANGUAGE="Javascript">
 			<!--
 					categories = new Array();
-			<? 	for ($i = 0; $i < count($categorytitle); $i++){?>
-			<?		$var = split(" ", $categorytitle[$i]);
+			<?php
+for ($i = 0; $i < count($categorytitle); $i++){?>
+			<?php
+$var = split(" ", $categorytitle[$i]);
 					$count = count($var);
 					for ($j = 0; $j < $count; $j++)
 						$newvar .= $var[$j];?>
-					categories["<? echo $newvar; ?>"] = <? echo $ordering["$categorytitle[$i]"]; ?>;
-			<?		unset($newvar); ?>
-			<?		}?>
+					categories["<?php
+echo $newvar; ?>"] = <?php
+echo $ordering["$categorytitle[$i]"]; ?>;
+			<?php
+unset($newvar); ?>
+			<?php
+}?>
 			
 			//-->
 			</SCRIPT>
@@ -168,37 +218,48 @@
 			</TR>
 			<TR>
 				<TD WIDTH='100'>Title:</TD>
-				<TD><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<? echo htmlspecialchars($title,ENT_QUOTES); ?>"></TD>
+				<TD><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<?php
+echo htmlspecialchars($title,ENT_QUOTES); ?>"></TD>
 			</TR>
 			<TR>
 				<TD>Section:</TD>
 				<TD>
 					<SELECT NAME='category' >
-						<? for ($i = 0; $i < count($sectionsecid); $i++){
+						<?php
+for ($i = 0; $i < count($sectionsecid); $i++){
 							if ($secsecid == $sectionsecid[$i]){?>
-								<OPTION VALUE='<? echo $sectionsecid[$i]; ?>' SELECTED><? echo $sectionname[$i]; ?></OPTION>
-							<? }
+								<OPTION VALUE='<?php
+echo $sectionsecid[$i]; ?>' SELECTED><?php
+echo $sectionname[$i]; ?></OPTION>
+							<?php
+}
 							else {?>
-								<OPTION VALUE='<? echo $sectionsecid[$i]; ?>'><? echo $sectionname[$i]; ?></OPTION>
-						<?		}
+								<OPTION VALUE='<?php
+echo $sectionsecid[$i]; ?>'><?php
+echo $sectionname[$i]; ?></OPTION>
+						<?php
+}
 							}?>
 					</SELECT>
 				</TD>
 			</TR>
 			<TR>
 				<TD>Author</TD>
-				<TD><INPUT TYPE='text' NAME='author' VALUE='<?echo $author;?>'></TD>
+				<TD><INPUT TYPE='text' NAME='author' VALUE='<?php echo $author;?>'></TD>
 			</TR>
 			<TR>
 				<TD VALIGN="top">Content:</TD>
-				<TD VALIGN='top'><TEXTAREA COLS='70' ROWS='15' NAME='content'><? echo htmlentities($content); ?></TEXTAREA></TD>
+				<TD VALIGN='top'><TEXTAREA COLS='70' ROWS='15' NAME='content'><?php
+echo htmlentities($content); ?></TEXTAREA></TD>
 			</TR>
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
+			<?php
+}?>
 			<TR>
 				<TD ALIGN="center" COLSPAN="2">&nbsp;</TD>
 			</TR>
@@ -206,27 +267,39 @@
 				<TD ALIGN="left" CLASS="heading" COLSPAN="2">&nbsp;</TD>
 			</TR>
 			</TABLE>
-			<INPUT TYPE='hidden' NAME='artid' VALUE="<? echo $artid; ?>">
-			<INPUT TYPE='hidden' NAME='option' VALUE="<? echo $option; ?>">
+			<INPUT TYPE='hidden' NAME='artid' VALUE="<?php
+echo $artid; ?>">
+			<INPUT TYPE='hidden' NAME='option' VALUE="<?php
+echo $option; ?>">
 			<INPUT TYPE='hidden' NAME='task' VALUE="">
-			<INPUT TYPE="hidden" NAME="porder" VALUE="<? echo $orderingarticles; ?>">
-			<INPUT TYPE="hidden" NAME="pcategory" VALUE="<? echo $secsecid; ?>">
-			<INPUT TYPE="hidden" NAME="categories" VALUE="<? echo $categories; ?>">
+			<INPUT TYPE="hidden" NAME="porder" VALUE="<?php
+echo $orderingarticles; ?>">
+			<INPUT TYPE="hidden" NAME="pcategory" VALUE="<?php
+echo $secsecid; ?>">
+			<INPUT TYPE="hidden" NAME="categories" VALUE="<?php
+echo $categories; ?>">
 			</FORM>
-		<?	}
+		<?php
+}
 		
 		function addArticle($categorycid, $categorytitle, $option, $ordering, $categories, $text_editor){?>
 			<SCRIPT LANGUAGE="Javascript">
 			<!--
 					categories = new Array();
-			<? 	for ($i = 0; $i < count($categorytitle); $i++){?>
-			<?		$var = split(" ", $categorytitle[$i]);
+			<?php
+for ($i = 0; $i < count($categorytitle); $i++){?>
+			<?php
+$var = split(" ", $categorytitle[$i]);
 					$count = count($var);
 					for ($j = 0; $j < $count; $j++)
 						$newvar .= $var[$j];?>
-					categories["<? echo $newvar; ?>"] = <? echo $ordering["$categorytitle[$i]"]; ?>;
-			<?		unset($newvar); ?>
-			<?		}?>
+					categories["<?php
+echo $newvar; ?>"] = <?php
+echo $ordering["$categorytitle[$i]"]; ?>;
+			<?php
+unset($newvar); ?>
+			<?php
+}?>
 			
 			//-->
 			</SCRIPT>
@@ -240,15 +313,20 @@
 			</TR>
 			<TR>
 				<TD WIDTH='100'>Title:</TD>
-				<TD><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<? echo $title; ?>"></TD>
+				<TD><INPUT TYPE='text' NAME='mytitle' SIZE='70' VALUE="<?php
+echo $title; ?>"></TD>
 			</TR>
 			<TR>
 				<TD>Section:</TD>
 				<TD COLSPAN='3'>
 					<SELECT NAME='category'>
-						<? for ($i = 0; $i < count($categorycid); $i++){?>
-								<OPTION VALUE='<? echo $categorycid[$i]; ?>'><? echo $categorytitle[$i]; ?></OPTION>
-						<?	}?>
+						<?php
+for ($i = 0; $i < count($categorycid); $i++){?>
+								<OPTION VALUE='<?php
+echo $categorycid[$i]; ?>'><?php
+echo $categorytitle[$i]; ?></OPTION>
+						<?php
+}?>
 					</SELECT>
 				</TD>
 			</TR>
@@ -258,14 +336,17 @@
 			</TR>
 			<TR>
 				<TD VALIGN="top">Content:</TD>
-				<TD VALIGN='top'><TEXTAREA COLS='70' ROWS='15' NAME='content'><? echo htmlentities($content); ?></TEXTAREA></TD>
+				<TD VALIGN='top'><TEXTAREA COLS='70' ROWS='15' NAME='content'><?php
+echo htmlentities($content); ?></TEXTAREA></TD>
 			</TR>
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
+			<?php
+}?>
 			<TR>
 				<TD ALIGN="center" COLSPAN="2">&nbsp;</TD>
 			</TR>
@@ -273,11 +354,14 @@
 				<TD ALIGN="left" CLASS="heading" COLSPAN="2">&nbsp;</TD>
 			</TR>
 			</TABLE>
-			<INPUT TYPE='hidden' NAME='option' VALUE="<? echo $option; ?>">
+			<INPUT TYPE='hidden' NAME='option' VALUE="<?php
+echo $option; ?>">
 			<INPUT TYPE='hidden' NAME='task' VALUE="">
-			<INPUT TYPE='hidden' NAME='categories' VALUE="<? echo $categories; ?>">
+			<INPUT TYPE='hidden' NAME='categories' VALUE="<?php
+echo $categories; ?>">
 			</FORM>
-		<?	}
+		<?php
+}
 		
 		}
 ?>

@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -24,7 +28,6 @@
   *
   * See CHANGELOG for patch details
   *
-  * Date:	6/03/04
   * Comments: Submit crew to the Academy
   *
  ***/
@@ -39,31 +42,38 @@ else
     if (!$lib)
     {
     	?>
-        <u>Submit Player</u><br />
         <form action="index.php?option=ifs&amp;task=co&amp;action=acad&amp;lib=new" method="post">
-        <input type="hidden" name="sid" value="<?php echo $sid ?>" />
-        <select name="cid">
-        	<?php
-            $qry = "SELECT id, name FROM {$spre}characters WHERE ship='$sid'";
-            $result = $database->openConnectionWithReturn($qry);
-            while (list($cid, $cname) = mysql_fetch_array($result))
-            	echo "<option value=\"$cid\">$cname</option>\n";
+            <input type="hidden" name="sid" value="<?php echo $sid ?>">
+            <?php
+            if ($multiship)
+                echo '<input type="hidden" name="multiship" value="' . $multiship . '">';
             ?>
-        </select><br /><br />
-
-        <select name="course">
-        	<?php
-            $qry = "SELECT course, name FROM {$spre}acad_courses
-            		WHERE active='1' AND section='0'";
-            $result = $database->openConnectionWithReturn($qry);
-            while (list($courseid, $coursename) = mysql_fetch_array($result))
-            	echo "<option value=\"$courseid\">$coursename</option>\n";
-            ?>
-        </select><br /><br />
-
-        <input type="submit" value="Submit" />
+            <div class="form-group">
+                <label for="cid"><h4>Submit Player:</h4></label>
+                <select class="form-control" name="cid" id="cid">
+                    <?php
+                    $qry = "SELECT id, name FROM {$spre}characters WHERE ship='$sid'";
+                    $result = $database->openConnectionWithReturn($qry);
+                    while (list($cid, $cname) = mysql_fetch_array($result))
+                        echo '<option value="' . $cid . '">' . $cname . '</option>';
+                    ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="course"><h5>Submit to Course:</h5></label>
+                <select class="form-control" name="course" id="course">
+                    <?php
+                    $qry = "SELECT course, name FROM {$spre}acad_courses
+                            WHERE active='1' AND section='0'";
+                    $result = $database->openConnectionWithReturn($qry);
+                    while (list($courseid, $coursename) = mysql_fetch_array($result))
+                        echo '<option value="' . $courseid . '">' . $coursename . '</option>';
+                    ?>
+                </select>
+            </div>
+    
+            <input class="btn btn-default" type="submit" value="Submit">
         </form>
-        <br /><br />
 
         <?php
 	    $qry = "SELECT s.id, s.cid, r.rankdesc, c.name, c.player, co.name,
@@ -75,55 +85,60 @@ else
                 ORDER BY s.sdate DESC";
 	    $result = $database->openConnectionWithReturn($qry);
         ?>
-        <table border="1" width="95%">
-        <tr>
+        <table class="table academy_list">
+        <thead>
+          <tr>
         	<th>Character</th>
             <th>Course</th>
             <th>Instructor</th>
             <th>Status</th>
             <th>Registration Date</th>
             <th>&nbsp;</th>
-        </tr>
+          </tr>
+        </thead>
+        <tbody>
         <?php
         while (list($stuid, $cid, $rank, $cname, $pid, $course,
                 $status, $start) = mysql_fetch_array($result) )
         {
-        	echo "<tr>\n";
-            echo "<td>$cname</td>\n";
-            echo "<td>$course</td>\n";
-
-            $qry2 = "SELECT c.name, u.email
-            		 FROM {$spre}characters c, {$mpre}users u,
-                     	{$spre}acad_students s, {$spre}acad_instructors i
-                     WHERE s.id='$stuid' AND s.inst=i.id AND i.cid=c.id
-						AND c.player=u.id";
-            $result2 = $database->openConnectionWithReturn($qry2);
-            if (list($instname, $instemail) = mysql_fetch_array($result2))
-	            echo "<td>$instname<br />$instemail</td>\n";
-            else
-            	echo "<td>n/a</td>\n";
-
-        	if ($status == "w")
-            	echo "<td>Waiting List</td>\n";
-            else if ($status == "p")
-            	echo "<td>In Progress</td>\n";
-            else if ($status == "c")
-            	echo "<td>Completed (passed)</td>\n";
-            else if ($status == "f")
-            	echo "<td>Failed</td>\n";
-            else if ($status == "d")
-            	echo "<td>Dropped Out</td>\n";
-
-            echo "<td>" . date("F j, Y", $start) . "</td>\n";
-            echo "<td>";
-		echo "<a href=\"index.php?option=ifs&amp;task=co&amp;action=common&amp;lib=cacad&amp;pid=$pid";
-		if($adminship != 0) { echo "&amp;adminship=$sid"; }
-		echo "\">Details</a>";
-            echo "</td>\n";
-            echo "</tr>\n";
-		
+		?>
+        	<tr>
+            	<td><?php echo $cname ?></td>
+            	<td><?php echo $course ?></td>
+			<?php
+				$qry2 = "SELECT c.name, u.email
+						 FROM {$spre}characters c, {$mpre}users u,
+							{$spre}acad_students s, {$spre}acad_instructors i
+						 WHERE s.id='$stuid' AND s.inst=i.id AND i.cid=c.id
+							AND c.player=u.id";
+				$result2 = $database->openConnectionWithReturn($qry2);
+				if (list($instname, $instemail) = mysql_fetch_array($result2))
+					echo '<td>' . $instname . '<br />' . $instemail . '</td>';
+				else
+					echo '<td>n/a</td>';
+	
+				if ($status == "w")
+					echo '<td>Waiting List</td>';
+				else if ($status == "p")
+					echo '<td>In Progress</td>';
+				else if ($status == "c")
+					echo '<td>Completed (passed)</td>';
+				else if ($status == "f")
+					echo '<td>Failed</td>';
+				else if ($status == "d")
+					echo '<td>Dropped Out</td>';
+			?>
+            	<td><?php echo date("F j, Y", $start) ?></td>
+            	<td><a class="btn btn-default btn-sm" href="index.php?option=ifs&amp;task=co&amp;action=common&amp;lib=cacad&amp;pid=<?php echo $pid;
+					if($adminship != 0) { echo '&amp;adminship=' . $sid; }
+					if($multiship) { echo '&amp;multiship=' . $multiship; }
+					?>">Details</a>
+            	</td>
+            </tr>
+		<?php
         }
-	echo "</table\n";
+		?> </tbody>
+        </table> <?php
     }
 
     // Submitting a player
@@ -136,14 +151,15 @@ else
 
     	if (list ($status) = mysql_fetch_array($result))
         {
-        	echo "<b>";
+        	echo '<h3 class="text-info">';
         	if ($status == "w")
-            	echo "This person is already on the waiting list!";
+            	echo 'This person is already on the waiting list!';
             else if ($status == "p")
-            	echo "This person is already taking the course!";
+            	echo 'This person is already taking the course!';
             else if ($status == "c")
-            	echo "This person has already completed the course!";
-            echo "  The request was not processed.</b><br /><br />\n\n";
+            	echo 'This person has already completed the course!';
+            echo '  The request was not processed.';
+			echo '</h3>';
         }
         else
         {
@@ -157,7 +173,7 @@ else
                     	status='w', sdate='$now'";
             $database->openConnectionNoReturn($qry);
 
-            echo "<b>Player has been submitted to the Academy.</b><br /><br />\n\n";
+            echo '<h3 class="text-success">Player has been submitted to the Academy.</h3>';
         }
         $lib = "";
         include("tf/co/academy.php");

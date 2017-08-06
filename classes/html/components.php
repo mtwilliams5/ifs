@@ -10,9 +10,13 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.13n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -21,7 +25,6 @@
   * This file contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	12/13/03
   * Comments: Left/right menu components
   *
   * See CHANGELOG for patch details
@@ -88,34 +91,30 @@ class components
     function AuthorLogin($title, $option, $logintop)
     {
     	?>
-        <table width="95%" border="0" cellspacing="0" cellpadding="0" align="center">
-        <tr>
-	        <td><span class="componentHeading">
-	            <?php
-	            if ($logintop)
-	                echo "<img src=\"{$logintop}\" />";
-	            else
-	                echo "Login";
-	            ?>
-	        <br/></span></td>
-        </tr>
-        <tr>
-            <td>
-            	<form action="usermenu.php" method="post" name="login">
-	                Username<br /><input type="text" name="username" size="10" /> <br />
-	                Password <br /><input type="password" name="passwd" size="10" /><br />
-				    <?php /* <INPUT TYPE="checkbox" NAME="remember"> Remember Me<br> <br> */ ?>
-	                <input type="hidden" name="op2" value="login" />
-	                <input type="hidden" name="option" value="<?php echo $option ?>" />
-	                <input type="submit" name="Submit" value="Login" />
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td><a href="index.php?option=registration&task=lostPassword">Lost password</a>?</td>
-        </tr>
-        </table>
-	    <br /><br />
+        <span class="componentHeading">
+			<?php
+            if ($logintop)
+                echo '<img src="' . $logintop . '" class="center-block" />';
+            else
+                echo 'Login';
+            ?>
+        </span>
+        <form action="usermenu.php" method="post" name="login">
+        	<div class="form-group">
+            	<label for="username">Username</label>
+                <input type="text" class="form-control input-sm" name="username" id="username" size="10">
+            </div>
+            <div class="form-group">
+            	<label for="passwd">Password</label>
+                <input type="password" class="form-control input-sm" name="passwd" id="passwd" size="10">
+            </div>
+            <?php /* <div class="checkbox"><label><input type="checkbox" name="remember" id="remember"> Remember Me</label></div> */ ?>
+            <input type="hidden" name="op2" value="login">
+            <input type="hidden" name="option" value="<?php echo $option ?>">
+            <button class="btn btn-default btn-sm" type="submit">Login</button><br />
+            <a href="index.php?option=registration&amp;task=register">Register</a><br />
+            <a href="index.php?option=registration&amp;task=lostPassword">Lost password?</a>
+        </form>
 	    <?php
     }
 }

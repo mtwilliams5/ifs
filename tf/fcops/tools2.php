@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	6/03/04
   * Comments: FCOps Tools - process them!
  ***/
 
@@ -30,12 +33,12 @@ else
             $result = $database->openConnectionWithReturn($qry);
 
             if (mysql_num_rows($result))
-            	echo "TF must be empty before being deleted!";
+            	echo '<h4 class="text-warning">TF must be empty before being deleted!</h4>';
             else
             {
             	$qry = "DELETE FROM {$spre}taskforces WHERE tf='$reftf'";
                 $database->openConnectionNoReturn($qry);
-                echo "Task Force {$reftf} has been deleted!<br />\n";
+                echo '<h4 class="text-success">Task Force ' . $reftf . ' has been deleted!</h4>';
             }
             $nogo = 1;
         }
@@ -45,16 +48,16 @@ else
 	        $result = $database->openConnectionWithReturn($qry);
 	        if (mysql_num_rows($result))
 	        {
-	            echo "TF number already in use!";
+	            echo '<h4 class="text-warning">TF number already in use!</h4>';
 	            $nogo = 1;
 	        }
             else if ($tfid == "0")
 	        {
-	            echo "Invalid TF numer!  Cannot use zero.";
+	            echo '<h4 class="text-warning">Invalid TF numer!  Cannot use zero.</h4>';
 	            $nogo = 1;
 	        }
 	        else
-	            echo "... Task Force Number check complete...<br />\n";
+	            echo '<h4 class="text-info">... Task Force Number check complete...</h4>';
         }
     }
 
@@ -66,12 +69,12 @@ else
             $result = $database->openConnectionWithReturn($qry);
 
             if (mysql_num_rows($result))
-            	echo "TG must be empty before being deleted!";
+            	echo '<h4 class="text-warning">TG must be empty before being deleted!</h4>';
             else
             {
             	$qry = "DELETE FROM {$spre}taskforces WHERE tf='$tfid' AND tg='$reftg'";
                 $database->openConnectionNoReturn($qry);
-                echo "Task Group {$reftg} has been deleted!<br />\n";
+                echo '<h4 class="text-success">Task Group ' . $reftg . ' has been deleted!</h4>';
             }
             $nogo = 1;
         }
@@ -81,22 +84,22 @@ else
 	        $result = $database->openConnectionWithReturn($qry);
 	        if (mysql_num_rows($result))
 	        {
-	            echo "TG number already in use!";
+	            echo '<h4 class="text-warning">TG number already in use!</h4>';
 	            $nogo = 1;
 	        }
             else if ($tgid == "0")
 	        {
-	            echo "Invalid TG numer!  Cannot use zero.";
+	            echo '<h4 class="text-warning">Invalid TG numer!  Cannot use zero.<h4>';
 	            $nogo = 1;
 	        }
 	        else
-	            echo "... Task Group Number check complete...<br /><br />\n";
+	            echo '<h4 class="text-info">... Task Group Number check complete...</h4>';
         }
     }
 
 	if (!$nogo)
     {
-       	echo "Commencing Database Update...<br />\n";
+       	echo '<h4 class="text-info">Commencing Database Update...</h4>';
 
     	if ($tfid != $reftf)
         {
@@ -105,7 +108,7 @@ else
             	$qry = "INSERT INTO {$spre}taskforces SET tf='$tfid', tg='0'";
                 $database->openConnectionNoReturn($qry);
 
-                echo "Task Force added! <br />\n";
+                echo '<h4 class="text-success">Task Force added!</h4>';
             }
             else
             {
@@ -115,7 +118,7 @@ else
 	            $qry = "UPDATE {$spre}ships SET tf='$tfid' WHERE tf='$reftf'";
 	            $database->openConnectionNoReturn($qry);
 
-	            echo "Task Force Number update complete...<br />\n";
+	            echo '<h4 class="text-success">Task Force Number update complete...</h4>';
             }
         }
 
@@ -126,7 +129,7 @@ else
             	$qry = "INSERT INTO {$spre}taskforces SET tf='$tfid', tg='$tgid'";
                 $database->openConnectionNoReturn($qry);
 
-                echo "Task Group added! <br />\n";
+                echo '<h4 class="text-success">Task Group added!</h4>';
             }
             else
             {
@@ -136,7 +139,7 @@ else
 	            $qry = "UPDATE {$spre}ships SET tg='$tgid' WHERE tf='$tfid' AND tg='$reftg'";
 	            $database->openConnectionNoReturn($qry);
 
-	            echo "Task Group Number update complete...<br />\n";
+	            echo '<h4 class="text-success">Task Group Number update complete...</h4>';
             }
         }
 
@@ -144,13 +147,13 @@ else
         {
 			$qry = "UPDATE {$spre}taskforces SET name='$tfname' WHERE tf='$tfid' AND tg='0'";
 		    $database->openConnectionNoReturn($qry);
-	       	echo "Task Force Information update complete...<br />\n";
+	       	echo '<h4 class="text-success">Task Force Information update complete...</h4>';
         }
         else
         {
 			$qry = "UPDATE {$spre}taskforces SET name='$tfname' WHERE tf='$tfid' AND tg='$tgid'";
 		    $database->openConnectionNoReturn($qry);
-	       	echo "Task Group Information update complete...<br />\n";
+	       	echo '<h4 class="text-success">Task Group Information update complete...</h4>';
         }
 
         if ( !$tfcoid )
@@ -166,10 +169,10 @@ else
         {
         	if ($coid != "0")
             {
-	            echo "<br />Change in Command detected... to $tfcoid <br />\n";
+	            echo '<h4 class="text-info">Change in Command detected... to ' . $tfcoid . '</h4>';
 	            $qry = "UPDATE {$spre}ships SET sorder=3 WHERE id='$sid'";
 	            $database->openConnectionNoReturn($qry);
-	            echo "Removing old Command Codes... from $coid <br />\n";
+	            echo '<h4 class="text-info">Removing old Command Codes... from ' . $coid . '</h4>';
             }
 
 			$qry = "SELECT id FROM {$spre}ships WHERE co='$tfcoid'";
@@ -202,11 +205,11 @@ else
 	                $result = $database->openConnectionWithReturn($qry);
 	                list ($uid, $userflags) = mysql_fetch_array($result);
 
-	                $userflags = preg_replace("t", "", $userflags);
+	                $userflags = preg_replace("/t/", "", $userflags);
 	                $qry = "UPDATE {$mpre}users SET flags='$userflags' WHERE id='$uid'";
 	                $database->openConnectionNoReturn($qry);
                 }
-		       	echo "Change in Task Force command completed...<br />\n";
+		       	echo '<h4 class="text-success">Change in Task Force command completed...</h4>';
             }
             else
             {
@@ -234,28 +237,28 @@ else
 	                $result = $database->openConnectionWithReturn($qry);
 	                list ($uid, $userflags) = mysql_fetch_array($result);
 
-	                $userflags = preg_replace("g", "", $userflags);
+	                $userflags = preg_replace("/g/", "", $userflags);
 	                $qry = "UPDATE {$mpre}users SET flags='$userflags' WHERE id='$uid'";
 	                $database->openConnectionNoReturn($qry);
                 }
 
-		       	echo "Change in Task Group command completed...<br />\n";
+		       	echo '<h4 class="text-success">Change in Task Group command completed...</h4>';
             }
           	$qry = "UPDATE {$spre}taskforces SET co='$tfcoid' WHERE tf='$tfid' AND tg='$tgid'";
             $database->openConnectionNoReturn($qry);
         }
-        echo "Database update COMPLETE.<br /><br />\n";
+        echo '<h3 class="text-success">Database update COMPLETE.</h3>';
 
-		echo "<font size=\"+1\">\n";
-        echo "Task Force $tfid\n";
+		echo '<h4>';
+        echo 'Task Force ' . $tfid;
 
         if ($tgid == "0")
-        	echo " - " . $tfname;
+        	echo ' - ' . $tfname;
         else
-        	echo ":<br />Task Group " . $tgid . " - " . $tfname . "\n";
+        	echo ':<br />Task Group ' . $tgid . ' - ' . $tfname;
+		echo '</h4>';
 
-        echo "<br />\n";
-        echo "CO: \n";
+        echo '<h5>CO: ';
         $qry2 = "SELECT c.id, c.name, s.name, r.rankdesc FROM
 				{$spre}characters c, {$spre}ships s, {$spre}rank r WHERE
     		    c.id=s.co AND s.tf='$tfid' AND c.rank=r.rankid AND $tfcoid=c.id
@@ -263,7 +266,7 @@ else
         $result2 = $database->openConnectionWithReturn($qry2);
 		list($coid, $cname, $sname, $rname)=mysql_fetch_array($result2);
 
-        echo $rname . " " . $cname . ", " . $sname . "<br />\n";
+        echo $rname . ' ' . $cname . ', ' . $sname;
     }
 }
 ?>

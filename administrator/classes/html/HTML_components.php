@@ -30,58 +30,79 @@
 				<TD ALIGN="center" CLASS="heading">Published</TD>
 				<TD ALIGN="center" CLASS="heading">Checked Out</TD>
 			</TR>
-			<? 
-			$color = array("#FFFFFF", "#CCCCCC");
+			<?php
+$color = array("#FFFFFF", "#CCCCCC");
 			$k = 0;
 			for ($i = 0; $i < count($id); $i++){?>
-			<TR BGCOLOR="<? echo $color[$k]; ?>">
-				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<? echo $id[$i]; ?>" onClick="isChecked(this.checked);"></TD>
-			<?	if ($module[$i] == ""){?>
-				<TD WIDTH="60%"><? echo $title[$i]; ?></TD>
-			<?	}else{?>
-					<TD WIDTH="60%"><? echo "$title[$i]- mambo component"; ?></TD>
-			<?	}?>
-				<TD WIDTH="10%" ALIGN="center"><? echo $position[$i]; ?></TD>
-				<TD WIDTH="10%" ALIGN="center"><? echo $ordering[$i]; ?></TD>
-				<?	if ($publish[$i] == "1"){
+			<TR BGCOLOR="<?php
+echo $color[$k]; ?>">
+				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<?php
+echo $id[$i]; ?>" onClick="isChecked(this.checked);"></TD>
+			<?php
+if ($module[$i] == ""){?>
+				<TD WIDTH="60%"><?php
+echo $title[$i]; ?></TD>
+			<?php
+}else{?>
+					<TD WIDTH="60%"><?php
+echo "$title[$i]- mambo component"; ?></TD>
+			<?php
+}?>
+				<TD WIDTH="10%" ALIGN="center"><?php
+echo $position[$i]; ?></TD>
+				<TD WIDTH="10%" ALIGN="center"><?php
+echo $ordering[$i]; ?></TD>
+				<?php
+if ($publish[$i] == "1"){
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/greytic.gif"></TD>
-				<?		} else {?>
+				<?php
+} else {?>
 							<TD WIDTH="10%" ALIGN="center"><IMG SRC="../images/admin/whttic.gif"></TD>
-			<?				}
+			<?php
+}
 						}
 					else {
 						if ($color[$k] == "#FFFFFF"){?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-			<?			} else {?>
+			<?php
+} else {?>
 							<TD WIDTH="10%" ALIGN="center">&nbsp;</TD>
-			<?				}
+			<?php
+}
 						}?>
-			<?	if ($editor[$i] == ""){?>
+			<?php
+if ($editor[$i] == ""){?>
 					<TD WIDTH="20%" ALIGN="center">&nbsp;</TD>
-			<? 		}
+			<?php
+}
 				else {?>
-					<TD WIDTH="20%" ALIGN="center"><? echo $editor[$i]; ?></TD>
-				<? } 
+					<TD WIDTH="20%" ALIGN="center"><?php
+echo $editor[$i]; ?></TD>
+				<?php
+} 
 				if ($k == 1){
 						$k = 0;
 						}
 				   else {
 				   		$k++;
 						}?>
-				<?
-				}?>
+				<?php
+}?>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 			
 			
 		function addComponent($leftorder, $rightorder, $option, $text_editor){?>
-			<? $countleft = count($leftorder);
+			<?php
+$countleft = count($leftorder);
 			   $countleft = $countleft+1;
 			   $countright = count($rightorder);
 			   $countright = $countright+1;
@@ -92,24 +113,36 @@
 				var rightorder = new Array;
 				var leftarray = new Array;
 				
-				<? for ($i = 0; $i < $countleft; $i++){
+				<?php
+for ($i = 0; $i < $countleft; $i++){
 					$k = $i + 1;
 					?>
 					
-						leftarray[<? echo $i; ?>] = "<? echo $k; ?>";
-						<?}?>
+						leftarray[<?php
+echo $i; ?>] = "<?php
+echo $k; ?>";
+						<?php
+}?>
 				
-				<? for ($i = 0; $i < $countleft; $i++){
+				<?php
+for ($i = 0; $i < $countleft; $i++){
 						$k = $i + 1;
 				?>
-						leftorder[<? echo $i; ?>] = "<? echo $k; ?>";
-						<?}?>
+						leftorder[<?php
+echo $i; ?>] = "<?php
+echo $k; ?>";
+						<?php
+}?>
 						
-				<? for ($i = 0; $i < $countright; $i++){
+				<?php
+for ($i = 0; $i < $countright; $i++){
 						$k = $i + 1;
 				?>
-						rightorder[<? echo $i; ?>] = "<? echo $k; ?>";
-							<?}?>
+						rightorder[<?php
+echo $i; ?>] = "<?php
+echo $k; ?>";
+							<?php
+}?>
 			
 				function changeMenu(pos)
 				  {
@@ -152,14 +185,17 @@
 			</TR>
 			<TR>
 				<TD VALIGN="top">Content:</TD>
-				<TD><TEXTAREA COLS='70' ROWS='16' NAME='content' STYLE="WIDTH:500px" WIDTH=500><? echo htmlentities($content); ?></TEXTAREA></TD>
+				<TD><TEXTAREA COLS='70' ROWS='16' NAME='content' STYLE="WIDTH:500px" WIDTH=500><?php
+echo htmlentities($content); ?></TEXTAREA></TD>
 			</TR>
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
+			<?php
+}?>
 			<TR>
 				<TD VALIGN="top">Position:</TD>
 				<TD><INPUT TYPE='radio' NAME='position' VALUE='left' CHECKED onClick="changeMenu('left');">Left&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE='radio' NAME='position' VALUE='right' onClick="changeMenu('right');">Right</TD>
@@ -183,17 +219,20 @@
 			</TR>
 			<TR>
 				<TD COLSPAN='2' CLASS='heading' BGCOLOR="#999999">&nbsp;
-					<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
+					<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
 					<INPUT TYPE="hidden" NAME="task" VALUE="">
 					
 				</TD>
 			</TR>
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 			
 		function editComponent($componentid, $title, $content, $position, $option, $leftorder, $rightorder, $ordering, $module, $text_editor){?>
-			<? $countleft = count($leftorder);
+			<?php
+$countleft = count($leftorder);
 			   $countleft = $countleft;
 			   $countright = count($rightorder);
 			   $countright = $countright;
@@ -203,33 +242,48 @@
 				var leftarray = new Array;
 				var rightarray = new Array;
 				
-				<? for ($i = 0; $i < $countleft; $i++){
+				<?php
+for ($i = 0; $i < $countleft; $i++){
 					$k = $i + 1;
 					?>
 					
-					leftarray[<? echo $i; ?>] = "<? echo $k; ?>";
-					<?}
+					leftarray[<?php
+echo $i; ?>] = "<?php
+echo $k; ?>";
+					<?php
+}
 						if ($position == "right"){
 							$k = $i + 1;?>
-							leftarray[<? echo $i; ?>] = "<? echo $k; ?>";
-						<? }?>
+							leftarray[<?php
+echo $i; ?>] = "<?php
+echo $k; ?>";
+						<?php
+}?>
 						
-				<? for ($i = 0; $i < $countright; $i++){
+				<?php
+for ($i = 0; $i < $countright; $i++){
 					$k = $i + 1;
 					?>
 					
-						rightarray[<? echo $i; ?>] = "<? echo $k; ?>";
-						<?}
+						rightarray[<?php
+echo $i; ?>] = "<?php
+echo $k; ?>";
+						<?php
+}
 							if ($position == "left"){
 							$k = $i + 1;?>
-							rightarray[<? echo $i; ?>] = "<? echo $k; ?>";
-						<? }?>
+							rightarray[<?php
+echo $i; ?>] = "<?php
+echo $k; ?>";
+						<?php
+}?>
 						
 				function whatisselected(whatisselected){
 					this.whatisselected = whatisselected-1;
 					}
 					
-				whatisselected(<? echo $ordering; ?>);
+				whatisselected(<?php
+echo $ordering; ?>);
 						
 				function changeMenu(pos, originalpos){
 				  if (pos == "left"){
@@ -277,37 +331,53 @@
 			</TR>
 			<TR>
 				<TD VALIGN="top">Title:</TD>
-				<TD WIDTH="85%"><INPUT TYPE='text' NAME='mytitle' SIZE='25' VALUE="<? echo $title; ?>"></TD>
+				<TD WIDTH="85%"><INPUT TYPE='text' NAME='mytitle' SIZE='25' VALUE="<?php
+echo $title; ?>"></TD>
 			</TR>
-		<?	if ($module == ""){ ?>
+		<?php
+if ($module == ""){ ?>
 				<TR>
 					<TD VALIGN="top">Content:</TD>
-					<TD><TEXTAREA COLS='70' ROWS='16' NAME='content' STYLE="WIDTH=500px" WIDTH=500><? echo htmlentities($content); ?></TEXTAREA></TD>
+					<TD><TEXTAREA COLS='70' ROWS='16' NAME='content' STYLE="WIDTH=500px" WIDTH=500><?php
+echo htmlentities($content); ?></TEXTAREA></TD>
 				</TR>
 		
-			<? if ($text_editor == true){?>
+			<?php
+if ($text_editor == true){?>
 				<TR>
 					<TD>&nbsp;</TD>
 					<TD VALIGN="top"><A HREF="#" onClick="window.open('inline_editor/editor.htm', 'win1', 'width=650, height=450, resizable=yes');">Edit Text In Editor</A></TD>
 				</TR>
-			<?	}?>
-		<?		}?>
+			<?php
+}?>
+		<?php
+}?>
 			<TR>
 				<TD VALIGN="top">Position:</TD>
 				<TD>
-				<? if ($position == "left"){?>
-					  <INPUT TYPE='radio' NAME='position' VALUE='left' CHECKED onClick="changeMenu('left', '<? echo $position; ?>');">Left&nbsp;&nbsp;&nbsp;&nbsp;
-				<? 		}
+				<?php
+if ($position == "left"){?>
+					  <INPUT TYPE='radio' NAME='position' VALUE='left' CHECKED onClick="changeMenu('left', '<?php
+echo $position; ?>');">Left&nbsp;&nbsp;&nbsp;&nbsp;
+				<?php
+}
 					else {?>
-					  <INPUT TYPE='radio' NAME='position' VALUE='left' onClick="changeMenu('left','<? echo $position; ?>');">Left&nbsp;&nbsp;&nbsp;&nbsp;
-					 <? } ?>
+					  <INPUT TYPE='radio' NAME='position' VALUE='left' onClick="changeMenu('left','<?php
+echo $position; ?>');">Left&nbsp;&nbsp;&nbsp;&nbsp;
+					 <?php
+} ?>
 				
-				<? if ($position == "right"){?>
-	    			  <INPUT TYPE='radio' NAME='position' VALUE='right' CHECKED onClick="changeMenu('right','<? echo $position; ?>');">Right
-				<? 		}
+				<?php
+if ($position == "right"){?>
+	    			  <INPUT TYPE='radio' NAME='position' VALUE='right' CHECKED onClick="changeMenu('right','<?php
+echo $position; ?>');">Right
+				<?php
+}
 				else {?>
-					  <INPUT TYPE='radio' NAME='position' VALUE='right' onClick="changeMenu('right','<? echo $position; ?>');">Right
-					<? } ?>
+					  <INPUT TYPE='radio' NAME='position' VALUE='right' onClick="changeMenu('right','<?php
+echo $position; ?>');">Right
+					<?php
+} ?>
 				</TD>
 			</TR>
 			<TR>
@@ -315,11 +385,13 @@
 				<TD>
 					<SCRIPT>
 						<!--
-							var positioning =  "<? echo $position; ?>";
+							var positioning =  "<?php
+echo $position; ?>";
 							document.write("<SELECT NAME='order' SIZE='1'>");
 							if (positioning == "left"){
 								for (i = 0; i < leftarray.length; i++){
-									if (leftarray[i] == <? echo $ordering; ?>){
+									if (leftarray[i] == <?php
+echo $ordering; ?>){
 										document.write("<OPTION VALUE='" + leftarray[i] + "' SELECTED>" + leftarray[i] + "</OPTION>");
 										}
 									else {
@@ -329,7 +401,8 @@
 								}
 							else {
 								for (i = 0; i < rightarray.length; i++){
-									if (rightarray[i] == <? echo $ordering; ?>){
+									if (rightarray[i] == <?php
+echo $ordering; ?>){
 										document.write("<OPTION VALUE='" + rightarray[i] + "' SELECTED>" + rightarray[i] + "</OPTION>");
 										}
 									else {
@@ -348,13 +421,18 @@
 			<TR>
 				<TD COLSPAN='2' CLASS='heading' BGCOLOR="#999999">&nbsp;</TD>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
-			<INPUT TYPE='hidden' NAME='componentid' VALUE='<? echo $componentid; ?>'>
-			<INPUT TYPE='hidden' NAME='original' VALUE='<? echo $ordering; ?>'>
-			<INPUT TYPE='hidden' NAME='module' VALUE='<? echo $module; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='componentid' VALUE='<?php
+echo $componentid; ?>'>
+			<INPUT TYPE='hidden' NAME='original' VALUE='<?php
+echo $ordering; ?>'>
+			<INPUT TYPE='hidden' NAME='module' VALUE='<?php
+echo $module; ?>'>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			</FORM>
 			</TABLE>
-			<?}
+			<?php
+}
 		}
 ?>

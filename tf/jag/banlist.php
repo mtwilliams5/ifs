@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	5/02/04
   * Comments: JAG banlist admin
  ***/
 
@@ -38,54 +41,84 @@ else
 
    	    $auth = get_usertype($database, $mpre, $spre, $cid, $uflag);
 		?>
-		<br /><center>
-		Welcome to JAG Banlist Admin<br />
-		Please note that your login will time out after about 10 minutes of inactivity.
-		</center><br /><br />
+		<h2 class="text-center">Welcome to JAG Banlist Admin</h2>
+		<p class="text-center">Please note that your login will time out after about 10 minutes of inactivity.</p>
 
 	    <h1>Add a ban:</h1>
-    	<form action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=badd" method="post">
-	    	Email Address: <input type="text" name="email" size="30" /><br />
-    	    IP Address (use * for wildcard): <input type="text" name="banip" size="15" maxlength="15" /><br />
-        	<i>Both email <b>and</b> IP are not required</i><br /><br />
-
-	        Reason:<br />
-    	    <textarea name="reason" rows="5" cols="30"></textarea><br /><br />
-
-            Length: <input type="text" name="length" size="5" /> days (0 for no expiry)<br />
-
-            Type:
-            <select name="level">
-               	<option value="all">Full Ban</option>
-                <option value="command">Ban from Command</option>
-            </select>
-            <br /><br />
-
-			Date: <?php echo date("F j, Y", time()) ?>
-    	    <input type="hidden" name="bandate" value="<?php echo time() ?>" /><br />
-
-	        Authorized by: <?php echo $auth ?>
-    	    <input type="hidden" name="auth" value="<?php echo $auth ?>" /><br />
-	        <input type="submit" value="Ban!" />
+    	<form class="form-horizontal" action="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=badd" method="post">
+	    	<div class="form-group">
+            	<label for="email" class="col-sm-2 control-label">Email Address:</label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
+                	<input type="text" class="form-control" name="email" id="email" size="30">
+                </div>
+            </div>
+            <div class="form-group">
+    	    	<label for="banip" class="col-sm-2 control-label">IP Address:<span class="help-block">(use * for wildcard)</span></label>
+                <div class="col-sm-10 col-md-6 col-lg-4">
+                	<input type="text" class="form-control" name="banip" id="banip" size="15" maxlength="15">
+        			<span class="help-block"><strong>Both</strong> email <em>and</em> IP are <strong>not</strong> required</span>
+                </div>
+            </div>
+			<div class="form-group">
+	        	<label for="reason" class="col-sm-2 control-label">Reason:</label>
+    	    	<div class="col-sm-10 col-md-8 col-lg-6">
+                	<textarea class="form-control" name="reason" id="reason" rows="5" cols="30"></textarea>
+                </div>
+            </div>
+			<div class="form-group">
+            	<label for="length" class="col-sm-2 control-label">Length:</label>
+                <div class="col-sm-2">
+                	<div class="input-group">
+                		<input type="text" class="form-control" name="length" id="length" size="5" aria-describedby="length-addon">
+                        <span class="input-group-addon" id="length-addon">days</span>
+                    </div>
+                    <span class="help-block">(0 for no expiry)</span>
+                </div>
+			</div>
+            <div class="form-group">
+            	<label for="level" class="col-sm-2 control-label">Type:</label>
+				<div class="col-sm-10 col-md-6 col-lg-4">
+                    <select class="form-control" name="level" id="level">
+                        <option value="all">Full Ban</option>
+                        <option value="command">Ban from Command</option>
+                    </select>
+                </div>
+            </div>
+			<div class="form-group">
+				<label for="bandate" class="col-sm-2 control-label">Date:</label>
+				<p class="form-control-static col-sm-10" id="bandate"><?php echo date("F j, Y", time()) ?></p>
+    	    	<input type="hidden" name="bandate" value="<?php echo time() ?>">
+            </div>
+			<div class="form-group">
+				<label for="auth" class="col-sm-2 control-label">Authorized by:</label>
+				<p class="form-control-static col-sm-10" id="auth"><?php echo $auth ?></p>
+    	    	<input type="hidden" name="auth" value="<?php echo $auth ?>">
+            </div>
+            <div class="form-group">
+	        	<div class="col-sm-10 col-sm-offset-2">
+                	<input class="btn btn-default" type="submit" value="Ban!">
+                </div>
+            </div>
     	</form>
+	    <br />
 
-	    <br /><br />
-
-		<h1>Active Bans:</h1><br />
-    	<table width="100%" align="center" border="1">
+		<h1>Active Bans:</h1>
+    	<table class="table table-bordered banlist">
+          <thead>
 	    	<tr>
 	        	<th>Ban ID</th>
     	        <th>Date</th>
         	    <th>Authorized By</th>
             	<th>Email</th>
-    	        <th>IP</th>
-	            <th>&nbsp;</th>
+    	        <th colspan="2">IP</th>
 	        </tr>
     	    <tr>
         		<th colspan="3">Reason</th>
                 <th>Expiry</th>
                 <th colspan="2">Level</th>
 	        </tr>
+          </thead>
+          <tbody>
     	    <tr>
 	        	<td colspan="6">&nbsp;</td>
         	</tr>
@@ -95,23 +128,28 @@ else
 	    	$result = $database->openConnectionWithReturn($qry);
 
             if (!mysql_num_rows($result))
-            	echo "<tr><td colspan=\"6\" align=\"center\">We're such a good fleet!  Not a single ban!</td></tr>\n";
+			{ ?>
+            	<tr>
+                	<td colspan="6" class="text-center">We're such a good fleet! Not a single ban!</td>
+                </tr>
+			<?php
+            }
 
 		    while (list ($mid, $mdate, $mauth, $reason, $expire, $level) = mysql_fetch_array($result))
             {
             	if ($expire == '0')
-                	$expire = "Permanent";
+                	$expire = '<strong>Permanent</strong>';
                 else
                 	$expire = date("F d, Y", $expire);
 
                 if ($level == "all")
-                	$level = "Full Ban";
+                	$level = '<strong>Full Ban</strong>';
                 elseif ($level == "command")
                 	$level = "Ban from Command";
     	    	?>
 				<tr>
             		<td><?php echo $mid ?></td>
-                	<td><?php echo date("F j, Y", $mdate) ?>
+                	<td><?php echo date("F j, Y", $mdate) ?></td>
 	                <td><?php echo $mauth ?></td>
     	            <td>
         	        	<?php
@@ -119,7 +157,9 @@ else
                 	    $result2 = $database->openConnectionWithReturn($qry2);
                     	while (list ($email) = mysql_fetch_array($result2))
 	                    	if ($email != "")
-		                    	echo $email . "<br />\n";
+		                    	echo $email . '<br />';
+							else
+								echo 'No email address listed';
                 		?>
 	                </td>
     	            <td>
@@ -128,17 +168,18 @@ else
                 	    $result2 = $database->openConnectionWithReturn($qry2);
                     	while (list ($banip) = mysql_fetch_array($result2))
 							if ($banip != "")
-		                    	echo $banip . "<br />\n";
+		                    	echo $banip . '<br />';
+							else
+								echo 'No IP address listed';
                 		?>
 	                </td>
-    	            <td valign="bottom">
-        	        	<a href="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=bdet&amp;bid=<?php echo $mid ?>">Details/<br />Edit</a><br />
-        	        	<a href="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=bdel&amp;bid=<?php echo $mid ?>">Unban</a><br />
+    	            <td class="text-center">
+        	        	<a role="button" class="btn btn-default btn-sm btn-block" href="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=bdet&amp;bid=<?php echo $mid ?>">Details/Edit</a>
+        	        	<a role="button" class="btn btn-default btn-sm btn-block" href="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=bdel&amp;bid=<?php echo $mid ?>">Unban</a>
                 	</td>
 	            </tr>
 		        <tr>
-                	<td>&nbsp;</td>
-	    	    	<td colspan="2"><?php echo $reason ?></td>
+	    	    	<td colspan="3"><?php echo $reason ?></td>
                     <td><?php echo $expire ?></td>
                     <td colspan="2"><?php echo $level ?></td>
     	    	</tr>
@@ -147,24 +188,29 @@ else
     		    </tr>
 	        <?php
     	    }
-	    echo "</table><br />\n";
-		?>
+			?>
+	      </tbody>
+        </table>
+        <br />
+        <hr />
 
-		<h1>Inactive Bans:</h1><br />
-    	<table width="100%" align="center" border="1">
+		<h1>Inactive Bans:</h1>
+    	<table class="table table-bordered banlist">
+          <thead>
 	    	<tr>
 	        	<th>Ban ID</th>
     	        <th>Date</th>
         	    <th>Authorized By</th>
             	<th>Email</th>
-    	        <th>IP</th>
-	            <th>&nbsp;</th>
+    	        <th colspan="2">IP</th>
 	        </tr>
     	    <tr>
         		<th colspan="3">Reason</th>
                 <th>Expiry</th>
                 <th colspan="2">Level</th>
 	        </tr>
+          </thead>
+          <tbody>
     	    <tr>
 	        	<td colspan="6">&nbsp;</td>
         	</tr>
@@ -174,17 +220,22 @@ else
 	    	$result = $database->openConnectionWithReturn($qry);
 
             if (!mysql_num_rows($result))
-            	echo "<tr><td colspan=\"6\" align=\"center\">We're such a good fleet!  Not a single ban!</td></tr>\n";
+			{ ?>
+            	<tr>
+                	<td colspan="6" class="text-center">We're such a good fleet! Not a single ban!</td>
+                </tr>
+			<?php
+            }
 
 		    while (list ($mid, $mdate, $mauth, $reason, $expire, $level) = mysql_fetch_array($result))
             {
             	if ($expire == '0')
-                	$expire = "Permanent";
+                	$expire = '<strong>Permanent</strong>';
                 else
                 	$expire = date("F d, Y", $expire);
 
                 if ($level == "all")
-                	$level = "Full Ban";
+                	$level = '<strong>Full Ban</strong>';
                 elseif ($level == "command")
                 	$level = "Ban from Command";
     	    	?>
@@ -198,7 +249,9 @@ else
                 	    $result2 = $database->openConnectionWithReturn($qry2);
                     	while (list ($email) = mysql_fetch_array($result2))
 	                    	if ($email != "")
-		                    	echo $email . "<br />\n";
+		                    	echo $email . '<br />';
+							else
+								echo 'No email address listed';
                 		?>
 	                </td>
     	            <td>
@@ -207,16 +260,17 @@ else
                 	    $result2 = $database->openConnectionWithReturn($qry2);
                     	while (list ($banip) = mysql_fetch_array($result2))
 							if ($banip != "")
-		                    	echo $banip . "<br />\n";
+		                    	echo $banip . '<br />';
+							else
+								echo 'No IP address listed';
                 		?>
 	                </td>
-    	            <td valign="bottom">
-        	        	<a href="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=bundel&amp;bid=<?php echo $mid ?>">Activate</a><br />
+    	            <td class="text-center">
+        	        	<a role="button" class="btn btn-default btn-sm btn-block" href="index.php?option=ifs&amp;task=jag&amp;action=bans&amp;lib=bundel&amp;bid=<?php echo $mid ?>">Activate</a>
                 	</td>
 	            </tr>
 		        <tr>
-                	<td>&nbsp;</td>
-	    	    	<td colspan="2"><?php echo $reason ?></td>
+	    	    	<td colspan="3"><?php echo $reason ?></td>
                     <td><?php echo $expire ?></td>
                     <td colspan="2"><?php echo $level ?></td>
     	    	</tr>
@@ -225,7 +279,10 @@ else
     		    </tr>
 	        <?php
     	    }
-	    echo "</table><br />\n";
+			?>
+	      </tbody>
+        </table>
+        <?php
     }
 }
 ?>

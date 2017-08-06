@@ -9,11 +9,14 @@
   *
   * Updated By: Nolan
   *		john.pbem@gmail.com
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +25,6 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	12/22/03
   * Comments: View Pending Awards to approve/deny them
  ***/
 
@@ -30,6 +32,8 @@ if (!defined("IFS"))
 	echo "Hacking attempt!";
 else
 {
+	echo '<h1 class="text-center">Awards Admin</h1>';
+	echo '<br />';
 	if (!$save)
     {
 		$qry = "SELECT a.id, a.date, a.nominator, b.name, c.name, s.name, a.reason
@@ -39,14 +43,19 @@ else
 	    $result = $database->openConnectionWithReturn($qry);
 
 	    ?>
-	    <table width="85%" border="1" cellspacing="1" cellpadding="10">
+	    <table class="table award-list">
+          <thead>
 	    	<tr>
 	        	<th>Date Submitted</th>
 	            <th>Award</th>
 	            <th>Character</th>
-	            <th>Ship</th>
-	            <th>&nbsp;</th>
+	            <th colspan="2">Ship</th>
 	        </tr>
+            <tr>
+            	<th colspan="5">Reason Given</th>
+            </tr>
+          </thead>
+          <tbody>
 
 	        <?php
             while (list($aid, $date, $nominator, $aname, $cname, $sname, $reason) = mysql_fetch_array($result))
@@ -57,29 +66,33 @@ else
 	                <td><?php echo $aname ?></td>
 					<td><?php echo $cname ?></td>
 	                <td><?php echo $sname ?></td>
-	                <td>
+	                <td rowspan="2" class="vcenter">
 	                	<form action="index.php?option=ifs&amp;task=awards&amp;action=pending&amp;save=<?php echo $aid ?>" method="post">
-                        <input type="hidden" NAME="approve" value="approve" />
-	                    <input type="submit" value="Approve" />
+                            <input type="hidden" name="approve" value="approve">
+                            <input class="btn btn-success btn-block" type="submit" value="Approve">
 	                    </form>
+                        <br />
 	                	<form action="index.php?option=ifs&amp;task=awards&amp;action=pending&amp;save=<?php echo $aid ?>" method="post">
-                        <input type="hidden" NAME="approve" value="deny" />
-	                    <input type="submit" value="Reject" />
+                            <input type="hidden" name="approve" value="deny">
+                            <input class="btn btn-danger btn-block" type="submit" value="Reject">
 	                    </form>
 	                </td>
 	            </tr>
 	            <tr>
-	            	<td>&nbsp;</td>
-	                <td colspan="3">
-                    	<?php echo $reason ?>
-                        <br /><br />
-                        Submitted By: <?php echo $nominator ?>
+	                <td colspan="4">
+                    	<p><?php echo $reason ?></p>
+                        <strong>Submitted By:</strong> <?php echo $nominator ?>
                     </td>
-                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                	<td colspan="5"><hr /></td>
                 </tr>
             	<?php
             }
-        echo "</table>\n";
+			?>
+          </tbody>
+        </table>
+        <?php
     }
     else
     {

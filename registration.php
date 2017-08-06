@@ -44,7 +44,7 @@ switch($task)
         registerForm($registration, $option);
         break;
     case "saveRegistration":
-        saveRegistration($yourname, $username1, $email, $pass, $verifyPass, $option, $database, $live_site, $mpre);
+        saveRegistration($yourname, $username1, $email, $pass, $verifyPass, $option, $database, $live_site, $mpre, $tc);
         break;
 }
 
@@ -59,7 +59,7 @@ function sendNewPass($checkusername, $confirmEmail, $option, $database, $live_si
       	  WHERE username='$checkusername' AND email='$confirmEmail'";
     $result=$database->openConnectionWithReturn($qry);
     if (mysql_num_rows($result)==0)
-            print "<SCRIPT> alert('Sorry, no corresponding user was found'); window.history.go(-1); </SCRIPT>\n";
+            print "<script> alert('Sorry, no corresponding user was found'); window.history.go(-1); </script>\n";
     else
     {
         $newpass= makepass();
@@ -95,7 +95,7 @@ function registerForm($registration, $option)
     $registration->registerForm($option);
 }
 
-function saveRegistration($yourname, $username1, $email, $pass, $verifyPass, $option, $database, $live_site, $mpre)
+function saveRegistration($yourname, $username1, $email, $pass, $verifyPass, $option, $database, $live_site, $mpre, $tc)
 {
 	$bademail = "1";
 	if (strstr ($email, '@'))
@@ -104,27 +104,52 @@ function saveRegistration($yourname, $username1, $email, $pass, $verifyPass, $op
 	    if (strstr($emaildomain, "."))
 	        $bademail = "0";
     }
+	
+	// Let's work out the difference in the time set in the form with the current time. Scripts are very fast, so anything under 3 seconds should be discarded.
+	$diff = ''; //Make sure $diff is reset each time
+	$now = strtotime("now");
+	$diff = $now - $tc;
+	
+	if ($diff <= 3)
+	{
+		echo '<h3 class="text-success">Form Complete!</h3> <p>Your form has been submitted. Thank you for registering.</p>'; //Don't know how smart the scripts will be, so return a message which looks like a success.
+		//Get details of the person or bot who submitted the form
+		$browse = $_SERVER['HTTP_USER_AGENT'];
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$rmethod = $_SERVER['REQUEST_METHOD'];
+		$referer = $_SERVER['HTTP_REFERER'];
+		$uri = $_SERVER['REQUEST_URI'];
+		$now = date("c",$now); // set the time to a human-readable format for the log file
+		
+		//Now lets print the details into a log file
+		$filename = "spam_log";
+		$spacer = "\n";
 
-    if (trim($yourname)=="")
-        print "<SCRIPT> alert('Please enter your name.'); window.history.go(-1); </SCRIPT>\n";
+		$handle= fopen($filename,'a');
+		fputs($handle, "$ip [$now] \"$rmethod $uri\" \"$referer\" \"$browse\" $diff s\n");
+		fclose($handle);
+		
+    }
+	elseif (trim($yourname)=="")
+        print "<script> alert('Please enter your name.'); window.history.go(-1); </script>\n";
     elseif (trim($username1)=="")
-        print "<SCRIPT> alert('Please enter a user name.'); window.history.go(-1); </SCRIPT>\n";
+        print "<script> alert('Please enter a user name.'); window.history.go(-1); </script>\n";
     elseif (trim($email)=="")
-        print "<SCRIPT> alert('Please enter your email address.'); window.history.go(-1); </SCRIPT>\n";
+        print "<script> alert('Please enter your email address.'); window.history.go(-1); </script>\n";
     elseif (trim($pass)=="")
-        print "<SCRIPT> alert('Please enter a password.'); window.history.go(-1); </SCRIPT>\n";
+        print "<script> alert('Please enter a password.'); window.history.go(-1); </script>\n";
     elseif (trim($verifyPass)=="")
-        print "<SCRIPT> alert('Please verify the password.'); window.history.go(-1); </SCRIPT>\n";
+        print "<script> alert('Please verify the password.'); window.history.go(-1); </script>\n";
     elseif ($pass!=$verifyPass)
-        print "<SCRIPT> alert('Password and verification do not match, please try again.'); window.history.go(-1); </SCRIPT>\n";
+        print "<script> alert('Password and verification do not match, please try again.'); window.history.go(-1); </script>\n";
     elseif ($bademail == "1")
-    	print "<SCRIPT> alert('Email address is not valid.'); window.history.go(-1); </SCRIPT>\n";
+    	print "<script> alert('Email address is not valid.'); window.history.go(-1); </script>\n";
     else
     {
         $qry="SELECT id FROM {$mpre}users WHERE username='$username1' OR email='$email'";
         $result=$database->openConnectionWithReturn($qry);
         if (mysql_num_rows($result)!=0)
-            print "<SCRIPT> alert('This username or email already in use. Please try another.'); window.history.go(-1); </SCRIPT>\n";
+            print "<script> alert('This username or email already in use. Please try another.'); window.history.go(-1); </script>\n";
         else
         {
             $cryptpass=md5($pass);
@@ -135,8 +160,8 @@ function saveRegistration($yourname, $username1, $email, $pass, $verifyPass, $op
 
             require_once "includes/mail/registration_newuser.mail.php";
 
-            echo "<br /><br />&nbsp;&nbsp;<b>Registration Complete!</b><br />" .
-            	 "&nbsp;&nbsp;Registration is complete, you may now log in with your username and password.";
+            echo '<h3 class="text-success">Registration Complete!</h3>';
+            echo '<p>Registration is complete, you may now log in with your username and password.</p>';
         }
     }
 }

@@ -1,7 +1,7 @@
-<?
+<?php
 //JAG record for player demotion
 $mailersubject = "JAG - Player Demoted on " . $sname;
-$mailerbody = "Ship Name: " . $sname . "\n";
+$mailerbody = "Sim Name: " . $sname . "\n";
 $mailerbody .= "Crew: " . $cname . "\n";
 $mailerbody .= "Old Rank: " . $oldrank . "\n";
 $mailerbody .= "New Rank: " . $newrank . "\n";

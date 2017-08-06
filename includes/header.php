@@ -10,9 +10,13 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.16n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.16n: March 2014
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -26,7 +30,6 @@
   *
   * See CHANGELOG for patch details
   *
-  * Date:	12/13/03
   * Comments: Do initialization; check if auth.php is needed; show banner
   *
  ***/
@@ -61,7 +64,10 @@ else
     // detection makes for fun stats later!
     if ($detection <> "detected")
 	{
-		$browse = getenv("HTTP_USER_AGENT");
+		if (phpversion() <= "4.2.1")
+			$browse = getenv("HTTP_USER_AGENT");
+		else
+			$browse = $_SERVER['HTTP_USER_AGENT'];
 
 		if (preg_match("/MSIE/i", "$browsob_gzhandlere"))
 			$browsename = "MSIE";
@@ -114,6 +120,9 @@ else
     include_once ($relpath . "tf/lib.php");				// IFS-based stuff
 	include_once ($relpath . "includes/lib.php");		// More general stuff
 
+	// Include our page to grab position emails from the db
+	include_once ($relpath . "includes/emails.php");
+
     // if this is supposed to be a protected page, make sure it's protected
 	if ($reqtype)
 		require ($relpath . "includes/auth.php");
@@ -153,6 +162,10 @@ else
 	    $database->openConnectionNoReturn($qry);
     	define("JS", true);
     }
+	
+	// Extract the $_GET and $_POST values to variables
+	extract($_GET);
+	extract($_POST);
 
 }
 

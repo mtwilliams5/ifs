@@ -25,21 +25,37 @@
 			<!--
 				var categories = new Array();
 				var categoryid = new Array();
-			<?	for ($i = 0; $i < count($newsfeedscategory); $i++){?>
-					categories[<? echo $i; ?>] = new Array();
-			<?		for ($k = 0; $k < count($newsfeedsname["$newsfeedscategory[$i]"]); $k++){
+			<?php
+for ($i = 0; $i < count($newsfeedscategory); $i++){?>
+					categories[<?php
+echo $i; ?>] = new Array();
+			<?php
+for ($k = 0; $k < count($newsfeedsname["$newsfeedscategory[$i]"]); $k++){
 						$cat = $newsfeedsname["$newsfeedscategory[$i]"][$k];?>
-						categories[<? echo $i; ?>][<? echo $k; ?>] = "<? echo $cat; ?>";
-			<?			}?>
-			<?		}?>
+						categories[<?php
+echo $i; ?>][<?php
+echo $k; ?>] = "<?php
+echo $cat; ?>";
+			<?php
+}?>
+			<?php
+}?>
 			
-			<?	for ($i = 0; $i < count($newsfeedscategory); $i++){?>
-					categoryid[<? echo $i; ?>] = new Array();
-			<?		for ($k = 0; $k < count($newsfeedsid["$newsfeedscategory[$i]"]); $k++){
+			<?php
+for ($i = 0; $i < count($newsfeedscategory); $i++){?>
+					categoryid[<?php
+echo $i; ?>] = new Array();
+			<?php
+for ($k = 0; $k < count($newsfeedsid["$newsfeedscategory[$i]"]); $k++){
 						$cat = $newsfeedsid["$newsfeedscategory[$i]"][$k];?>
-						categoryid[<? echo $i; ?>][<? echo $k; ?>] = "<? echo $cat; ?>";
-			<?			}?>
-			<?		}?>
+						categoryid[<?php
+echo $i; ?>][<?php
+echo $k; ?>] = "<?php
+echo $cat; ?>";
+			<?php
+}?>
+			<?php
+}?>
 			
 				function viewCategory(category){
 					for (var i = 0; i < document.adminForm.newsfeeds.options.length; i++){
@@ -94,9 +110,13 @@
 				<TD ALIGN="right" >Categories:</TD>
 				<TD VALIGN="top" ALIGN="left" WIDTH="60%">
 					<SELECT NAME="categories" SIZE="1" WIDTH="250" style="width:250px" onChange="viewCategory(document.adminForm.categories.options[selectedIndex].value)">
-					<?	for ($i = 0; $i < count($newsfeedscategory); $i++){?>
-							<OPTION VALUE="<? echo $i;?>"><? echo $newsfeedscategory[$i]; ?></OPTION>
-					<? 		}?>
+					<?php
+for ($i = 0; $i < count($newsfeedscategory); $i++){?>
+							<OPTION VALUE="<?php
+echo $i;?>"><?php
+echo $newsfeedscategory[$i]; ?></OPTION>
+					<?php
+}?>
 					</SELECT>
 				</TD>
 				
@@ -123,9 +143,13 @@
 				<TD ALIGN="right" VALIGN="top">Your Selection</TD>
 				<TD WIDTH="250" ALIGN="left">
 					<SELECT NAME="selections" SIZE="10" WIDTH="250" STYLE="width:250px" MULTIPLE>
-					<?	for ($i = 0; $i < count($id); $i++){?>
-							<OPTION VALUE="<? echo $id[$i]; ?>"><? echo $name[$i]; ?></OPTION>
-					<?		}?>
+					<?php
+for ($i = 0; $i < count($id); $i++){?>
+							<OPTION VALUE="<?php
+echo $id[$i]; ?>"><?php
+echo $name[$i]; ?></OPTION>
+					<?php
+}?>
 					</SELECT>
 				</TD>
 			</TR>
@@ -133,7 +157,8 @@
 			</TR>
 			<TR>
 				<TD>&nbsp;</TD>
-				<TD ALIGN="left">Number of articles per feed:&nbsp;&nbsp;<INPUT TYPE="text" NAME="num" VALUE="<? echo $num; ?>" SIZE="5"></TD>
+				<TD ALIGN="left">Number of articles per feed:&nbsp;&nbsp;<INPUT TYPE="text" NAME="num" VALUE="<?php
+echo $num; ?>" SIZE="5"></TD>
 			</TR>
 			<TR>
 				<TD COLSPAN='2' HEIGHT="40">&nbsp;</TD>
@@ -141,10 +166,12 @@
 			<TR>
 				<TD COLSPAN='2' CLASS='heading' BGCOLOR="#999999">&nbsp;</TD>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			</FORM>
 			</TABLE>
-		<?	}
+		<?php
+}
 		}
 ?>

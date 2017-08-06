@@ -38,8 +38,8 @@
 			<TR BGCOLOR="#999999">
 				<TD COLSPAN="2" CLASS="heading">Site Administrators</TD>
 			</TR>
-			<? 
-			$color = array("#FFFFFF", "#CCCCCC");
+			<?php
+$color = array("#FFFFFF", "#CCCCCC");
 			$k = 0;
 			for ($i = 0; $i < count($uid); $i++){
 				if ($usertype[$i]!="superadministrator"){
@@ -47,24 +47,30 @@
 				}else{
 					$type="- super administrator";
 				}?>
-			<TR BGCOLOR="<? echo $color[$k]; ?>">
-				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<? echo $uid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
-				<TD WIDTH="100%"><? echo "$name[$i] $type"; ?></TD>
-				<? if ($k == 1){
+			<TR BGCOLOR="<?php
+echo $color[$k]; ?>">
+				<TD WIDTH="20"><INPUT TYPE="checkbox" NAME="cid[]" VALUE="<?php
+echo $uid[$i]; ?>" onClick="isChecked(this.checked);"></TD>
+				<TD WIDTH="100%"><?php
+echo "$name[$i] $type"; ?></TD>
+				<?php
+if ($k == 1){
 						$k = 0;
 						}
 				   else {
 				   		$k++;
 						}?>
-				<?
-				}?>
+				<?php
+}?>
 			</TR>
-			<INPUT TYPE='hidden' NAME='option' VALUE='<? echo $option; ?>'>
+			<INPUT TYPE='hidden' NAME='option' VALUE='<?php
+echo $option; ?>'>
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			<INPUT TYPE="hidden" NAME="boxchecked" VALUE="0">
 			</FORM>
 			</TABLE>
-		<?	}
+		<?php
+}
 		
 		function editadministrator($option, $uid, $name, $email, $uname, $password, $usertype, $sendEmail){?>
 			<FORM ACTON='index2.php' METHOD='POST' NAME="adminForm">
@@ -77,15 +83,18 @@
 			</TR>
 			<TR>
 				<TD WIDTH='150'>Name:</TD>
-				<TD WIDTH='85%'><INPUT TYPE='text' NAME='realname' VALUE="<? echo $name; ?>" SIZE='25'></TD>
+				<TD WIDTH='85%'><INPUT TYPE='text' NAME='realname' VALUE="<?php
+echo $name; ?>" SIZE='25'></TD>
 			</TR>
 			<TR>
 				<TD WIDTH='150'>Email:</TD>
-				<TD WIDTH='85%'><INPUT TYPE='text' NAME='email' VALUE="<? echo $email; ?>" SIZE='25'></TD>
+				<TD WIDTH='85%'><INPUT TYPE='text' NAME='email' VALUE="<?php
+echo $email; ?>" SIZE='25'></TD>
 			</TR>
 			<TR>
 				<TD WIDTH='150'>Username:</TD>
-				<TD WIDTH='85%'><INPUT TYPE='text' NAME='username' VALUE="<? echo $uname; ?>" SIZE='25'></TD>
+				<TD WIDTH='85%'><INPUT TYPE='text' NAME='username' VALUE="<?php
+echo $uname; ?>" SIZE='25'></TD>
 			</TR>
 			<TR>
 				<TD WIDTH='150'>New Password:</TD>
@@ -95,18 +104,22 @@
 				<TD WIDTH='150'>Verify Password:</TD>
 				<TD WIDTH='85%'><INPUT TYPE='password' NAME='vpassword' VALUE="" SIZE='25'></TD>
 			</TR>
-			<? if ($usertype == "superadministrator"){?>
+			<?php
+if ($usertype == "superadministrator"){?>
 				<TR>
-				<?if ($sendEmail==1){?>
+				<?php if ($sendEmail==1){?>
 					<TD COLSPAN=2><INPUT TYPE="checkbox" NAME="emailAdmin" VALUE="1" Checked>&nbsp;&nbsp;Receive Email Notification</TD>
-				<?}else{?>
+				<?php
+}else{?>
 					<TD COLSPAN=2><INPUT TYPE="checkbox" NAME="emailAdmin" VALUE="1">&nbsp;&nbsp;Receive Email Notification</TD>
-				<?}?>
+				<?php
+}?>
 				</TR>
 				<TR>
 					<TD COLSPAN="2"><B>** You are currently the Super Administrator **</B></TD>
 				</TR>
-			<?	}?>	
+			<?php
+}?>	
 			<TR>
 				<TD COLSPAN=2>&nbsp;</TD>
 			</TR>
@@ -114,15 +127,22 @@
 				<TD COLSPAN=2>&nbsp;</TD>
 			</TR>
 			</TABLE>
-			<INPUT TYPE='hidden' NAME='option' VALUE="<? echo $option; ?>">
-			<INPUT TYPE='hidden' NAME='uid' VALUE="<? echo $uid; ?>">
-			<INPUT TYPE='hidden' NAME='pname' VALUE="<? echo $name; ?>">
-			<INPUT TYPE='hidden' NAME='pemail' VALUE="<? echo $email; ?>">
-			<INPUT TYPE='hidden' NAME='puname' VALUE="<? echo $uname; ?>">
-			<INPUT TYPE='hidden' NAME='ppassword' VALUE="<? echo $password; ?>">
+			<INPUT TYPE='hidden' NAME='option' VALUE="<?php
+echo $option; ?>">
+			<INPUT TYPE='hidden' NAME='uid' VALUE="<?php
+echo $uid; ?>">
+			<INPUT TYPE='hidden' NAME='pname' VALUE="<?php
+echo $name; ?>">
+			<INPUT TYPE='hidden' NAME='pemail' VALUE="<?php
+echo $email; ?>">
+			<INPUT TYPE='hidden' NAME='puname' VALUE="<?php
+echo $uname; ?>">
+			<INPUT TYPE='hidden' NAME='ppassword' VALUE="<?php
+echo $password; ?>">
 			<INPUT TYPE="hidden" NAME="task" VALUE="">
 			</FORM>
-		<?	}
+		<?php
+}
 		
 		function newadministrator($option){ ?>
 			<FORM ACTON='index2.php' METHOD='POST' NAME="adminForm">
@@ -154,8 +174,9 @@
 			</TABLE>
 			</TABLE>
 			<INPUT TYPE='hidden' NAME='task' VALUE="">
-			<INPUT TYPE='hidden' NAME='option' VALUE="<? echo $option; ?>">
+			<INPUT TYPE='hidden' NAME='option' VALUE="<?php
+echo $option; ?>">
 			</FORM>
-		<?	}
+		<?php	}
 		}
 ?>

@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,14 +26,13 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	12/22/03
   * Comments: Submits & files monthly report
  ***/
 
 if (!defined("IFS"))
 	echo "Hacking attempt!";
 elseif ($sid == "0" || !$sid)
-	echo "Error!  Ship ID not specified!";
+	echo '<h3 class="text-warning">Error!  Sim ID not specified!</h3>';
 else
 {
 	$qry = "SELECT * FROM {$spre}ships WHERE id='$sid'";
@@ -64,6 +67,12 @@ else
 			$recip .= ", " . $tfemail;
 		}
 	}
+	
+	//Add Personnel to report email
+		$recip .= ", " . $personnelemail;
+		
+	//Add CFOps to report email
+		$recip .= ", " . $fleetopsemail;
 
 	$qry4 = "SELECT rankdesc FROM {$spre}rank WHERE rankid='$corank'";
 	$result4=$database->openConnectionWithReturn($qry4);
@@ -95,12 +104,27 @@ else
 
 	$date = time();
 	$crewlisting = addslashes($crewlisting);
-	$commoff = addslashes($commoff);
-	$qry = "INSERT INTO {$spre}reports SET date='$date', ship='$sid', co='$commoff', url='$site',
-    		status='$status', crew='$crewcount', crewlist='$crewlisting', mission='$mission',
-            missdesc='$missdesc', improvement='$improvement', comments='$comments'";
+	$commoff = mysql_real_escape_string($commoff);
+	// Use nl2br() to add line breaks in to larger text boxes before adding them to the database, for easier readability.
+	$missdesc = nl2br($missdesc);
+	$comments = nl2br($comments);
+	// Now let's sanitise everything before we insert it
+	$crewlisting = mysql_real_escape_string($crewlisting);
+	$newcrew = mysql_real_escape_string($newcrew);
+	$removedcrew = mysql_real_escape_string($removedcrew);
+	$promotions = mysql_real_escape_string($promotions);
+	$mission = mysql_real_escape_string($mission);
+	$missdesc = mysql_real_escape_string($missdesc);
+	$posts = mysql_real_escape_string($posts);
+	$awards = mysql_real_escape_string($awards);
+	$comments = mysql_real_escape_string($comments);
+	
+	$qry = "INSERT INTO {$spre}reports (date, ship, co, url, status, crew, crewlist, newcrew, removedcrew, promotions, mission, missdesc, posts, awards, comments)
+			VALUES ('$date', '$sid', '$commoff', '$site',
+    		'$status', '$crewcount', '$crewlisting', '$newcrew', '$removedcrew', '$promotions', '$mission',
+            '$missdesc', '$posts', '$awards', '$comments')";
 	$database->openConnectionNoReturn($qry);
 
-	echo "<h2>You report has been submitted.</h2><br />\n";
+	echo '<h2 class="text-success">Your report has been submitted.</h2>';
 }
 ?>

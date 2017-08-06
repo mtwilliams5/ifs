@@ -10,10 +10,14 @@
   * Updated By: Nolan
   *		john.pbem@gmail.com
   *
-  * Version:	1.14n (Nolan Ed.)
+  * Updated By: Matt Williams
+  *       matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
   * Patch 1.13n:  December 2009
   * Patch 1.14n:  March 2010
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
@@ -22,7 +26,6 @@
   * This program contains code from Mambo Site Server 4.0.12
   * Copyright (C) 2000 - 2002 Miro International Pty Ltd
   *
-  * Date:	1/27/04
   * Comments: Submits & files monthly report
  ***/
 
@@ -67,18 +70,20 @@ else
     $avchar = $totalchar / $coships;
 	$date = time();
 
-    // Find recipients - anyone in the user database with the FCOps & Triad flags
+    // Find recipients - anyone in the user database with the FCOps & Admin flags
     $qry = "SELECT email FROM {$mpre}users WHERE flags LIKE '%o%' OR flags LIKE '%a%'";
     $result = $database->openConnectionWithReturn($qry);
     $recip = "";
     while (list ($email) = mysql_fetch_array($result))
     	$recip .= $email . ", ";
+		
+	$recip .= $fleetopsemail . ", ";
 
 	require_once "includes/mail/report_tfco.mail.php";
 
 
-	$header = "From: " . $tfco . " <" . $tfcoemail . ">";
-    $recip .= $tfcoemail;
+	$header = "From: " . $tfco . " <" . $tfemail . ">";
+    $recip .= $tfemail;
 	mail ($recip, $mailersubject, $mailerbody, $header);
 
 	$tfco = addslashes($tfco);
@@ -86,9 +91,9 @@ else
 	    		ships='$ships', cos='$coships', active='$actships', inactive='$inships',
 	            open='$openships', characters='$totalchar', avgchar='$avchar',
 	            promotions='$promotions', newco='$newco', resigned='$resigned',
-				webupdates='$webupdates', notes='$other'";
+				improvements='$improvements', notes='$notes'";
 	$database->openConnectionNoReturn($qry);
 
-	echo "<h1>You report has been submitted.</h1>\n";
+	echo '<h2 class="text-success">Your report has been submitted.</h2>';
 }
 ?>

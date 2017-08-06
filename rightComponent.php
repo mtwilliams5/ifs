@@ -90,7 +90,7 @@ while ( list($id1, $title, $module) = mysql_fetch_array($result) )
     }
     else if ($module == "login")
     {
-        $cryptSessionID=md5($_COOKIE["obsidian"]);
+        $cryptSessionID=md5($_COOKIE["session"]);
         $qry6="SELECT userid FROM {$mpre}session WHERE session_ID='$cryptSessionID'";
         $result6=$database->openConnectionWithReturn($qry6);
         if (mysql_num_rows($result6)!=0)
@@ -104,7 +104,7 @@ while ( list($id1, $title, $module) = mysql_fetch_array($result) )
     }
     else if ($module == "usermenu")
     {
-        $cryptSessionID=md5($_COOKIE["obsidian"]);
+        $cryptSessionID=md5($_COOKIE["session"]);
         $qry6="SELECT userid FROM {$mpre}session WHERE session_ID='$cryptSessionID'";
         $result6=$database->openConnectionWithReturn($qry6);
         if (mysql_num_rows($result6)!=0)

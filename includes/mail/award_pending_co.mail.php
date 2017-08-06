@@ -1,4 +1,4 @@
-<?
+<?php
 //Co receipt when submitting a player for an award
 $mailersubject = "Pending Award";
 $mailerbody .= "You've just submitted an award for approval.\n\n";

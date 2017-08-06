@@ -20,11 +20,7 @@
  ***/
 
 ?>
-
-<table cellspacing="5" border="0">
-<tr><td><b>
-<br />
-
+<div>
 <!-- Placeholder until you put your own fleet description in... or you
 	 can also leave it blank if you want.		-->
 <p>Obsidian Fleet is one of the best Star Trek RPGs, playing by email.<br />
@@ -32,5 +28,4 @@ They have been dedicated to providing the best simming experience possible since
 Based in the Loki Sector and the planet Obsidian, they offer many quality sims for you to choose from.<br />
 The IFS Integrated Fleet System was created by Frank Anon for use in Obsidian Fleet.<br />
 http://www.obsidianfleet.net and http://www.obsidianfleet.net/ifs/ </p>
-
-</td></tr></table>
+</div>

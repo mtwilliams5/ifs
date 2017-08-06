@@ -22,27 +22,26 @@
 if (!defined("IFS"))
 	echo "Hacking attempt!";
 else
-{
+{	
 	// Let people with admin-access choose which TF to play with
 	if ($uflag['t'] == 2)
     {
 		if (!$adminship && !$sid)
         {
 			?>
-			<br /><br />
-			<center>Hey, you're an admin!  That makes you special!<br />
-            Choose which TF you want to modify.<br />
-			<form action="index.php?option=ifs&amp;task=tfco&amp;action=<? echo $action ?>" method="post">
-				<select name="adminship">
+			<p class="text-center">Hey, you're an admin!  That makes you special!<br />
+            Choose which TF you want to modify.</p>
+			<form class="form-inline text-center" action="index.php?option=ifs&amp;task=tfco&amp;action=<?php echo $action ?>" method="post">
+				<select class="form-control" name="adminship">
 					<?php
 			        $qry = "SELECT tf, name FROM {$spre}taskforces WHERE tg='0' ORDER BY tf";
 			        $result = $database->openConnectionWithReturn($qry);
 			        while ( list ($tfid, $tfname) = mysql_fetch_array($result) )
-						echo "<option value=\"$tfid\">$tfname</option>\n";
+						echo '<option value="' . $tfid . '">' . $tfname . '</option>';
 					?>
 				</select>
-				<input type="submit" value="Submit" />
-            </form></center>
+				<input class="btn btn-default btn-small" type="submit" value="Submit">
+            </form>
 			<?php
 	        $tfid = "selecting";
 		}
@@ -52,8 +51,9 @@ else
 			$tfid = $adminship;
 	        $name = "Mr. Big-Shot Admin";
 	    }
-        else
-	    	$tfid = "na";
+        else {
+	    	$tfid = "na"; 
+		}
 	}
     elseif ($uflag['t'] == 1)
     {
@@ -67,8 +67,8 @@ else
 	if ($uflag['t'] >= 1)
     {
 		if (!$tfid)
-			echo "<br /><br /><center>You have a TFCO User Level, but you are not listed as the CO of a TF!<br />" .
-            	 "Sorry, can't let you in!</center><br /><br /><br />\n";
+			echo '<h4 class="text-center text-warning text-center">You have a TFCO User Level, but you are not listed as the CO of a TF!<br />' .
+            	 'Sorry, can\'t let you in!</h4>';
 		elseif ($tfid != 'selecting')
         {
 			switch ($action)
@@ -101,6 +101,6 @@ else
 	    }
 	}
     else
-		echo "You do not have access to this area!";
+		echo '<h3 class="text-danger text-center">You do not have access to this area!</h4>';
 }
 ?>

@@ -1,5 +1,5 @@
-<?
-	/**
+<?php
+/**
 	 *	Mambo Site Server Open Source Edition Version 3.0.5
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -130,10 +130,12 @@
 			$query = "INSERT INTO " . $mpre . "stories SET introtext='$introtext', fultext='$fultext', topic='$topic', newsimage='$image', time='$date', title='$title', published='0', image_position='$position', ordering=$ordering, frontpage=$frontpage";
 			$database->openConnectionNoReturn($query);?>
 			<SCRIPT>
-				document.location.href='index2.php?option=<? echo $option; ?>&categories=<? echo $categories; ?>';
+				document.location.href='index2.php?option=<?php
+echo $option; ?>&categories=<?php
+echo $categories; ?>';
 			</SCRIPT>
-			<?
-			}
+			<?php
+}
 
 		function editNews($database, $newshtml, $option, $storyid, $myname, $categories, $text_editor, $mpre){
 			require ("../configuration.php");
@@ -269,10 +271,12 @@
 				$database->openConnectionNoReturn($query);
 				?>
 				<SCRIPT>
-					document.location.href='index2.php?option=<? echo $option; ?>&categories=<? echo $categories; ?>'
+					document.location.href='index2.php?option=<?php
+echo $option; ?>&categories=<?php
+echo $categories; ?>'
 				</SCRIPT>
-				<?
-				}
+				<?php
+}
 			else {
 				print "<SCRIPT>alert('Your job has timed out'); document.location.href='index2.php?option=$option'</SCRIPT>\n";
 				}

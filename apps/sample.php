@@ -7,14 +7,17 @@
   * Developer:	Frank Anon
   * 	    	fanon@obsidianfleet.net
   *
-  * Version:	1.11
+  * Updated By: Matt Williams
+  *             matt@mtwilliams.uk
+  *
+  * Version:	1.17
   * Release Date: June 3, 2004
+  * Patch 1.17:   August 2017
   *
   * Copyright (C) 2003-2004 Frank Anon for Obsidian Fleet RPG
   * Distributed under the terms of the GNU General Public License
   * See doc/LICENSE for details
   *
-  * Date:	12/12/03
   * Comments: Sample Application
  ***/
 
@@ -38,8 +41,8 @@ if ($app == "crew")
 </textarea>
 
 
-		<?
-	}
+		<?php
+}
     elseif ($field == "post")
     {
         ?>
@@ -48,8 +51,8 @@ if ($app == "crew")
 --- insert sample post here ---
 </textarea>
 
-			<?
-	}
+			<?php
+}
 }
 
 if (!defined("IFS"))

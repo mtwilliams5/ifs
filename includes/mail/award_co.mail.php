@@ -1,4 +1,4 @@
-<?
+<?php
 //Co receives this when the grant a low level award to a player
 $mailersubject = "One Of Your Crew Received An Award!";
 $mailerbody = "Hello,\n\n";

@@ -1,5 +1,5 @@
-<?
-	/**	
+<?php
+/**	
 	 *	Mambo Site Server Open Source Edition Version 4.0.11
 	 *	Dynamic portal server and Content managment engine
 	 *	27-11-2002
@@ -80,13 +80,14 @@
 		<body bgcolor="#FFFFFF">
 		<TABLE ALIGN="center" WIDTH="90%" CELLSPACING="2" CELLPADDING="2" BORDER="0" HEIGHT="100%">
 		<TR>
-	    	<TD CLASS="componentHeading" COLSPAN="2"><?echo $title;?></TD>
+	    	<TD CLASS="componentHeading" COLSPAN="2"><?php echo $title;?></TD>
 		</TR>
-		<?if ($author != ""){?>
-				<TR><TD CLASS="small" COLSPAN="2">By <?echo $author;?></TD></TR>
-		<?}?>
+		<?php if ($author != ""){?>
+				<TR><TD CLASS="small" COLSPAN="2">By <?php echo $author;?></TD></TR>
+		<?php
+}?>
 		<TR>
-	    	<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"><?echo $content;?></TD>
+	    	<TD VALIGN="top" HEIGHT="90%" COLSPAN="2"><?php echo $content;?></TD>
 		</TR>
 		<TR>
 	  	  	<TD ALIGN='right'><A HREF="#" onClick="window.close()">Close</A></TD>
@@ -94,7 +95,8 @@
 		</TR>
 		</TABLE>
 	
-	<?}else{?>
+	<?php
+}else{?>
 		<html>
 		<head>
 		<title>Article Preview</title>
@@ -156,7 +158,8 @@
 			<TD ALIGN="left"><A HREF="javascript:;" onClick="window.print(); return false">Print</A></TD>
 		</TR>
 		</TABLE>
-<?}?>
+<?php
+}?>
 
 
 </body>

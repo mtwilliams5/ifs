@@ -52,7 +52,7 @@ if ((trim($SubMenu)!="")||($SubMenu!=0))
         {
              if ($contenttype[$k]=="web")
              {
-                $correctLink= eregi("http://", $link);
+                $correctLink= preg_match("~^https?://~i", $link);
                 if ($correctLink==1)
                     $newlink= "<a href=\"$link[$k]\" target=\"_window\">$name[$k]</a>";
                 else
@@ -98,7 +98,7 @@ else
         {
             if ($contenttype[$k]=="web")
             {
-                $correctLink= eregi("http://", $link);
+                $correctLink= preg_match("~^https?://~i", $link);
                 if ($correctLink==1)
                     $newlink= "<a href=\"$link[$k]\" target=\"_window\">$name[$k]</a>";
                 else
