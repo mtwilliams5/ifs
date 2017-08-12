@@ -1,3 +1,13 @@
+# Integrated Fleet Management System
+###### v 1.17
+
+***
+
+### IMPORTANT!
+Due to changes in the PHP standard in PHP7 (primarily the removal of the formerly-deprecated mysql functions that are used extensively through IFS), as of 1.17 IFS will **not** run on servers running PHP7. It has been tested and confirmed to work on PHP 5.6.
+
+***
+
 This edition of IFS was altered from the 1.12 release, to correct several inherent flaws in the install. In addition, i've made several key changes to what is installed to the system by default and tweaked the default theme a little to give you a head start on getting this thing to look the way you want.
 
 All subsequent work on IFS was done without the support, knowledge or approval of Frank Anon, the orginal Designer (Couldn't contact for comment). I keep an eye on the IFS forums at the Obsidian Fleet Forums and will respond to any support requests for this version there.
